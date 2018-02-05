@@ -18,7 +18,7 @@ public class Ticket {
 	private Long cantidad = null;
 	private Date fechaTicket = null;
 	private String dirFacturacion = null;
-	private Integer id_usuario = null;
+	private Long id_usuario = null;
 
 	
 	private List<LineaTicket> lineas = null;
@@ -59,11 +59,11 @@ public class Ticket {
 		this.dirFacturacion = dirFacturacion;
 	}
 
-	public Integer getId_usuario() {
+	public Long getId_usuario() {
 		return id_usuario;
 	}
 
-	public void setId_usuario(Integer id_usuario) {
+	public void setId_usuario(Long id_usuario) {
 		this.id_usuario = id_usuario;
 	}
 

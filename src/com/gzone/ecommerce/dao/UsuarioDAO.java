@@ -14,7 +14,7 @@ import com.gzone.ecommerce.service.UsuarioCriteria;
 
 
 /**
- * @author Hector
+ * @author Hector.ledo.doval
  *
  */
 public interface UsuarioDAO {
