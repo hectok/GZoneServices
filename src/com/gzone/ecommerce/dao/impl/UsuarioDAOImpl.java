@@ -15,6 +15,7 @@ import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Usuario;
 import com.gzone.ecommerce.service.UsuarioCriteria;
+import com.gzone.ecommerce.util.PasswordEncryptionUtil;
 
 
 public class UsuarioDAOImpl implements UsuarioDAO{
@@ -228,11 +229,11 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			preparedStatement = connection.prepareStatement(queryString,
 									Statement.RETURN_GENERATED_KEYS);
 
-			// Fill the "preparedStatement"
-			int i = 1;             
+			// Rellenamos el "preparedStatement"
+			int i = 1;    
 			preparedStatement.setString(i++, u.getNombre());
 			preparedStatement.setString(i++, u.getCorreo());
-			preparedStatement.setString(i++, u.getContrasena());
+			preparedStatement.setString(i++, PasswordEncryptionUtil.encryptPassword(u.getContrasena()));
 
 			// Execute query
 			int insertedRows = preparedStatement.executeUpdate();
@@ -287,7 +288,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 			if (updatedRows > 1) {
 				throw new SQLException("Duplicate row for id = '" + 
-						u.getIdUsuario() + "' in table 'Customers'");
+						u.getIdUsuario() + "' in table 'Usuario'");
 			}     
 			
 		} catch (SQLException e) {
