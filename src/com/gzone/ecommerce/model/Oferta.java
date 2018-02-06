@@ -3,7 +3,7 @@
  */
 package com.gzone.ecommerce.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * @author hector.ledo.doval
@@ -12,7 +12,7 @@ import java.util.Date;
 public class Oferta {
 
 	private Long idOferta = null;
-	private Date fechaCreacion = null;
+	private Timestamp fechaCreacion = null;
 	private Double precio = null;
 	
 	public Oferta() {}
@@ -25,11 +25,11 @@ public class Oferta {
 		this.idOferta = idOferta;
 	}
 
-	public Date getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
