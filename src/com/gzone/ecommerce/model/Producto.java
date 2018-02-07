@@ -14,6 +14,7 @@ public class Producto {
 	private Double precio = null;
 	private Long anio = null;
 	private String requisitos = null;
+	private Long oferta = null;
 	
 	public Producto () {}
 
@@ -55,6 +56,14 @@ public class Producto {
 
 	public void setRequisitos(String requisitos) {
 		this.requisitos = requisitos;
+	}
+
+	public Long getOferta() {
+		return oferta;
+	}
+
+	public void setOferta(Long oferta) {
+		this.oferta = oferta;
 	}
 	
 	

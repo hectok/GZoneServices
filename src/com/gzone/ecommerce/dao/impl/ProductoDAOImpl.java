@@ -41,7 +41,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 		try {          
 			String queryString = 
-					"SELECT p.nombre, p.precio, p.anio,p.requisitos" + 
+					"SELECT p.nombre, p.precio, p.anio,p.requisitos,p.id_oferta" + 
 							"FROM Producto p  " +
 							"WHERE p.id_producto = ? ";
 			
@@ -87,7 +87,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {
 
 			String queryString = 
-					"SELECT p.nombre, p.precio,p.anio,p.requisitios" + 
+					"SELECT p.nombre, p.precio,p.anio,p.requisitios,p.id_oferta" + 
 							"FROM producto p  " +
 							"WHERE p.id_producto = ? ";
 
@@ -163,7 +163,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {
     
 			queryString = new StringBuilder(
-					" SELECT p.nombre, p.precio,p.anio,p.requisitios" + 
+					" SELECT p.nombre, p.precio,p.anio,p.requisitios,p.id_oferta" + 
 					" FROM Producto p ");
 			
 			// Marca (flag) de primera clausula, que se desactiva en la primera
@@ -189,6 +189,11 @@ public class ProductoDAOImpl implements ProductoDAO{
 				first = false;
 			}	
 			
+			if (producto.getOferta()!=null) {
+				addClause(queryString, first, " UPPER(p.id_oferta) LIKE ? ");
+				first = false;
+			}	
+			
 			preparedStatement = connection.prepareStatement(queryString.toString(),
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
@@ -198,6 +203,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 			preparedStatement.setString(i++, "%" +  producto.getPrecio() + "%");
 			preparedStatement.setString(i++, "%" +  producto.getAnio() + "%");
 			preparedStatement.setString(i++, "%" +  producto.getRequisitos() + "%");
+			preparedStatement.setString(i++, "%" +  producto.getOferta() + "%");
 
 			resultSet = preparedStatement.executeQuery();
 			
@@ -235,7 +241,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			// Create "preparedStatement"       
 			String queryString = 
-					"SELECT p.id_producto, p.nombre,p.precio,p.anio,p.requisitos " + 
+					"SELECT p.id_producto, p.nombre,p.precio,p.anio,p.requisitos,p.id_oferta " + 
 					"FROM Producto p  " +
 					"ORDER BY p.nombre asc ";
 
@@ -277,7 +283,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {          
 
 			// Creamos el preparedstatement
-			String queryString = "INSERT INTO Producto(nombre,precio,anio,requisitos) "
+			String queryString = "INSERT INTO Producto(nombre,precio,anio,requisitos,id_oferta) "
 					+ "VALUES (?, ?)";
 
 			preparedStatement = connection.prepareStatement(queryString,
@@ -289,11 +295,13 @@ public class ProductoDAOImpl implements ProductoDAO{
 			preparedStatement.setDouble(i++, p.getPrecio());
 			preparedStatement.setLong(i++, p.getAnio());
 			preparedStatement.setString(i++, p.getRequisitos());
+			preparedStatement.setLong(i++, p.getOferta());
+
 			// Execute query
 			int insertedRows = preparedStatement.executeUpdate();
 
 			if (insertedRows == 0) {
-				throw new SQLException("Can not add row to table 'Shippers'");
+				throw new SQLException("Can not add row to table 'Producto'");
 			}
 
 			// Recuperamos la PK generada
@@ -317,35 +325,65 @@ public class ProductoDAOImpl implements ProductoDAO{
 	}
 
 	@Override
-	public void update(Connection connection, Producto p) 
+	public void update(Connection connection, Producto producto) 
 			throws InstanceNotFoundException, DataException {
+		
 		PreparedStatement preparedStatement = null;
-		try {			
-
-			String queryString = 
-					"UPDATE Producto " +
-					"SET nombre = ? , precio = ? , anio = ? , requisitos = ?" +
-					"WHERE id_producto = ? ";
-
-			preparedStatement = connection.prepareStatement(queryString);
+		StringBuilder queryString = null;
+		try {	
+			
+			queryString = new StringBuilder(
+					" UPDATE Producto" 
+					);
+			
+			boolean first = true;
+			
+			if (producto.getNombre()!=null) {
+				addUpdate(queryString, first, " nombre = ? ");
+				first = false;
+			}
+			
+			if (producto.getPrecio()!=null) {
+				addUpdate(queryString, first, " precio = ? ");
+				first = false;
+			}
+			
+			if (producto.getAnio()!=null) {
+				addUpdate(queryString, first, " anio = ? ");
+				first = false;
+			}
+			
+			if (producto.getRequisitos()!=null) {
+				addUpdate(queryString, first, " requisitos = ? ");
+				first = false;
+			}
+			
+			if (producto.getOferta()!=null) {
+				addUpdate(queryString, first, " id_oferta = ? ");
+				first = false;
+			}
+			
+			queryString.append("WHERE id_producto = ?");
+			
+			preparedStatement = connection.prepareStatement(queryString.toString());
+			
 
 			int i = 1;
-			preparedStatement.setString(i++, p.getNombre());
-			preparedStatement.setString(i++, p.getNombre());
-			preparedStatement.setDouble(i++, p.getPrecio());
-			preparedStatement.setLong(i++, p.getAnio());
-			preparedStatement.setLong(i++, p.getIdProducto());
-
+			preparedStatement.setString(i++, "%" +  producto.getNombre() + "%");
+			preparedStatement.setString(i++, "%" +  producto.getPrecio() + "%");
+			preparedStatement.setString(i++, "%" +  producto.getAnio() + "%");
+			preparedStatement.setString(i++, "%" +  producto.getRequisitos() + "%");
+			preparedStatement.setString(i++, "%" +  producto.getOferta() + "%");
 
 			int updatedRows = preparedStatement.executeUpdate();
 
 			if (updatedRows == 0) {
-				throw new InstanceNotFoundException(p.getIdProducto(), Producto.class.getName());
+				throw new InstanceNotFoundException(producto.getIdProducto(), Producto.class.getName());
 			}
 
 			if (updatedRows > 1) {
 				throw new SQLException("Duplicate row for id = '" + 
-						p.getIdProducto() + "' in table 'Customers'");
+						producto.getIdProducto() + "' in table 'Producto'");
 			}     
 			
 		} catch (SQLException e) {
@@ -386,14 +424,12 @@ public class ProductoDAOImpl implements ProductoDAO{
 		}
 	}
 		
-	/**
-	 * Evita indexOf cada vez, simplemente con un marca booleana.
-	 * @param queryString Consulta en elaboración
-	 * @param first Marca de primera clausula añadida
-	 * @param clause clausula a añadir.
-	 */
 	private void addClause(StringBuilder queryString, boolean first, String clause) {
 		queryString.append(first?" WHERE ": " AND ").append(clause);
+	}
+	
+	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
+		queryString.append(first?" SET ": " , ").append(clause);
 	}
 	
 	private Producto loadNext(Connection connection, ResultSet resultSet)
@@ -405,16 +441,16 @@ public class ProductoDAOImpl implements ProductoDAO{
 			Double precio = resultSet.getDouble(i++);
 			Long anio = resultSet.getLong(i++);
 			String requisitos = resultSet.getString(i++);
-		
+			Long oferta = resultSet.getLong(i++);
+	
 			Producto p = new Producto();		
 			p.setIdProducto(idProducto);
 			p.setNombre(nombre);
 			p.setPrecio(precio);
 			p.setAnio(anio);
 			p.setRequisitos(requisitos);
+			p.setOferta(oferta);
 			
-
 			return p;
-		}
-		
+		}		
 }
