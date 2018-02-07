@@ -1,7 +1,8 @@
+package com.gzone.ecommercer.util;
+
 import com.gzone.ecommerce.util.PasswordEncryptionUtil;
 
 public class PasswordEntryptionUtilTest {
-
 	protected void testCorrectPassword() {
 		String password = "abc.,123";
 		String encryptedPassword = PasswordEncryptionUtil.encryptPassword(password);
@@ -23,5 +24,4 @@ public class PasswordEntryptionUtilTest {
 		test.testCorrectPassword();
 		test.testIncorrectPassword();
 	}
-
 }

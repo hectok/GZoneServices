@@ -43,6 +43,24 @@ public class ProductoServiceImpl implements ProductoService{
 		
 	}
 	
+	public List<Producto> findByNombre(String nombre, int startIndex, int count) throws DataException {
+		
+		Connection connection = null;
+		
+		try {
+			
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(true);
+			
+			return dao.findByNombre(connection, nombre, startIndex, count);
+			
+		} catch (SQLException e){
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeConnection(connection);
+		}
+	}
+	
 	public List<Producto> findAll(int startIndex, int count) 
 			throws DataException {
 			

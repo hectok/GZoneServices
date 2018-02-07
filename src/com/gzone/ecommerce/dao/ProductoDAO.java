@@ -21,6 +21,9 @@ public interface ProductoDAO {
 	public Producto findById(Connection connection, Long id) 
     		throws InstanceNotFoundException, DataException;
 	
+	public List<Producto> findByNombre(Connection connection, String nombre, int startIndex, int count) 
+			throws DataException;
+
     public List<Producto> findByCriteria(Connection connection, ProductoCriteria producto, int startIndex, int count)
         	throws DataException;
 

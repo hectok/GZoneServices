@@ -12,6 +12,9 @@ public interface ProductoService {
 		public Producto findById(Long id) 
 	   		throws InstanceNotFoundException, DataException;
 		 
+	    public List<Producto> findByNombre(String nombre, int startIndex, int count) 
+	    	throws InstanceNotFoundException,DataException;
+
 	    public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count)
 	   	    throws DataException;
 	    

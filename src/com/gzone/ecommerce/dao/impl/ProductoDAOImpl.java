@@ -41,7 +41,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 		try {          
 			String queryString = 
-					"SELECT p.nombre, p.precio, p.anio,p.requisitos,p.id_oferta" + 
+					"SELECT p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta " + 
 							"FROM Producto p  " +
 							"WHERE p.id_producto = ? ";
 			
@@ -56,7 +56,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 			Producto e = null;
 
 			if (resultSet.next()) {
-				e = loadNext(connection, resultSet);				
+				e = loadNext(connection, resultSet);	
 			} else {
 				throw new InstanceNotFoundException("Product with id " + id + 
 						"not found", Producto.class.getName());
@@ -71,7 +71,53 @@ public class ProductoDAOImpl implements ProductoDAO{
 			JDBCUtils.closeStatement(preparedStatement);
 		}  
 	}
+	
+	@Override
+	public List<Producto> findByNombre(Connection connection, String nombre, int startIndex, int count)
+			throws InstanceNotFoundException,DataException {
 
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			String queryString = 
+					"SELECT p.id_producto, p.nombre, p.precio, p.anio , p.requisitos, p.id_oferta " + 
+							"FROM Producto p " +
+							"WHERE p.nombre LIKE ? "+
+							"ORDER BY p.nombre asc ";
+
+			preparedStatement = connection.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			int i = 1;                
+			preparedStatement.setString(i++, "%" + nombre + "%");
+
+
+			resultSet = preparedStatement.executeQuery();
+
+			List<Producto> results = new ArrayList<Producto>();                        
+			Producto e = null;
+			int currentCount = 0;
+
+			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
+				do {
+					e = loadNext(connection, resultSet);
+					results.add(e);               	
+					currentCount++;                	
+				} while ((currentCount < count) && resultSet.next()) ;
+			}
+
+			return results;
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
 	/*
 	 * Método para comprobar si un Producto existe
 	 * 
@@ -87,15 +133,14 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {
 
 			String queryString = 
-					"SELECT p.nombre, p.precio,p.anio,p.requisitios,p.id_oferta" + 
-							"FROM producto p  " +
+					"SELECT p.nombre, p.precio , p.anio , p.requisitos , p.id_oferta " + 
+							"FROM Producto p " +
 							"WHERE p.id_producto = ? ";
 
 			preparedStatement = connection.prepareStatement(queryString);
 
 			int i = 1;
 			preparedStatement.setLong(i++, id);
-
 			resultSet = preparedStatement.executeQuery();
 
 			if (resultSet.next()) {
@@ -163,7 +208,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {
     
 			queryString = new StringBuilder(
-					" SELECT p.nombre, p.precio,p.anio,p.requisitios,p.id_oferta" + 
+					" SELECT p.nombre, p.precio,p.anio,p.requisitos,p.id_oferta " + 
 					" FROM Producto p ");
 			
 			// Marca (flag) de primera clausula, que se desactiva en la primera
@@ -201,9 +246,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 			
 			preparedStatement.setString(i++, "%" +  producto.getNombre() + "%");
 			preparedStatement.setString(i++, "%" +  producto.getPrecio() + "%");
-			preparedStatement.setString(i++, "%" +  producto.getAnio() + "%");
-			preparedStatement.setString(i++, "%" +  producto.getRequisitos() + "%");
-			preparedStatement.setString(i++, "%" +  producto.getOferta() + "%");
+			//preparedStatement.setString(i++, "%" +  producto.getAnio() + "%");
+			//preparedStatement.setString(i++, "%" +  producto.getRequisitos() + "%");
+			//preparedStatement.setString(i++, "%" +  producto.getOferta() + "%");
 
 			resultSet = preparedStatement.executeQuery();
 			
@@ -241,7 +286,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			// Create "preparedStatement"       
 			String queryString = 
-					"SELECT p.id_producto, p.nombre,p.precio,p.anio,p.requisitos,p.id_oferta " + 
+					"SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos,p.id_oferta " + 
 					"FROM Producto p  " +
 					"ORDER BY p.nombre asc ";
 
@@ -284,7 +329,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			// Creamos el preparedstatement
 			String queryString = "INSERT INTO Producto(nombre,precio,anio,requisitos,id_oferta) "
-					+ "VALUES (?, ?)";
+					+ "VALUES (?, ?, ?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(queryString,
 									Statement.RETURN_GENERATED_KEYS);
@@ -436,6 +481,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		throws SQLException, DataException {
 
 			int i = 1;
+
 			Long idProducto = resultSet.getLong(i++);	                
 			String nombre = resultSet.getString(i++);	                
 			Double precio = resultSet.getDouble(i++);
