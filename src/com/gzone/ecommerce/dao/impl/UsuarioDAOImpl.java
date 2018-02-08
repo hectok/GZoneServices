@@ -184,9 +184,16 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 			int i = 1;       
 			
-			preparedStatement.setString(i++, "%" +  usuario.getUsuario() + "%");
-			preparedStatement.setString(i++, "%" +  usuario.getNombre() + "%");
-			preparedStatement.setString(i++, "%" +  usuario.getCorreo() + "%");
+			if (usuario.getUsuario()!=null) 
+				preparedStatement.setString(i++, "%" + usuario.getUsuario() + "%");
+			if (usuario.getCorreo()!=null) 
+				preparedStatement.setString(i++, "%" + usuario.getCorreo() + "%");
+			if (usuario.getNombre()!=null)
+				preparedStatement.setString(i++, "%" + usuario.getNombre() + "%");
+			if (usuario.getApellido()!=null) 
+				preparedStatement.setString(i++, "%" + usuario.getApellido() + "%");
+			if (usuario.getLocalizacion()!=null) 
+				preparedStatement.setString(i++, "%" + usuario.getLocalizacion() + "%");
 
 			resultSet = preparedStatement.executeQuery();
 			
@@ -264,21 +271,72 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 	@Override
 	public void update(Connection connection, Usuario u) 
-			throws InstanceNotFoundException, DataException {
+throws InstanceNotFoundException, DataException {
+		
 		PreparedStatement preparedStatement = null;
-		try {			
-
-			String queryString = 
-					"UPDATE Usuario " +
-					"SET nombre = ? , apellido = ? , descripcion = ?" +
-					"WHERE id_usuario = ? ";
-
-			preparedStatement = connection.prepareStatement(queryString);
+		StringBuilder queryString = null;
+		try {	
+			
+			queryString = new StringBuilder(
+					" UPDATE Producto" 
+					);
+			
+			boolean first = true;
+			
+			if (u.getUsuario()!=null) {
+				addUpdate(queryString, first, " usuario = ? ");
+				first = false;
+			}
+			
+			if (u.getCorreo()!=null) {
+				addUpdate(queryString, first, " correo = ? ");
+				first = false;
+			}
+			
+			if (u.getContrasena()!=null) {
+				addUpdate(queryString, first, "contrasena = ? ");
+				first = false;
+			}
+			
+			if (u.getNombre()!=null) {
+				addUpdate(queryString, first, "nombre = ? ");
+				first = false;
+			}
+			
+			if (u.getApellido()!=null) {
+				addUpdate(queryString, first, " apellido = ? ");
+				first = false;
+			}
+			
+			if (u.getDescripcion()!=null) {
+				addUpdate(queryString, first, " descripcion = ? ");
+				first = false;
+			}
+						
+			queryString.append("WHERE id_producto = ?");
+			
+			preparedStatement = connection.prepareStatement(queryString.toString());
+			
 
 			int i = 1;
-			preparedStatement.setString(i++, u.getNombre());
-			preparedStatement.setString(i++, u.getNombre());
-			preparedStatement.setLong(i++, u.getIdUsuario());
+			if (u.getUsuario()!=null) 
+				preparedStatement.setString(i++, "%" +  u.getUsuario() + "%");
+			
+			if (u.getCorreo()!=null) 
+				preparedStatement.setString(i++, "%" +  u.getCorreo() + "%");
+			
+			if (u.getContrasena()!=null) 
+				preparedStatement.setString(i++, "%" +  u.getContrasena() + "%");
+			
+			if (u.getNombre()!=null) 
+				preparedStatement.setString(i++, "%" +  u.getNombre() + "%");
+			
+			if (u.getApellido()!=null) 
+				preparedStatement.setString(i++, "%" +  u.getApellido() + "%");
+			
+			if (u.getDescripcion()!=null) 
+				preparedStatement.setString(i++, "%" +  u.getDescripcion()+ "%");
+
 
 			int updatedRows = preparedStatement.executeUpdate();
 
@@ -329,14 +387,12 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		}
 	}
 		
-	/**
-	 * Evita indexOf cada vez, simplemente con un marca booleana.
-	 * @param queryString Consulta en elaboración
-	 * @param first Marca de primera clausula añadida
-	 * @param clause clausula a añadir.
-	 */
 	private void addClause(StringBuilder queryString, boolean first, String clause) {
 		queryString.append(first?" WHERE ": " AND ").append(clause);
+	}
+	
+	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
+		queryString.append(first?" SET ": " , ").append(clause);
 	}
 	
 	private Usuario loadNext(Connection connection, ResultSet resultSet)
