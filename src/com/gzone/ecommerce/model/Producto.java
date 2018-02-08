@@ -9,20 +9,20 @@ package com.gzone.ecommerce.model;
  */
 public class Producto {
 
-	private Long idProducto = null;
+	private Integer idProducto = null;
 	private String nombre = null;
 	private Double precio = null;
-	private Long anio = null;
+	private Integer anio = null;
 	private String requisitos = null;
 	private Long oferta = null;
 	
 	public Producto () {}
 
-	public Long getIdProducto() {
+	public Integer getIdProducto() {
 		return idProducto;
 	}
 
-	public void setIdProducto(Long idProducto) {
+	public void setIdProducto(Integer idProducto) {
 		this.idProducto = idProducto;
 	}
 
@@ -42,12 +42,12 @@ public class Producto {
 		this.precio = precio;
 	}
 
-	public Long getAnio() {
+	public Integer getAnio() {
 		return anio;
 	}
 
-	public void setAnio(Long anio) {
-		this.anio = anio;
+	public void setAnio(Integer i) {
+		this.anio = i;
 	}
 
 	public String getRequisitos() {

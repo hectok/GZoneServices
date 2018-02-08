@@ -9,11 +9,8 @@ import com.gzone.ecommerce.model.Producto;
 
 public interface ProductoService {
 	
-		public Producto findById(Long id) 
+		public Producto findById(Integer integer) 
 	   		throws InstanceNotFoundException, DataException;
-		 
-	    public List<Producto> findByNombre(String nombre, int startIndex, int count) 
-	    	throws InstanceNotFoundException,DataException;
 
 	    public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count)
 	   	    throws DataException;
@@ -21,7 +18,7 @@ public interface ProductoService {
 	    public List<Producto> findAll(int startIndex, int count) 
 	    	throws DataException;  
 	    
-		public Boolean exists(Long id) 
+		public Boolean exists(Integer id) 
 		    throws DataException;
 
 		public long countAll() 
@@ -33,6 +30,6 @@ public interface ProductoService {
 	    public void update(Producto p) 
 	    	throws InstanceNotFoundException, DataException;
 	        
-	    public long delete(Long id) 
+	    public long delete(Integer integer) 
 	    	throws InstanceNotFoundException, DataException;
 }

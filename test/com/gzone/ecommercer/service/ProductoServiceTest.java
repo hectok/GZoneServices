@@ -23,7 +23,7 @@ public class ProductoServiceTest {
 	protected void testExists() {
 		System.out.println("Test de existencia de productos ...");
 
-		Long id = (long) 1;
+		Integer id = 1;
 		
 		try {			
 			Boolean exists = productoService.exists(id);			
@@ -72,7 +72,7 @@ public class ProductoServiceTest {
 	protected void testFindById() {
 		System.out.println("Testing findById ...");
 		
-		Long id =(long) 2;
+		Integer id = 2;
 		
 		try {			
 			Producto producto = productoService.findById(id);			
@@ -84,48 +84,14 @@ public class ProductoServiceTest {
 		
 		System.out.println("Test testFindById finished.\n");		
 	}
-	
-	protected void testFindByNombre() {
-		System.out.println("Testing findByNombre ...");
 		
-		String name = "alien"; 
-		int pageSize = 2;
-		
-		try {
-
-			List<Producto> results = null;
-			int startIndex = 1; 
-			int total = 0;
-			
-			do {
-				results = productoService.findByNombre(name, startIndex, pageSize);
-				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
-					for (Producto pro: results) {
-						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(pro));
-					}
-					startIndex = startIndex + pageSize;
-				}
-				
-			} while (results.size()==pageSize);
-			
-			System.out.println("Found "+total+" results.");
-						
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		System.out.println("Test testFindByNombre finished.\n");
-	}
-	
 	protected void testFindByCriteria() {
 		System.out.println("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
 		ProductoCriteria p = new ProductoCriteria();
-		p.setNombre("The Witcher ");
-		p.setPrecio(29.99);
-			
+		p.setNombre("e");
+
 		
 		try {
 
@@ -161,7 +127,7 @@ public class ProductoServiceTest {
 		Producto producto = new Producto();
 		producto.setNombre("Grand Theft Auto 5");
 		producto.setPrecio(59.99);
-		producto.setAnio((long) 2015);
+		producto.setAnio(2015);
 		producto.setRequisitos( "Requiere un procesador y un sistema operativo de 64 bits\r\n" + 
 								"SO: Windows 8.1 de 64 bits, Windows 8 de 64 bits, Windows 7 de 64 bits con Service Pack 1.\r\n" + 
 								"Procesador: Intel Core i5 3470 a 3,2 GHz (4 CPU)/AMD X8 FX-8350 a 4 GHz (8 CPU).\r\n" + 
@@ -187,9 +153,10 @@ public class ProductoServiceTest {
 		System.out.println("Testing update ...");	
 		
 		try {
-
+			ProductoCriteria producto = new ProductoCriteria();
+			producto.setNombre("Grand Theft Auto 5");
 			List<Producto> results = 
-					productoService.findByNombre("Grand Theft Auto 5", 1, 10);
+					productoService.findByCriteria(producto, 1, 10);
 			if (results.size()<1) {
 				throw new RuntimeException("Unexpected results count from previous tests: "+results.size());
 			}
@@ -210,11 +177,13 @@ public class ProductoServiceTest {
 	
 	protected void testDelete() {		
 		System.out.println("Testing delete ...");	
-		
+			
 		try {
+			ProductoCriteria productoCriteria = new ProductoCriteria();
+			productoCriteria.setNombre("Grand Theft Auto 5");
 
 			List<Producto> results = 
-					productoService.findByNombre("Grand Theft Auto V", 1, 10);
+					productoService.findByCriteria(productoCriteria, 1, 10);
 			if (results.size()!=1) {
 				throw new RuntimeException("Unexpected results from previous test");
 			}
@@ -241,7 +210,6 @@ public class ProductoServiceTest {
 		test.testExists();
 		test.testFindAll();
 		test.testFindById();
-		test.testFindByNombre();
 		test.testFindByCriteria();
 		test.testCreate();
 		test.testUpdate();

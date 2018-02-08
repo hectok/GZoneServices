@@ -23,7 +23,7 @@ public class ProductoServiceImpl implements ProductoService{
 		dao = new ProductoDAOImpl();
 	}
 	
-	public Producto findById(Long id) 
+	public Producto findById(Integer id) 
 			throws InstanceNotFoundException, DataException {
 				
 		Connection connection = null;
@@ -42,25 +42,7 @@ public class ProductoServiceImpl implements ProductoService{
 		}
 		
 	}
-	
-	public List<Producto> findByNombre(String nombre, int startIndex, int count) throws DataException {
-		
-		Connection connection = null;
-		
-		try {
-			
-			connection = ConnectionManager.getConnection();
-			connection.setAutoCommit(true);
-			
-			return dao.findByNombre(connection, nombre, startIndex, count);
-			
-		} catch (SQLException e){
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeConnection(connection);
-		}
-	}
-	
+
 	public List<Producto> findAll(int startIndex, int count) 
 			throws DataException {
 			
@@ -81,7 +63,7 @@ public class ProductoServiceImpl implements ProductoService{
 		
 	}
 	
-	public Boolean exists(Long id) 
+	public Boolean exists(Integer id) 
 			throws DataException {
 				
 		Connection connection = null;
@@ -195,7 +177,7 @@ public class ProductoServiceImpl implements ProductoService{
         }
 	}
 
-	public long delete(Long id) 
+	public long delete(Integer id) 
 			throws InstanceNotFoundException, DataException {
 		
 	    Connection connection = null;
