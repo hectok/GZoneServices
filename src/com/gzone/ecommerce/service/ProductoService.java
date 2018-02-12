@@ -9,16 +9,13 @@ import com.gzone.ecommerce.model.Producto;
 
 public interface ProductoService {
 	
-		public Producto findById(Integer integer) 
-	   		throws InstanceNotFoundException, DataException;
-
 	    public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count)
 	   	    throws DataException;
 	    
 	    public List<Producto> findAll(int startIndex, int count) 
 	    	throws DataException;  
 	    
-		public Boolean exists(Integer id) 
+		public Boolean exists(Long id) 
 		    throws DataException;
 
 		public long countAll() 
@@ -30,6 +27,6 @@ public interface ProductoService {
 	    public void update(Producto p) 
 	    	throws InstanceNotFoundException, DataException;
 	        
-	    public long delete(Integer integer) 
+	    public long delete(Long integer) 
 	    	throws InstanceNotFoundException, DataException;
 }

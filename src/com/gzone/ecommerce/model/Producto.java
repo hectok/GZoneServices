@@ -3,26 +3,33 @@
  */
 package com.gzone.ecommerce.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author hector.ledo.doval
  *
  */
 public class Producto {
 
-	private Integer idProducto = null;
+	private Long idProducto = null;
 	private String nombre = null;
 	private Double precio = null;
 	private Integer anio = null;
 	private String requisitos = null;
 	private Long oferta = null;
 	
-	public Producto () {}
+	private List<Categoria> categorias = null;
 
-	public Integer getIdProducto() {
+	public Producto () {
+		categorias = new ArrayList<Categoria>();
+	}
+
+	public Long getIdProducto() {
 		return idProducto;
 	}
 
-	public void setIdProducto(Integer idProducto) {
+	public void setIdProducto(Long idProducto) {
 		this.idProducto = idProducto;
 	}
 
@@ -64,6 +71,14 @@ public class Producto {
 
 	public void setOferta(Long oferta) {
 		this.oferta = oferta;
+	}
+
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 	
 	

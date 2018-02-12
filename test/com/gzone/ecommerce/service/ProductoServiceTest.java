@@ -1,5 +1,4 @@
-package com.gzone.ecommercer.service;
-
+package com.gzone.ecommerce.service;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class ProductoServiceTest {
 	protected void testExists() {
 		System.out.println("Test de existencia de productos ...");
 
-		Integer id = 1;
+		Long id = (long) 1;
 		
 		try {			
 			Boolean exists = productoService.exists(id);			
@@ -68,29 +67,12 @@ public class ProductoServiceTest {
 		System.out.println("Test testFindAll finished.\n");
 	}
 	
-	
-	protected void testFindById() {
-		System.out.println("Testing findById ...");
-		
-		Integer id = 2;
-		
-		try {			
-			Producto producto = productoService.findById(id);			
-			System.out.println("Found: "+ToStringUtil.toString(producto));
-			
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		
-		System.out.println("Test testFindById finished.\n");		
-	}
-		
 	protected void testFindByCriteria() {
 		System.out.println("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
 		ProductoCriteria p = new ProductoCriteria();
-		p.setNombre("e");
+		p.setNombre("isaac");
 
 		
 		try {
@@ -160,12 +142,15 @@ public class ProductoServiceTest {
 			if (results.size()<1) {
 				throw new RuntimeException("Unexpected results count from previous tests: "+results.size());
 			}
-			
 			Producto pro = results.get(0);
 			pro.setNombre("Grand Theft Auto V");
+
 			productoService.update(pro);
+
+			producto = new ProductoCriteria();
+			producto.setIdProducto(pro.getIdProducto());
 			
-			pro = productoService.findById(pro.getIdProducto());
+			pro = productoService.findByCriteria(producto, 1, 10).get(0);
 			
 			System.out.println("Updated to: "+pro.getNombre());
 								
@@ -175,12 +160,15 @@ public class ProductoServiceTest {
 		System.out.println("Test update finished.\n");		
 	}	
 	
+	/**
+	 * 
+	 */
 	protected void testDelete() {		
 		System.out.println("Testing delete ...");	
 			
 		try {
 			ProductoCriteria productoCriteria = new ProductoCriteria();
-			productoCriteria.setNombre("Grand Theft Auto 5");
+			productoCriteria.setNombre("Grand Theft Auto V");
 
 			List<Producto> results = 
 					productoService.findByCriteria(productoCriteria, 1, 10);
@@ -192,10 +180,13 @@ public class ProductoServiceTest {
 			System.out.println("Deleting by id "+producto.getIdProducto());
 			productoService.delete(producto.getIdProducto());
 			
+			productoCriteria = new ProductoCriteria();
+			productoCriteria.setIdProducto(producto.getIdProducto());
+			
 			try {
-				producto = productoService.findById(producto.getIdProducto());
+				producto = productoService.findByCriteria(productoCriteria,1,10).get(0);
 				System.out.println("Delete NOK!");
-			} catch (InstanceNotFoundException ine) {
+			} catch (InstanceNotFoundException |IndexOutOfBoundsException ine) {
 				System.out.println("Delete OK");
 			}						
 								
@@ -209,7 +200,6 @@ public class ProductoServiceTest {
 		ProductoServiceTest test = new ProductoServiceTest();
 		test.testExists();
 		test.testFindAll();
-		test.testFindById();
 		test.testFindByCriteria();
 		test.testCreate();
 		test.testUpdate();
@@ -217,5 +207,6 @@ public class ProductoServiceTest {
 		
 	}
 }
+
 
 

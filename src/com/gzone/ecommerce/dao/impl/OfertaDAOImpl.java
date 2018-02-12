@@ -40,7 +40,7 @@ public class OfertaDAOImpl implements OfertaDAO{
 
 		try {          
 			String queryString = 
-					"SELECT o.id_oferta,o.fecha_creacion,o.o.precio " + 
+					"SELECT o.id_oferta, o.fecha_creacion ,o.precio " + 
 							"FROM Oferta o  " +
 							"WHERE o.id_oferta = ? ";
 			
@@ -82,7 +82,7 @@ public class OfertaDAOImpl implements OfertaDAO{
 		try {
 
 			String queryString = 
-					"SELECT o.id_oferta" + 
+					"SELECT o.id_oferta " + 
 							"FROM Oferta o  " +
 							"WHERE o.id_oferta = ? ";
 
@@ -117,7 +117,7 @@ public class OfertaDAOImpl implements OfertaDAO{
 		try {
 
 			String queryString = 
-					"SELECT o.id_oferta,o.fecha_creacion,o.o.precio " + 
+					"SELECT o.id_oferta,o.fecha_creacion,o.precio " + 
 					"FROM Oferta o  " +
 					"ORDER BY fecha_creacion ASC";
 
@@ -182,7 +182,7 @@ public class OfertaDAOImpl implements OfertaDAO{
 	
 	@Override
 	public List<Oferta> findByCriteria(Connection connection, OfertaCriteria oc, int startIndex, int count)
-			throws DataException {
+			throws InstanceNotFoundException, DataException {
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -218,9 +218,13 @@ public class OfertaDAOImpl implements OfertaDAO{
 
 			int i = 1;       
 			
-			preparedStatement.setString(i++, "%" +  oc.getIdOferta() + "%");
-			preparedStatement.setString(i++, "%" +  oc.getFechaCreacion() + "%");
-			preparedStatement.setString(i++, "%" +  oc.getPrecio() + "%");
+			if (oc.getIdOferta()!=null) 
+				preparedStatement.setString(i++, "%" + oc.getIdOferta() + "%");
+			if (oc.getFechaCreacion()!=null) 
+				preparedStatement.setString(i++, "%" + oc.getFechaCreacion() + "%");
+			if (oc.getPrecio()!=null) 
+				preparedStatement.setString(i++, "%" + oc.getPrecio() + "%");
+			
 
 			resultSet = preparedStatement.executeQuery();
 			
@@ -265,7 +269,7 @@ public class OfertaDAOImpl implements OfertaDAO{
 
 			// Fill the "preparedStatement"
 			int i = 1;             
-			preparedStatement.setTimestamp(i++, o.getFechaCreacion());
+			preparedStatement.setDate(i++, new java.sql.Date(o.getFechaCreacion().getTime()));
 			preparedStatement.setDouble(i++, o.getPrecio());
 
 			// Execute query
@@ -309,8 +313,9 @@ public class OfertaDAOImpl implements OfertaDAO{
 			preparedStatement = connection.prepareStatement(queryString);
 
 			int i = 1;
-			preparedStatement.setTimestamp(i++, o.getFechaCreacion());
+			preparedStatement.setDate(i++, new java.sql.Date(o.getFechaCreacion().getTime()));
 			preparedStatement.setDouble(i++, o.getPrecio());
+			preparedStatement.setLong(i++, o.getIdOferta());
 
 			int updatedRows = preparedStatement.executeUpdate();
 

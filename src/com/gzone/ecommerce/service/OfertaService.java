@@ -18,7 +18,10 @@ public interface OfertaService {
 	
 	public Oferta findById(Long id) 
     		throws InstanceNotFoundException, DataException;
-    
+	
+	public List<Oferta> findByCriteria(OfertaCriteria Oferta, int startIndex, int count)
+	   	    throws InstanceNotFoundException,DataException;
+	
     public Boolean exists(Long id) 
     		throws DataException;
 

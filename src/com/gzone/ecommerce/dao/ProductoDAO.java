@@ -18,16 +18,13 @@ import com.gzone.ecommerce.service.ProductoCriteria;
  */
 public interface ProductoDAO {
 	
-	public Producto findById(Connection connection, Integer id) 
-    		throws InstanceNotFoundException, DataException;
-
     public List<Producto> findByCriteria(Connection connection, ProductoCriteria producto, int startIndex, int count)
         	throws DataException;
 
     public List<Producto> findAll(Connection connection,int startIndex, int count) 
     	throws DataException;
      
-	public Boolean exists(Connection connection, Integer id) 
+	public Boolean exists(Connection connection, Long id) 
     		throws DataException;
 
 	public long countAll(Connection connection) 
@@ -39,7 +36,7 @@ public interface ProductoDAO {
     public void update(Connection connection, Producto producto) 
     		throws InstanceNotFoundException, DataException;
         
-    public long delete(Connection connection, Integer id) 
+    public long delete(Connection connection, Long id) 
     		throws InstanceNotFoundException, DataException;
 
 }

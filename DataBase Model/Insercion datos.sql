@@ -21,28 +21,41 @@ INSERT INTO gzone.producto (nombre, precio, anio, requisitos) VALUES ('Batman™
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `gzone`.`NJugadores`
+-- Data for table gzone.NJugadores
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `gzone`;
-INSERT INTO `gzone`.`NJugadores` (`id_nJugadores`, `njugadores`) VALUES (DEFAULT, 'Un jugador');
-INSERT INTO `gzone`.`NJugadores` (`id_nJugadores`, `njugadores`) VALUES (DEFAULT, 'Multijugador');
-INSERT INTO `gzone`.`NJugadores` (`id_nJugadores`, `njugadores`) VALUES (DEFAULT, 'Multijugador en línea');
-INSERT INTO `gzone`.`NJugadores` (`id_nJugadores`, `njugadores`) VALUES (DEFAULT, 'Multijugador local');
-INSERT INTO `gzone`.`NJugadores` (`id_nJugadores`, `njugadores`) VALUES (DEFAULT, 'Pantalla dividida');
-INSERT INTO `gzone`.`NJugadores` (`id_nJugadores`, `njugadores`) VALUES (DEFAULT, 'Multijugador masivo');
-INSERT INTO `gzone`.`NJugadores` (`id_nJugadores`, `njugadores`) VALUES (DEFAULT, 'Cooperativo en línea');
+USE gzone;
+INSERT INTO gzone.NJugadores (id_nJugadores, njugadores) VALUES (DEFAULT, 'Un jugador');
+INSERT INTO gzone.NJugadores (id_nJugadores, njugadores) VALUES (DEFAULT, 'Multijugador');
+INSERT INTO gzone.NJugadores (id_nJugadores, njugadores) VALUES (DEFAULT, 'Multijugador en línea');
+INSERT INTO gzone.NJugadores (id_nJugadores, njugadores) VALUES (DEFAULT, 'Multijugador local');
+INSERT INTO gzone.NJugadores (id_nJugadores, njugadores) VALUES (DEFAULT, 'Pantalla dividida');
+INSERT INTO gzone.NJugadores (id_nJugadores, njugadores) VALUES (DEFAULT, 'Multijugador masivo');
+INSERT INTO gzone.NJugadores (id_nJugadores, njugadores) VALUES (DEFAULT, 'Cooperativo en línea');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `gzone`.`Idioma`
+-- Data for table gzone.Idioma
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `gzone`;
-INSERT INTO `gzone`.`Idioma` (`id_idioma`, `nombre_idioma`) VALUES ('ES', 'Español');
-INSERT INTO `gzone`.`Idioma` (`id_idioma`, `nombre_idioma`) VALUES ('EN', 'English');
+USE gzone;
+INSERT INTO gzone.Idioma (id_idioma, nombre_idioma) VALUES ('ES', 'Español');
+INSERT INTO gzone.Idioma (id_idioma, nombre_idioma) VALUES ('EN', 'English');
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table gzone.Oferta
+-- -----------------------------------------------------
+START TRANSACTION;
+USE gzone;
+INSERT INTO gzone.Oferta (id_oferta, fecha_creacion, precio) VALUES (DEFAULT, '2017-02-01', 0.10);
+INSERT INTO gzone.Oferta (id_oferta, fecha_creacion, precio) VALUES (DEFAULT, '2017-02-02', 0.25);
+INSERT INTO gzone.Oferta (id_oferta, fecha_creacion, precio) VALUES (DEFAULT, '2017-02-03', 0.50);
+INSERT INTO gzone.Oferta (id_oferta, fecha_creacion, precio) VALUES (DEFAULT, '2017-02-04', 0.75);
+
+COMMIT;
+
 

@@ -271,7 +271,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 	@Override
 	public void update(Connection connection, Usuario u) 
-throws InstanceNotFoundException, DataException {
+		throws InstanceNotFoundException, DataException {
 		
 		PreparedStatement preparedStatement = null;
 		StringBuilder queryString = null;

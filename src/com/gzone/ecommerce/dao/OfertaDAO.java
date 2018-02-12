@@ -33,7 +33,7 @@ public interface OfertaDAO {
      		throws DataException;   
      
     public List<Oferta> findByCriteria(Connection connection, OfertaCriteria oc, int startIndex, int count)
-    	throws DataException;
+    	throws InstanceNotFoundException,DataException;
     
     public Oferta create(Connection connection, Oferta o) 
     		throws DuplicateInstanceException, DataException;

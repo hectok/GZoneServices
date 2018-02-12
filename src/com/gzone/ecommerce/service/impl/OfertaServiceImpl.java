@@ -16,6 +16,7 @@ import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Oferta;
 import com.gzone.ecommerce.service.OfertaService;
+import com.gzone.ecommerce.service.OfertaCriteria;
 
 /**
  * @author hector.ledo.doval
@@ -48,7 +49,26 @@ public class OfertaServiceImpl implements OfertaService{
 		}
 		
 	}
-
+	
+    public List<Oferta> findByCriteria(OfertaCriteria Oferta, int startIndex, int count)
+    		throws InstanceNotFoundException, DataException {
+			
+		Connection connection = null;
+		
+		try {
+			
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(true);
+			
+			return dao.findByCriteria(connection, Oferta, startIndex, count);
+			
+		} catch (SQLException e){
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeConnection(connection);
+		}
+	}
+    
 	public Boolean exists(Long id) 
 			throws DataException {
 				
