@@ -359,7 +359,6 @@ public class ProductoDAOImpl implements ProductoDAO{
 			
 
 			preparedStatement.setLong(i++, producto.getIdProducto());
-			System.out.println(preparedStatement.toString());
 
 			int updatedRows = preparedStatement.executeUpdate();
 

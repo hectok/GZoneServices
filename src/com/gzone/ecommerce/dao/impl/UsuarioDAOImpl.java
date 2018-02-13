@@ -82,7 +82,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		try {
 
 			String queryString = 
-					"SELECT u.usuario, u.correo, u.nombre, u.apellido, u.descripcion" + 
+					"SELECT u.usuario, u.correo, u.nombre, u.apellido, u.descripcion " + 
 							"FROM Usuario u  " +
 							"WHERE u.id_usuario = ? ";
 
@@ -158,14 +158,29 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		try {
     
 			queryString = new StringBuilder(
-					" SELECT u.usuario, u.correo, u.nombre, u.apellido, u.descripcion" + 
+					" SELECT u.id_usuario, u.usuario, u.correo, u.contrasena, u.nombre, u.apellido, u.descripcion, u.localizacion " + 
 					" FROM Usuario u ");
 			
 			// Marca (flag) de primera clausula, que se desactiva en la primera
 			boolean first = true;
 			
+			if (usuario.getIdUsuario()!=null) {
+				addClause(queryString, first, " UPPER(u.id_usuario) LIKE ? ");
+				first = false;
+			}	
+			
 			if (usuario.getUsuario()!=null) {
 				addClause(queryString, first, " UPPER(u.usuario) LIKE ? ");
+				first = false;
+			}
+
+			if (usuario.getCorreo()!=null) {
+				addClause(queryString, first, " UPPER(u.correo) LIKE ? ");
+				first = false;
+			}	
+			
+			if (usuario.getContrasena()!=null) {
+				addClause(queryString, first, " UPPER(u.contrasena) LIKE ? ");
 				first = false;
 			}
 			
@@ -173,27 +188,46 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 				addClause(queryString, first, " UPPER(u.nombre) LIKE ? ");
 				first = false;
 			}
-
-			if (usuario.getCorreo()!=null) {
-				addClause(queryString, first, " UPPER(u.correo) LIKE ? ");
+			
+			if (usuario.getApellido()!=null) {
+				addClause(queryString, first, " UPPER(u.apellido) LIKE ? ");
 				first = false;
-			}			
+			}
+
+			if (usuario.getDescripcion()!=null) {
+				addClause(queryString, first, " UPPER(u.descripcion) LIKE ? ");
+				first = false;
+			}	
+			
+			if (usuario.getLocalizacion()!=null) {
+				addClause(queryString, first, " UPPER(u.localizacion) LIKE ? ");
+				first = false;
+			}
+			
 			
 			preparedStatement = connection.prepareStatement(queryString.toString(),
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-			int i = 1;       
+			int i = 1;  
 			
+			if (usuario.getIdUsuario()!=null)
+				preparedStatement.setString(i++, "%" + usuario.getIdUsuario() + "%");
 			if (usuario.getUsuario()!=null) 
 				preparedStatement.setString(i++, "%" + usuario.getUsuario() + "%");
 			if (usuario.getCorreo()!=null) 
 				preparedStatement.setString(i++, "%" + usuario.getCorreo() + "%");
+			if (usuario.getContrasena()!=null) 
+				preparedStatement.setString(i++, "%" + usuario.getContrasena() + "%");
 			if (usuario.getNombre()!=null)
 				preparedStatement.setString(i++, "%" + usuario.getNombre() + "%");
 			if (usuario.getApellido()!=null) 
 				preparedStatement.setString(i++, "%" + usuario.getApellido() + "%");
+			if (usuario.getDescripcion()!=null) 
+				preparedStatement.setString(i++, "%" + usuario.getDescripcion() + "%");
 			if (usuario.getLocalizacion()!=null) 
 				preparedStatement.setString(i++, "%" + usuario.getLocalizacion() + "%");
+
+
 
 			resultSet = preparedStatement.executeQuery();
 			
@@ -220,7 +254,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	}
 	
 
-
 	@Override
 	public Usuario create(Connection connection, Usuario u) 
 			throws DuplicateInstanceException, DataException {
@@ -230,23 +263,23 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		try {          
 
 			// Creamos el preparedstatement
-			String queryString = "INSERT INTO Usuario(usario, correo, contrasena) "
-					+ "VALUES (?, ?)";
+			String queryString = "INSERT INTO Usuario(usuario, correo, contrasena) "
+					+ "VALUES (?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(queryString,
 									Statement.RETURN_GENERATED_KEYS);
 
 			// Rellenamos el "preparedStatement"
 			int i = 1;    
-			preparedStatement.setString(i++, u.getNombre());
+			preparedStatement.setString(i++, u.getUsuario());
 			preparedStatement.setString(i++, u.getCorreo());
 			preparedStatement.setString(i++, PasswordEncryptionUtil.encryptPassword(u.getContrasena()));
-
+			
 			// Execute query
 			int insertedRows = preparedStatement.executeUpdate();
 
 			if (insertedRows == 0) {
-				throw new SQLException("Can not add row to table 'Shippers'");
+				throw new SQLException("Can not add row to table 'Usuario'");
 			}
 
 			// Recuperamos la PK generada
@@ -278,7 +311,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		try {	
 			
 			queryString = new StringBuilder(
-					" UPDATE Producto" 
+					" UPDATE Usuario" 
 					);
 			
 			boolean first = true;
@@ -312,31 +345,40 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 				addUpdate(queryString, first, " descripcion = ? ");
 				first = false;
 			}
+			
+			if (u.getLocalizacion()!=null) {
+				addUpdate(queryString, first, " localizacion = ? ");
+				first = false;
+			}
 						
-			queryString.append("WHERE id_producto = ?");
+			queryString.append("WHERE id_usuario = ?");
 			
 			preparedStatement = connection.prepareStatement(queryString.toString());
 			
 
 			int i = 1;
 			if (u.getUsuario()!=null) 
-				preparedStatement.setString(i++, "%" +  u.getUsuario() + "%");
+				preparedStatement.setString(i++,u.getUsuario());
 			
 			if (u.getCorreo()!=null) 
-				preparedStatement.setString(i++, "%" +  u.getCorreo() + "%");
+				preparedStatement.setString(i++,u.getCorreo());
 			
 			if (u.getContrasena()!=null) 
-				preparedStatement.setString(i++, "%" +  u.getContrasena() + "%");
+				preparedStatement.setString(i++,u.getContrasena());
 			
 			if (u.getNombre()!=null) 
-				preparedStatement.setString(i++, "%" +  u.getNombre() + "%");
+				preparedStatement.setString(i++,u.getNombre());
 			
 			if (u.getApellido()!=null) 
-				preparedStatement.setString(i++, "%" +  u.getApellido() + "%");
+				preparedStatement.setString(i++,u.getApellido());
 			
 			if (u.getDescripcion()!=null) 
-				preparedStatement.setString(i++, "%" +  u.getDescripcion()+ "%");
-
+				preparedStatement.setString(i++,u.getDescripcion());
+			
+			if (u.getLocalizacion()!=null) 
+				preparedStatement.setLong(i++,u.getLocalizacion());
+			
+			preparedStatement.setLong(i++, u.getIdUsuario());
 
 			int updatedRows = preparedStatement.executeUpdate();
 
@@ -417,12 +459,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			u.setApellido(apellido);
 			u.setDescripcion(descripcion);
 			u.setLocalizacion(localizacion);
-			
-			// Nota Jose A: Esta estrategia de recuperación genera N+1 consultas.
-			// Hibernate permite otra estrategia de recuperacion más eficiente:
-			// Ejecutar los JOIN y recuperar también la entidad
-			// padre del resultSet de todos ellos, con lo que es solamente 1 consulta.
-			
+
 			return u;
 		}
 		

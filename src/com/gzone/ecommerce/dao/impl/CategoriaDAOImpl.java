@@ -21,20 +21,22 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		}
 
 		@Override
-		public Categoria findById(Connection connection, Integer id) throws InstanceNotFoundException, DataException {
+		public Categoria findById(Connection connection, Long id) 
+				throws InstanceNotFoundException, DataException {
 
 			PreparedStatement preparedStatement = null;
 			ResultSet resultSet = null;
 
 			try {
-				String queryString = "SELECT d.CustomerTypeID, d.CustomerDesc " + "FROM customerdemographics d "
-						+ "WHERE d.CustomerTypeID = ? ";
+				String queryString = "SELECT c.id_categoria " 
+						+ "FROM Categoria c "
+						+ "WHERE c.id_categoria = ? ";
 
 				preparedStatement = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
 
 				int i = 1;
-				preparedStatement.setInt(i++, id);
+				preparedStatement.setLong(i++, id);
 
 				resultSet = preparedStatement.executeQuery();
 
@@ -43,7 +45,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 				if (resultSet.next()) {
 					e = loadNext(resultSet);
 				} else {
-					throw new InstanceNotFoundException("Customer with id " + id + "not found",
+					throw new InstanceNotFoundException("Category with id " + id + "not found",
 							Categoria.class.getName());
 				}
 
@@ -58,7 +60,9 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		}
 
 		@Override
-		public Boolean exists(Connection connection, Integer id) throws DataException {
+		public Boolean exists(Connection connection, Long id) 
+				throws DataException {
+			
 			boolean exist = false;
 
 			PreparedStatement preparedStatement = null;
@@ -66,13 +70,14 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			try {
 
-				String queryString = "SELECT d.CustomerTypeID, d.CustomerDesc " + "FROM customerdemographics d "
-						+ "WHERE d.CustomerTypeID = ? ";
+				String queryString = "SELECT c.id_categoria " 
+						+ "FROM Categoria c "
+						+ "WHERE c.id_categoria = ? ";
 
 				preparedStatement = connection.prepareStatement(queryString);
 
 				int i = 1;
-				preparedStatement.setInt(i++, id);
+				preparedStatement.setLong(i++, id);
 
 				resultSet = preparedStatement.executeQuery();
 
@@ -98,8 +103,8 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			try {
 
-				String queryString = "SELECT d.CustomerTypeID, d.CustomerDesc " + "FROM customerdemographics d "
-						+ "ORDER BY d.CustomerTypeID ASC";
+				String queryString = "SELECT c.id_categoria " 
+						+ "FROM Categoria c ";
 
 				preparedStatement = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
@@ -128,7 +133,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			}
 		}
 
-		public List<Categoria> findByCliente(Connection connection, Integer idProducto) 
+		public List<Categoria> findByProducto(Connection connection, Long idProducto) 
 				throws DataException {
 			PreparedStatement preparedStatement = null;
 			ResultSet resultSet = null;
@@ -143,7 +148,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 						ResultSet.CONCUR_READ_ONLY);
 
 				int i = 1;
-				preparedStatement.setNString(i++, clienteID);
+				preparedStatement.setLong(i++, idProducto);
 
 				resultSet = preparedStatement.executeQuery();
 
@@ -165,14 +170,16 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		}
 
 		@Override
-		public long countAll(Connection connection) throws DataException {
+		public long countAll(Connection connection) 
+				throws DataException {
 
 			PreparedStatement preparedStatement = null;
 			ResultSet resultSet = null;
 
 			try {
 
-				String queryString = " SELECT count(*) " + " FROM CustomersDemographics";
+				String queryString = " SELECT count(*) " 
+									+" FROM Categoria";
 
 				preparedStatement = connection.prepareStatement(queryString);
 
@@ -202,8 +209,11 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			try {
 
-				String queryString = "SELECT d.CustomerTypeID, d.CustomerDesc " + "FROM customerdemographics d "
-						+ "WHERE UPPER(d.CustomerTypeID) LIKE ? " + "ORDER BY d.CustomerTypeID ASC ";
+				String queryString ="SELECT c.id_categoria " 
+						+ "FROM Categoria c "
+						+ "WHERE c.id_categoria = ? "
+						+ "WHERE UPPER(d.CustomerTypeID) LIKE ? " 
+						+ "ORDER BY d.CustomerTypeID ASC ";
 
 				preparedStatement = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
@@ -238,7 +248,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		private Categoria loadNext(ResultSet resultSet) throws SQLException {
 
 			int i = 1;
-			Integer idCategoria = resultSet.getInt(i++);
+			Long idCategoria = resultSet.getLong(i++);
 
 
 			Categoria c = new Categoria();
@@ -247,35 +257,39 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			return c;
 		}
-
 		@Override
-		public Categoria create(Connection connection, Categoria c)
+		public Categoria create(Connection connection, Categoria c) 
 				throws DuplicateInstanceException, DataException {
 
 			PreparedStatement preparedStatement = null;
 			ResultSet resultSet = null;
-			try {
+			try {          
 
-				// La generacion de clave primaria esta mal!!!!!!!
-				// Check if the primary key already exists
-				if (exists(connection, c.getClienteTipoId())) {
-					throw new DuplicateInstanceException(c.getClienteTipoId(), Categoria.class.getName());
-				}
+				String queryString = "INSERT INTO Categoria(id_categoria) "
+						+ "VALUES (?)";
 
-				String queryString = "INSERT INTO CustomerDemographics(CustomerTypeID, CustomerDesc) "
-						+ "VALUES (?, ?)";
+				preparedStatement = connection.prepareStatement(queryString,
+										Statement.RETURN_GENERATED_KEYS);
 
-				preparedStatement = connection.prepareStatement(queryString, Statement.RETURN_GENERATED_KEYS);
-
-				int i = 1;
-				preparedStatement.setInt(i++, c.getIdCategoria());
+				int i = 1;             
+				preparedStatement.setLong(i++, c.getIdCategoria());
 
 				int insertedRows = preparedStatement.executeUpdate();
 
 				if (insertedRows == 0) {
 					throw new SQLException("Can not add row to table 'Categoria'");
+				} 
+
+				// Recuperamos la PK generada
+				resultSet = preparedStatement.getGeneratedKeys();
+				if (resultSet.next()) {
+					Long pk = resultSet.getLong(1); 
+					c.setIdCategoria(pk);
+				} else {
+					throw new DataException("Unable to fetch autogenerated primary key");
 				}
 
+				// Return the DTO
 				return c;
 
 			} catch (SQLException e) {
@@ -287,17 +301,20 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		}
 
 		@Override
-		public void update(Connection connection, Categoria c) throws InstanceNotFoundException, DataException {
+		public void update(Connection connection, Categoria c) 
+				throws InstanceNotFoundException, DataException {
+			
 			PreparedStatement preparedStatement = null;
 			try {
 
-				String queryString = "UPDATE CustomerDemographics " + "SET CustomerDesc = ? "
+				String queryString = "UPDATE Categoria " 
+						+ "SET CustomerDesc = ? "
 						+ "WHERE CustomerTypeID = ? ";
 
 				preparedStatement = connection.prepareStatement(queryString);
 
 				int i = 1;
-				preparedStatement.setInt(i++, c.getIdCategoria());
+				preparedStatement.setLong(i++, c.getIdCategoria());
 
 				int updatedRows = preparedStatement.executeUpdate();
 
@@ -318,7 +335,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		}
 
 		@Override
-		public long delete(Connection connection, Integer id) 
+		public long delete(Connection connection, Long id) 
 				throws InstanceNotFoundException, DataException {
 			PreparedStatement preparedStatement = null;
 
@@ -329,7 +346,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 				preparedStatement = connection.prepareStatement(queryString);
 
 				int i = 1;
-				preparedStatement.setInt(i++, id);
+				preparedStatement.setLong(i++, id);
 
 				int removedRows = preparedStatement.executeUpdate();
 

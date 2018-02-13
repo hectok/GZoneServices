@@ -18,10 +18,10 @@ import com.gzone.ecommerce.model.Categoria;
  */
 public interface CategoriaDAO {
 	
-	public Categoria findById(Connection connection, Integer id) 
+	public Categoria findById(Connection connection, Long id) 
     		throws InstanceNotFoundException, DataException;
 
-	public Boolean exists(Connection connection, Integer id) 
+	public Boolean exists(Connection connection, Long id) 
     		throws DataException;
 
     public List<Categoria> findAll(Connection connection,int startIndex, int count) 
@@ -33,7 +33,7 @@ public interface CategoriaDAO {
     public List<Categoria> findByNombre(Connection connection,String nombre, int startIndex, int count)
     	throws DataException;
       
-    public List<Categoria> findByCliente(Connection connection, Integer idProducto) 
+    public List<Categoria> findByProducto(Connection connection, Long idProducto) 
         	throws DataException;
 
     public Categoria create(Connection connection, Categoria c) 
@@ -42,6 +42,6 @@ public interface CategoriaDAO {
     public void update(Connection connection, Categoria c) 
     		throws InstanceNotFoundException, DataException;
         
-    public long delete(Connection connection, Integer id) 
+    public long delete(Connection connection, Long id) 
     		throws InstanceNotFoundException, DataException;
 }

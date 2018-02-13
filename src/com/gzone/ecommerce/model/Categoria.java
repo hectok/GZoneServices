@@ -9,15 +9,15 @@ package com.gzone.ecommerce.model;
  */
 public class Categoria {
 
-	private Integer idCategoria = null;
+	private Long idCategoria = null;
 	
 	public Categoria () {}
 
-	public Integer getIdCategoria() {
+	public Long getIdCategoria() {
 		return idCategoria;
 	}
 
-	public void setIdCategoria(Integer idCategoria) {
+	public void setIdCategoria(Long idCategoria) {
 		this.idCategoria = idCategoria;
 	}
 }
