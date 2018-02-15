@@ -1,4 +1,4 @@
-package com.gzone.ecommercer.util;
+package com.gzone.ecommerce.util;
 
 import com.gzone.ecommerce.util.PasswordEncryptionUtil;
 

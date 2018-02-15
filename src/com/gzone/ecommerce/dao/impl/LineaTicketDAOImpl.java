@@ -37,8 +37,8 @@ public LineaTicketDAOImpl() {}
 
 		try {          
 			String queryString = 
-					"SELECT l.cod_compra,l.producto_id,l.precio" + 
-							"FROM Lista_Ticket l  " +
+					"SELECT l.cod_compra, l.producto_id, l.precio " + 
+							"FROM Linea_Ticket l  " +
 							"WHERE l.cod_compra = ? AND l.producto_id = ? ";
 			
 			preparedStatement = connection.prepareStatement(queryString,
@@ -55,7 +55,7 @@ public LineaTicketDAOImpl() {}
 			if (resultSet.next()) {
 				lt = loadNext(connection, resultSet);				
 			} else {
-				throw new InstanceNotFoundException("OrderDetails not found", Usuario.class.getName());
+				throw new InstanceNotFoundException("TicketDetails not found", Usuario.class.getName());
 			}
 
 			return lt;
@@ -80,12 +80,12 @@ public LineaTicketDAOImpl() {}
 		try {
 
 			String queryString = 
-					"SELECT l.cod_compra,l.producto_id " + 
-							"FROM LineaTicket l " +
+					"SELECT l.cod_compra, l.producto_id " + 
+							"FROM Linea_Ticket l " +
 							"WHERE l.cod_compra = ? AND l.producto_id = ? ";
 
 			preparedStatement = connection.prepareStatement(queryString);
-
+			
 			int i = 1;
 			preparedStatement.setLong(i++, id.getIdTicket());
 			preparedStatement.setLong(i++, id.getIdProducto());
@@ -117,8 +117,8 @@ public LineaTicketDAOImpl() {}
 		try {
 
 			String queryString = 
-					"SELECT l.cod_compra,l.producto_id,l.precio" + 
-					"FROM Lista_Ticket l " +
+					"SELECT l.cod_compra, l.producto_id, l.precio " + 
+					"FROM Linea_Ticket l " +
 						"INNER JOIN Ticket t "+
 						"ON l.cod_compra = t.cod_compra AND t.cod_compra = ? ";
 
@@ -165,8 +165,8 @@ public LineaTicketDAOImpl() {}
 				throw new DuplicateInstanceException(id, LineaTicket.class.getName());
 			}
 						
-			String queryString = "INSERT INTO Linea_Ticket(cod_compra,producto_id,precio) "
-					+ "VALUES (?, ?, ?)";
+			String queryString = "INSERT INTO Linea_Ticket (cod_compra, producto_id, precio) "
+								+"VALUES (?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(queryString);
 			

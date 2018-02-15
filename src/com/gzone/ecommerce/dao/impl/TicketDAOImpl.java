@@ -44,7 +44,7 @@ public class TicketDAOImpl implements TicketDAO {
 
 		try {          
 			String queryString = 
-					"SELECT t.cantidad,t.fecha_compra,t.dir_facturacion,t.id_usuario" +
+					"SELECT t.cod_compra, t.cantidad, t.fecha_compra, t.dir_facturacion, t.id_usuario " +
 							"FROM Ticket t  " +
 							"WHERE t.cod_compra = ? ";
 			
@@ -121,9 +121,8 @@ public class TicketDAOImpl implements TicketDAO {
 		try {
 
 		String queryString = 
-				"SELECT t.cantidad,t.fecha_compra,t.dir_facturacion,t.id_usuario" +
+				"SELECT t.cod_compra, t.cantidad, t.fecha_compra, t.dir_facturacion, t.id_usuario " +
 						"FROM Ticket t  " +
-						"WHERE t.cod_compra = ? " +
 						"ORDER BY t.fecha_compra DESC";
 
 			preparedStatement = connection.prepareStatement(queryString,
@@ -196,42 +195,44 @@ public class TicketDAOImpl implements TicketDAO {
 		try {
     
 			queryString = new StringBuilder(
-					"SELECT t.cantidad,t.fecha_compra,t.dir_facturacion,t.id_usuario" +
-					" FROM Ticket t ");
+					"SELECT t.cod_compra, t.cantidad, t.fecha_compra, t.dir_facturacion, t.id_usuario " +
+					"FROM Ticket t ");
 			
 			boolean first = true;
 			
+			if (ticket.getCodCompra()!=null) {
+				addClause(queryString, first, " t.cod_compra LIKE ? ");
+				first = false;
+			}
+				
 			if (ticket.getCantidad()!=null) {
-				addClause(queryString, first, " t.cantidad = ? ");
+				addClause(queryString, first, " t.cantidad LIKE ? ");
 				first = false;
 			}
 			
 			if (ticket.getFechaTicket()!=null) {
-				addClause(queryString, first, " t.fecha_compra ");
+				addClause(queryString, first, " t.fecha_compra LIKE ? ");
 				first = false;
 			}
 
 			if (ticket.getDirFacturacion()!=null) {
-				addClause(queryString, first, " UPPER(t.dir_facturacion) LIKE ? ");
+				addClause(queryString, first, " t.dir_facturacion LIKE ? ");
 				first = false;
 			}			
 			
 			if (ticket.getId_usuario()!=null) {
-				addClause(queryString, first, " t.id_usuario ? ");
+				addClause(queryString, first, " t.id_usuario LIKE ? ");
 				first = false;
 			}
-			
-			if (ticket.getCodCompra()!=null) {
-				addClause(queryString, first, " t.cod_compra ? ");
-				first = false;
-			}
-					
+				
 			
 			preparedStatement = connection.prepareStatement(queryString.toString(),
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-			int i = 1;       
+			int i = 1;  
 			
+			if (ticket.getCodCompra()!=null) 
+				preparedStatement.setLong(i++,ticket.getCodCompra());
 			if (ticket.getCantidad()!=null) 
 				preparedStatement.setDouble(i++, ticket.getCantidad());
 			if (ticket.getFechaTicket()!=null) 
@@ -240,8 +241,7 @@ public class TicketDAOImpl implements TicketDAO {
 				preparedStatement.setString(i++,ticket.getDirFacturacion());
 			if (ticket.getId_usuario()!=null) 
 				preparedStatement.setLong(i++,ticket.getId_usuario());
-			if (ticket.getCodCompra()!=null) 
-				preparedStatement.setLong(i++,ticket.getCodCompra());
+
 
 			resultSet = preparedStatement.executeQuery();
 			
@@ -307,25 +307,24 @@ public class TicketDAOImpl implements TicketDAO {
 		ResultSet resultSet = null;
 		try {          
 			
-			String queryString = "INSERT INTO Ticket(t.cantidad,t.fecha_compra,t.dir_facturacion,t.id_usuario" +
+			String queryString = "INSERT INTO Ticket( cantidad, fecha_compra, dir_facturacion, id_usuario ) " +
 					"VALUES (?, ?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(queryString,
 					Statement.RETURN_GENERATED_KEYS);
 			
-			int i = 1;     
+			int i = 1;   
 			preparedStatement.setLong(i++,t.getCantidad());
-			preparedStatement.setDate(i++, (java.sql.Date) t.getFechaTicket());
+			preparedStatement.setDate(i++, new java.sql.Date(t.getFechaTicket().getTime()));
 			preparedStatement.setString(i++,t.getDirFacturacion());
 			preparedStatement.setLong(i++, t.getId_usuario());
 
-
+			System.out.println(preparedStatement.toString());
 			int insertedRows = preparedStatement.executeUpdate();
 
 			if (insertedRows == 0) {
-				throw new SQLException("Can not add row to table 'Orders'");
+				throw new SQLException("Can not add row to table 'Ticket'");
 			} 
-			
 			
 			resultSet = preparedStatement.getGeneratedKeys();
 			if (resultSet.next()) {
@@ -336,6 +335,7 @@ public class TicketDAOImpl implements TicketDAO {
 			}
 			
 			List<LineaTicket> lineas = t.getLineas();
+
 			for (LineaTicket lt: lineas) {
 				lt.setIdTicket(t.getCodCompra());
 				lineaTicketDAO.create(connection, lt);
@@ -359,15 +359,17 @@ public class TicketDAOImpl implements TicketDAO {
 			
 			String queryString = 
 					"UPDATE Ticket " +
-					"SET cantidad = ?, fecha_compra = ?, dir_facturacion = ?" +
+					"SET cantidad = ?, fecha_compra = ?, dir_facturacion = ? ,id_usuario = ? " +
 					"WHERE cod_compra = ? ";
 
 			preparedStatement = connection.prepareStatement(queryString);
 
 			int i = 1;
 			preparedStatement.setLong(i++, t.getCantidad());
-			preparedStatement.setDate(i++, (java.sql.Date) t.getFechaTicket());
+			preparedStatement.setDate(i++, new java.sql.Date(t.getFechaTicket().getTime()));
 			preparedStatement.setString(i++, t.getDirFacturacion());
+			preparedStatement.setLong(i++, t.getId_usuario());
+			preparedStatement.setLong(i++, t.getCodCompra());
 
 			int updatedRows = preparedStatement.executeUpdate();
 
@@ -377,7 +379,7 @@ public class TicketDAOImpl implements TicketDAO {
 
 			if (updatedRows > 1) {
 				throw new SQLException("Duplicate row for id = '" + 
-						t.getCodCompra() + "' in table 'Orders'");
+						t.getCodCompra() + "' in table 'Ticket'");
 			}     
 			
 			createLineasTicket(connection, t.getCodCompra(), t.getLineas());
@@ -430,7 +432,7 @@ public class TicketDAOImpl implements TicketDAO {
 			try {
 
 				String queryString =	
-						  "DELETE FROM Lista_Ticket " 
+						  "DELETE FROM Linea_Ticket " 
 						+ "WHERE cod_compra = ? ";
 				
 				preparedStatement = c.prepareStatement(queryString);
@@ -455,7 +457,7 @@ public class TicketDAOImpl implements TicketDAO {
 			String queryString = null;
 			int i;
 			for (LineaTicket lt: lineas ) {
-				queryString = "INSERT INTO Linea_Ticket (cod_compra,producto_id,precio) VALUES (?, ?, ?)";
+				queryString = "INSERT INTO Linea_Ticket (cod_compra, producto_id, precio) VALUES (?, ?, ?)";
 				preparedStatement = connection.prepareStatement(queryString);				
 
 				i = 1;     
@@ -467,7 +469,7 @@ public class TicketDAOImpl implements TicketDAO {
 				int insertedRows = preparedStatement.executeUpdate();
 
 				if (insertedRows == 0) {
-					throw new SQLException("Can not add row to table 'CustomerCustomerDemo'");
+					throw new SQLException("Can not add row to table 'Linea_Ticket'");
 				}	
 
 				JDBCUtils.closeStatement(preparedStatement);
