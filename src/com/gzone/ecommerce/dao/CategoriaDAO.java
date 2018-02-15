@@ -18,9 +18,6 @@ import com.gzone.ecommerce.model.Categoria;
  */
 public interface CategoriaDAO {
 	
-	public Categoria findById(Connection connection, Long id) 
-    		throws InstanceNotFoundException, DataException;
-
 	public Boolean exists(Connection connection, Long id) 
     		throws DataException;
 
@@ -30,9 +27,6 @@ public interface CategoriaDAO {
     public long countAll(Connection connection) 
      		throws DataException;   
      
-    public List<Categoria> findByNombre(Connection connection,String nombre, int startIndex, int count)
-    	throws DataException;
-      
     public List<Categoria> findByProducto(Connection connection, Long idProducto) 
         	throws DataException;
 

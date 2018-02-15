@@ -21,45 +21,6 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		}
 
 		@Override
-		public Categoria findById(Connection connection, Long id) 
-				throws InstanceNotFoundException, DataException {
-
-			PreparedStatement preparedStatement = null;
-			ResultSet resultSet = null;
-
-			try {
-				String queryString = "SELECT c.id_categoria " 
-						+ "FROM Categoria c "
-						+ "WHERE c.id_categoria = ? ";
-
-				preparedStatement = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
-						ResultSet.CONCUR_READ_ONLY);
-
-				int i = 1;
-				preparedStatement.setLong(i++, id);
-
-				resultSet = preparedStatement.executeQuery();
-
-				Categoria e = null;
-
-				if (resultSet.next()) {
-					e = loadNext(resultSet);
-				} else {
-					throw new InstanceNotFoundException("Category with id " + id + "not found",
-							Categoria.class.getName());
-				}
-
-				return e;
-
-			} catch (SQLException e) {
-				throw new DataException(e);
-			} finally {
-				JDBCUtils.closeResultSet(resultSet);
-				JDBCUtils.closeStatement(preparedStatement);
-			}
-		}
-
-		@Override
 		public Boolean exists(Connection connection, Long id) 
 				throws DataException {
 			
@@ -140,9 +101,11 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			try {
 
-				String queryString = "SELECT d.CustomerTypeID, d.CustomerDesc " + "FROM CustomerDemographics d "
-						+ " INNER JOIN CustomerCustomerDemo ccd ON d.CustomerTypeId = ccd.CustomerTypeId "
-						+ " INNER JOIN Customers c " + " 	ON c.CustomerId = ccd.CustomerId AND c.CustomerId = ? ";
+				String queryString = "SELECT c.id_categoria, i.nombre_categoria " 
+						+ " FROM Categoria c "
+						+ " INNER JOIN Categoria_Idioma i ON c.id_categoria = i.id_categoria "
+						+ " INNER JOIN Producto_categoria pc ON c.id_categoria = pc.id_categoria "
+						+ " INNER JOIN Producto p  ON p.id_producto = cp.id_producto = ? ";
 
 				preparedStatement = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
@@ -200,51 +163,6 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			}
 		}
 
-		@Override
-		public List<Categoria> findByNombre(Connection connection, String nombre, int startIndex, int count)
-				throws DataException {
-
-			PreparedStatement preparedStatement = null;
-			ResultSet resultSet = null;
-
-			try {
-
-				String queryString ="SELECT c.id_categoria " 
-						+ "FROM Categoria c "
-						+ "WHERE c.id_categoria = ? "
-						+ "WHERE UPPER(d.CustomerTypeID) LIKE ? " 
-						+ "ORDER BY d.CustomerTypeID ASC ";
-
-				preparedStatement = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
-						ResultSet.CONCUR_READ_ONLY);
-
-				int i = 1;
-				preparedStatement.setString(i++, "%" + nombre.toUpperCase() + "%");
-
-				resultSet = preparedStatement.executeQuery();
-
-				List<Categoria> results = new ArrayList<Categoria>();
-				Categoria e = null;
-				int currentCount = 0;
-
-				if ((startIndex >= 1) && resultSet.absolute(startIndex)) {
-					do {
-						e = loadNext(resultSet);
-						results.add(e);
-						currentCount++;
-					} while ((currentCount < count) && resultSet.next());
-				}
-
-				return results;
-
-			} catch (SQLException e) {
-				throw new DataException(e);
-			} finally {
-				JDBCUtils.closeResultSet(resultSet);
-				JDBCUtils.closeStatement(preparedStatement);
-			}
-		}
-
 		private Categoria loadNext(ResultSet resultSet) throws SQLException {
 
 			int i = 1;
@@ -257,6 +175,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			return c;
 		}
+		
 		@Override
 		public Categoria create(Connection connection, Categoria c) 
 				throws DuplicateInstanceException, DataException {
@@ -341,7 +260,8 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			try {
 
-				String queryString = "DELETE FROM Customerdemographics " + "WHERE CustomerTypeID = ? ";
+				String queryString = "DELETE FROM Customerdemographics " 
+								   + "WHERE CustomerTypeID = ? ";
 
 				preparedStatement = connection.prepareStatement(queryString);
 
