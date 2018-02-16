@@ -20,6 +20,7 @@ public class Producto {
 	private Long oferta = null;
 	
 	private List<Categoria> categorias = null;
+	private List<NJugadores> njugadores = null;
 
 	public Producto () {
 		categorias = new ArrayList<Categoria>();
@@ -79,6 +80,14 @@ public class Producto {
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+
+	public List<NJugadores> getNjugadores() {
+		return njugadores;
+	}
+
+	public void setNjugadores(List<NJugadores> njugadores) {
+		this.njugadores = njugadores;
 	}
 	
 	

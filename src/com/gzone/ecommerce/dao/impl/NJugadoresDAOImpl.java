@@ -190,7 +190,45 @@ public class NJugadoresDAOImpl implements NJugadoresDAO {
 		}
 	}
 
-		
+	public List<NJugadores> findByProducto(Connection connection, Long idProducto) 
+        	throws DataException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			String queryString = 
+					"SELECT n.id_nJugadores, n.njugadores " + 
+					"FROM NJugadores n " 
+						+ " INNER JOIN Producto_NJugadores pn ON n.id_nJugadores = pn.id_nJugadores " 
+						+ " INNER JOIN Producto p " 
+						+ " 	ON p.id_producto = pn.id_producto AND p.id_producto = ? ";
+									
+			preparedStatement = connection.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			int i = 1;
+			preparedStatement.setLong(i++, idProducto);
+			
+			resultSet = preparedStatement.executeQuery();
+
+			List<NJugadores> results = new ArrayList<NJugadores>();
+			
+			NJugadores p = null;
+			
+			while (resultSet.next()) {
+					results.add(p);               	
+			}				
+			return results;
+
+		} catch (SQLException p) {
+			throw new DataException(p);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}		 
+	}	
+	
 	private NJugadores loadNext(Connection connection, ResultSet resultSet)
 		throws SQLException, DataException {
 
@@ -205,7 +243,7 @@ public class NJugadoresDAOImpl implements NJugadoresDAO {
 
 			
 			return njugadores;
-		}		
-
+		}	
+	
 }
 

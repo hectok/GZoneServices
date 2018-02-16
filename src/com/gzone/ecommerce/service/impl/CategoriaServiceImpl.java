@@ -101,7 +101,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		
 	}
 
-	public List<Categoria> findByCategoria(Long idProducto, int startIndex, int count)
+	public List<Categoria> findByProducto(Long idProducto)
 			throws DataException {
 			
 		Connection connection = null;
@@ -111,7 +111,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			connection = ConnectionManager.getConnection();
 			connection.setAutoCommit(true);
 			
-			return dao.findByCategoria(connection, idProducto, startIndex, count);
+			return dao.findByProducto(connection, idProducto);
 			
 		} catch (SQLException e){
 			throw new DataException(e);

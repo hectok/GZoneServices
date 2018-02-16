@@ -85,7 +85,6 @@ public class NJugadoresServiceImpl implements NJugadoresService{
 		} finally {
 			JDBCUtils.closeConnection(connection);
 		}
-		
 	}
 
 	public long countAll() 
@@ -104,8 +103,7 @@ public class NJugadoresServiceImpl implements NJugadoresService{
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeConnection(connection);
-		}
-		
+		}		
 	}
 }
 

@@ -29,7 +29,7 @@ public interface CategoriaDAO {
     public long countAll(Connection connection) 
      		throws DataException;   
      
-    public List<Categoria> findByCategoria(Connection connection, Long idProducto,int startIndex, int count) 
+    public List<Categoria> findByProducto(Connection connection, Long idProducto) 
         	throws DataException;
 
 }

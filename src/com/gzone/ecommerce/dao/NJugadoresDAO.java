@@ -27,4 +27,7 @@ public interface NJugadoresDAO {
 
 	public long countAll(Connection connection) 
      		throws DataException;  
+	
+	public List<NJugadores> findByProducto(Connection connection, Long idProducto) 
+        	throws DataException;
 }

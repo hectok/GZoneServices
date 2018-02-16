@@ -27,7 +27,7 @@ public interface CategoriaService {
 	public long countAll() 
 			throws DataException;
 
-	public List<Categoria> findByCategoria(Long idProducto, int startIndex, int count) 
+	public List<Categoria> findByProducto(Long idProducto) 
 			throws DataException;
 
 }

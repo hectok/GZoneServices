@@ -143,7 +143,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			}
 		}
 
-		public List<Categoria> findByCategoria(Connection connection, Long idProducto, int startIndex, int count) 
+		public List<Categoria> findByProducto(Connection connection, Long idProducto) 
 				throws DataException {
 			PreparedStatement preparedStatement = null;
 			ResultSet resultSet = null;
@@ -169,24 +169,17 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 				List<Categoria> results = new ArrayList<Categoria>();
 
 				Categoria e = null;
-				int currentCount = 0;
+				while (resultSet.next()) {
+					results.add(e);               	
+			}				
+			return results;
 
-				if ((startIndex >= 1) && resultSet.absolute(startIndex)) {
-					do {
-						e = loadNext(resultSet);
-						results.add(e);
-						currentCount++;
-					} while ((currentCount < count) && resultSet.next());
-				}
-
-				return results;
-
-			} catch (SQLException e) {
-				throw new DataException(e);
-			} finally {
-				JDBCUtils.closeResultSet(resultSet);
-				JDBCUtils.closeStatement(preparedStatement);
-			}
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}		 
 		}
 
 		@Override

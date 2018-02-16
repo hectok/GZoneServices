@@ -26,4 +26,5 @@ public interface NJugadoresService {
 
 	public long countAll() 
 			throws DataException;
+	
 }
