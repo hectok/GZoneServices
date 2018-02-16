@@ -10,28 +10,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gzone.ecommerce.dao.IdiomaDAO;
+import com.gzone.ecommerce.dao.NJugadoresDAO;
 import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
-import com.gzone.ecommerce.model.Idioma;
-
+import com.gzone.ecommerce.model.NJugadores;
 
 /**
  * @author hector.ledo.doval
  *
  */
-public class IdiomaDAOImpl implements IdiomaDAO{
+public class NJugadoresDAOImpl implements NJugadoresDAO {
 	
-	public IdiomaDAOImpl() {
+	public NJugadoresDAOImpl() {
 	}
 	
 	/*
-	 * Método de búsqueda de un Idioma por su ID
+	 * Método de búsqueda de un NJugadores por su ID
 	 * 
 	 */
 	@Override
-	public Idioma findById(Connection connection, String id) 
+	public NJugadores findById(Connection connection, Long id) 
 			throws InstanceNotFoundException, DataException {
 
 		PreparedStatement preparedStatement = null;
@@ -39,25 +38,25 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 
 		try {          
 			String queryString = 
-					"SELECT i.id_idioma, i.idioma " + 
-							"FROM Idioma i " +
-							"WHERE i.id_idioma = ? ";
+					"SELECT i.id_njugadores, i.njugadores " + 
+							"FROM NJugadores i " +
+							"WHERE i.id_njugadores = ? ";
 			
 			preparedStatement = connection.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 			int i = 1;                
-			preparedStatement.setString(i++, id);
+			preparedStatement.setLong(i++, id);
 
 			resultSet = preparedStatement.executeQuery();
 
-			Idioma e = null;
+			NJugadores e = null;
 
 			if (resultSet.next()) {
 				e = loadNext(connection, resultSet);				
 			} else {
 				throw new InstanceNotFoundException("Language with id " + id + 
-						"not found", Idioma.class.getName());
+						"not found", NJugadores.class.getName());
 			}
 
 			return e;
@@ -71,11 +70,11 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 	}
 
 	/*
-	 * Método para comprobar si un Idioma existe
+	 * Método para comprobar si un NJugadores existe
 	 * 
 	 */
 	@Override
-	public Boolean exists(Connection connection, String id) 
+	public Boolean exists(Connection connection, Long id) 
 			throws DataException {
 		boolean exist = false;
 
@@ -85,14 +84,14 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		try {
 
 			String queryString = 
-					"SELECT i.idioma " + 
-							"FROM Idioma i " +
-							"WHERE i.id_idioma = ? ";
+					"SELECT i.njugadores " + 
+							"FROM NJugadores i " +
+							"WHERE i.id_njugadores = ? ";
 
 			preparedStatement = connection.prepareStatement(queryString);
 
 			int i = 1;
-			preparedStatement.setString(i++, id);
+			preparedStatement.setLong(i++, id);
 
 			resultSet = preparedStatement.executeQuery();
 
@@ -111,7 +110,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 	}
 
 	/*
-	 * Método para contar el número total de idiomas
+	 * Método para contar el número total de njugadoress
 	 * 
 	 */
 	@Override
@@ -125,7 +124,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 
 			String queryString = 
 					" SELECT count(*) "
-							+ " FROM Idioma";
+							+ " FROM NJugadores";
 
 			preparedStatement = connection.prepareStatement(queryString);
 
@@ -147,7 +146,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 	}
 	
 	@Override
-	public List<Idioma> findAll(Connection connection, 
+	public List<NJugadores> findAll(Connection connection, 
 			int startIndex, int count) 
 					throws DataException {
 
@@ -158,9 +157,9 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 
 			// Create "preparedStatement"       
 			String queryString = 
-					"SELECT i.id_idioma, i.idioma " + 
-					"FROM Idioma i " +	
-					"ORDER BY i.idioma asc ";
+					"SELECT i.id_njugadores, i.njugadores " + 
+					"FROM NJugadores i " +	
+					"ORDER BY i.njugadores asc ";
 
 			preparedStatement = connection.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -169,8 +168,8 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			resultSet = preparedStatement.executeQuery();
 
 			// Recupera la pagina de resultados
-			List<Idioma> results = new ArrayList<Idioma>();                        
-			Idioma e = null;
+			List<NJugadores> results = new ArrayList<NJugadores>();                        
+			NJugadores e = null;
 			int currentCount = 0;
 
 			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
@@ -192,20 +191,21 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 	}
 
 		
-	private Idioma loadNext(Connection connection, ResultSet resultSet)
+	private NJugadores loadNext(Connection connection, ResultSet resultSet)
 		throws SQLException, DataException {
 
 			int i = 1;
-			String idIdioma = resultSet.getString(i++);	                
-			String nombreIdioma = resultSet.getString(i++);	                
+			Long idNJugadores = resultSet.getLong(i++);	                
+			String nombreNJugadores = resultSet.getString(i++);	                
 
 	
-			Idioma idioma = new Idioma();		
-			idioma.setIdIdioma(idIdioma);
-			idioma.setNombreIdioma(nombreIdioma);
+			NJugadores njugadores = new NJugadores();		
+			njugadores.setIdNJugadores(idNJugadores);
+			njugadores.setnJugadores(nombreNJugadores);
 
 			
-			return idioma;
+			return njugadores;
 		}		
 
 }
+

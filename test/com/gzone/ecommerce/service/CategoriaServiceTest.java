@@ -17,7 +17,7 @@ import com.gzone.ecommerce.util.ToStringUtil;
  */
 public class CategoriaServiceTest {
 
-private CategoriaService categoriaService = null;
+	private CategoriaService categoriaService = null;
 	
 	public CategoriaServiceTest() {
 		categoriaService = new CategoriaServiceImpl();
