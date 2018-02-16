@@ -41,8 +41,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE gzone;
-INSERT INTO gzone.Idioma (id_idioma, nombre_idioma) VALUES ('ES', 'Español');
-INSERT INTO gzone.Idioma (id_idioma, nombre_idioma) VALUES ('EN', 'English');
+INSERT INTO gzone.Idioma (id_idioma, idioma) VALUES ('ES', 'Español');
+INSERT INTO gzone.Idioma (id_idioma, idioma) VALUES ('EN', 'English');
 
 COMMIT;
 
@@ -59,3 +59,119 @@ INSERT INTO gzone.Oferta (id_oferta, fecha_creacion, precio) VALUES (DEFAULT, '2
 COMMIT;
 
 
+-- -----------------------------------------------------
+-- Data for table `gzone`.`Categoria`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `gzone`;
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (1);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (2);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (3);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (4);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (5);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (6);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (7);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (8);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (9);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (10);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (11);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (12);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (13);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (14);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (15);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (16);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (17);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (18);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (19);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (20);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (21);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (22);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (23);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (24);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (25);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (26);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (27);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (28);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (29);
+INSERT INTO `gzone`.`Categoria` (`id_categoria`) VALUES (30);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `gzone`.`Categoria_Idioma`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `gzone`;
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (1, 'ES', 'Accion');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (2, 'ES', 'Lucha');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (3, 'ES', 'Beat \'em up');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (4, 'ES', 'Arcade');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (5, 'ES', 'Plataformas');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (6, 'ES', 'Disparos en primera persona');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (7, 'ES', 'Disparos en tercera persona');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (8, 'ES', 'Shoot \'em up');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (9, 'ES', 'Estrategia en tiempo real');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (10, 'ES', 'Estrategia por turnos');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (11, 'ES', 'Simulacion');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (12, 'ES', 'Simulacion de vehiculos');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (13, 'ES', 'Simulacion de construccion');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (14, 'ES', 'Simulacion de vida');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (15, 'ES', 'Simulacion de combate');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (16, 'ES', 'Deporte');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (17, 'ES', 'Carreras');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (18, 'ES', 'Aventura');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (19, 'ES', 'Aventura conversacional');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (20, 'ES', 'Aventura gráfica');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (21, 'ES', 'Acción-Aventura');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (22, 'ES', 'Survival horror');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (23, 'ES', 'Sigilo');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (24, 'ES', 'Rol');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (25, 'ES', 'Sandbox');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (26, 'ES', 'Musical');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (27, 'ES', 'Puzzle');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (28, 'ES', 'Party games');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (29, 'ES', 'Educación');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (30, 'ES', 'Otros');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (1, 'EN', 'Action');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (2, 'EN', 'Fighting games');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (3, 'EN', 'Beat \'em up');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (4, 'EN', 'Arcade');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (5, 'EN', 'Platforms');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (6, 'EN', 'First person shooter');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (7, 'EN', 'Third person shooter');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (8, 'EN', 'Shoot \'em up');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (9, 'EN', 'Real-Time strategy');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (10, 'EN', 'Turn-based strategy');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (11, 'EN', 'Simulation');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (12, 'EN', 'Vehicle simulation');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (13, 'EN', 'Construcion simulation');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (14, 'EN', 'Life simulation');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (15, 'EN', 'Fight simulation');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (16, 'EN', 'Sports');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (17, 'EN', 'Racing');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (18, 'EN', 'Adventure');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (19, 'EN', 'Text adventure');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (20, 'EN', 'Graphic adventures');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (21, 'EN', 'Action-adventure');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (22, 'EN', 'Sruvival horror');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (23, 'EN', 'Stealth ');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (24, 'EN', 'Rol');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (25, 'EN', 'Sandbox');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (26, 'EN', 'Musical');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (27, 'EN', 'Puzzle');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (28, 'EN', 'Party games');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (29, 'EN', 'Education');
+INSERT INTO `gzone`.`Categoria_Idioma` (`id_categoria`, `id_idioma`, `categoria`) VALUES (30, 'EN', 'Other');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `gzone`.`Producto_Categoria`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `gzone`;
+INSERT INTO `gzone`.`Producto_Categoria` (`id_producto`, `id_categoria`) VALUES (2, 6);
+INSERT INTO `gzone`.`Producto_Categoria` (`id_producto`, `id_categoria`) VALUES (5, 22);
+
+COMMIT;

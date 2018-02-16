@@ -8,15 +8,17 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.gzone.ecommerce.exceptions.DataException;
-import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
-import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Categoria;
+import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 
 /**
  * @author Hector
  *
  */
 public interface CategoriaDAO {
+	
+	public Categoria findById(Connection connection, Long id) 
+			throws InstanceNotFoundException, DataException;
 	
 	public Boolean exists(Connection connection, Long id) 
     		throws DataException;
@@ -27,15 +29,7 @@ public interface CategoriaDAO {
     public long countAll(Connection connection) 
      		throws DataException;   
      
-    public List<Categoria> findByProducto(Connection connection, Long idProducto) 
+    public List<Categoria> findByCategoria(Connection connection, Long idProducto,int startIndex, int count) 
         	throws DataException;
 
-    public Categoria create(Connection connection, Categoria c) 
-    		throws DuplicateInstanceException, DataException;
-
-    public void update(Connection connection, Categoria c) 
-    		throws InstanceNotFoundException, DataException;
-        
-    public long delete(Connection connection, Long id) 
-    		throws InstanceNotFoundException, DataException;
 }
