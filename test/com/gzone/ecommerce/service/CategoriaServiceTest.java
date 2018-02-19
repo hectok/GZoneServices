@@ -100,7 +100,7 @@ public class CategoriaServiceTest {
 			int total = 0;
 			
 			do {
-				results = categoriaService.findByCategoria(categoria, startIndex, pageSize);
+				results = categoriaService.findByProducto(categoria);
 				if (results.size()>0) {
 					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Categoria cat: results) {

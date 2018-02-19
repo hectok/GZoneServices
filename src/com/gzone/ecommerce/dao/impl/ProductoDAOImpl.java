@@ -19,10 +19,10 @@ import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Categoria;
+import com.gzone.ecommerce.model.Idioma;
 import com.gzone.ecommerce.model.NJugadores;
 import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.service.ProductoCriteria;
-import com.sacra.ecommerce.model.Demografico;
 
 /**
  * @author Hector
@@ -112,6 +112,48 @@ public class ProductoDAOImpl implements ProductoDAO{
 			JDBCUtils.closeResultSet(resultSet);
 			JDBCUtils.closeStatement(preparedStatement);
 		}	    	 
+	}
+	
+	@Override
+	public Producto findById(Connection connection, Long id) 
+			throws InstanceNotFoundException, DataException {
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {          
+
+			String queryString = 
+					" SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta " + 
+					" FROM Producto p " +
+					" WHERE p.id_producto = ? ";
+
+			preparedStatement = connection.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			int i = 1;                
+			preparedStatement.setLong(i++, id);
+
+			// Execute query            
+			resultSet = preparedStatement.executeQuery();
+
+			Producto e = null;
+
+			if (resultSet.next()) {
+				e = loadNext(connection, resultSet);				
+			} else {
+				throw new InstanceNotFoundException("Products with id " + id + 
+						"not found", Producto.class.getName());
+			}
+
+			return e;
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {            
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}  
 	}
 	
 	/*
@@ -299,7 +341,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 			// Inserta los demograficos
 			createCategoria(connection, p.getIdProducto(), p.getCategorias());
 			createNJugadores(connection, p.getIdProducto(), p.getNjugadores());
-			createIdioma(connection, p.getIdProducto(), p.getNjugadores());
+			createIdioma(connection, p.getIdProducto(), p.getIdioma());
 			
 			// Return the DTO
 			return p;
@@ -460,25 +502,25 @@ public class ProductoDAOImpl implements ProductoDAO{
 			return p;
 		}
 
-	protected void createCategoria(Connection connection, Long clienteId,  List<Categoria> categorias)
+	protected void createCategoria(Connection connection, Long idProducto,  List<Categoria> categorias)
 			throws SQLException, DataException {
 
 		PreparedStatement preparedStatement = null;
 		try {          
 			String queryString = null;
 			int i;
-			for (Categoria d: categorias) {
-				queryString = "INSERT INTO CustomerCustomerDemo (CustomerId, CustomerTypeId) VALUES (?,  ?)";
+			for (Categoria c: categorias) {
+				queryString = "INSERT INTO Producto_Categoria (id_producto, id_categoria ) VALUES (?,  ?)";
 				preparedStatement = connection.prepareStatement(queryString);				
 
 				i = 1;     
-				preparedStatement.setLong(i++, clienteId);
-				preparedStatement.setString(i++, d.getClienteTipoId());
+				preparedStatement.setLong(i++, idProducto);
+				preparedStatement.setLong(i++, c.getIdCategoria());
 
 				int insertedRows = preparedStatement.executeUpdate();
 
 				if (insertedRows == 0) {
-					throw new SQLException("Can not add row to table 'CustomerCustomerDemo'");
+					throw new SQLException("Can not add row to table 'Producto_Categoria'");
 				}	
 
 				JDBCUtils.closeStatement(preparedStatement);
@@ -490,7 +532,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		}
 	}
 	
-	protected void deleteDemograficos(Connection c, String clienteId)
+	protected void deleteCategoria(Connection c, Long idProducto)
 		throws SQLException, DataException {
 
 		PreparedStatement preparedStatement = null;
@@ -498,13 +540,123 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {
 
 			String queryString =	
-					  "DELETE FROM CustomerCustomerDemo " 
-					+ "WHERE CustomerID = ? ";
+					  "DELETE FROM Producto_Categoria " 
+					+ "WHERE id_producto = ? ";
 			
 			preparedStatement = c.prepareStatement(queryString);
 
 			int i = 1;
-			preparedStatement.setString(i++, clienteId);
+			preparedStatement.setLong(i++, idProducto);
+
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
+	protected void createNJugadores(Connection connection, Long idProducto,  List<NJugadores> njugadores)
+			throws SQLException, DataException {
+
+		PreparedStatement preparedStatement = null;
+		try {          
+			String queryString = null;
+			int i;
+			for (NJugadores c: njugadores) {
+				queryString = "INSERT INTO Producto_NJugadores (id_producto, id_njugador ) VALUES (?,  ?)";
+				preparedStatement = connection.prepareStatement(queryString);				
+
+				i = 1;     
+				preparedStatement.setLong(i++, idProducto);
+				preparedStatement.setLong(i++, c.getIdNJugadores());
+
+				int insertedRows = preparedStatement.executeUpdate();
+
+				if (insertedRows == 0) {
+					throw new SQLException("Can not add row to table 'Producto_NJugadores'");
+				}	
+
+				JDBCUtils.closeStatement(preparedStatement);
+			} 
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
+	protected void deleteNJugadores(Connection c, Long idProducto)
+		throws SQLException, DataException {
+
+		PreparedStatement preparedStatement = null;
+
+		try {
+
+			String queryString =	
+					  "DELETE FROM Producto_Producto_NJugadores " 
+					+ "WHERE id_producto = ? ";
+			
+			preparedStatement = c.prepareStatement(queryString);
+
+			int i = 1;
+			preparedStatement.setLong(i++, idProducto);
+
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
+	protected void createIdioma(Connection connection, Long idProducto,  List<Idioma> idioma)
+			throws SQLException, DataException {
+
+		PreparedStatement preparedStatement = null;
+		try {          
+			String queryString = null;
+			int i;
+			for (Idioma c: idioma) {
+				queryString = "INSERT INTO Producto_Idioma_Disponible (id_producto, id_categoria ) VALUES (?,  ?)";
+				preparedStatement = connection.prepareStatement(queryString);				
+
+				i = 1;     
+				preparedStatement.setLong(i++, idProducto);
+				preparedStatement.setString(i++, c.getIdIdioma());
+
+				int insertedRows = preparedStatement.executeUpdate();
+
+				if (insertedRows == 0) {
+					throw new SQLException("Can not add row to table 'Producto_Idioma'");
+				}	
+
+				JDBCUtils.closeStatement(preparedStatement);
+			} 
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
+	protected void deleteIdioma(Connection c, Long idProducto)
+		throws SQLException, DataException {
+
+		PreparedStatement preparedStatement = null;
+
+		try {
+
+			String queryString =	
+					  "DELETE FROM Producto_Idioma_Disponible " 
+					+ "WHERE id_producto = ? ";
+			
+			preparedStatement = c.prepareStatement(queryString);
+
+			int i = 1;
+			preparedStatement.setLong(i++, idProducto);
 
 			preparedStatement.executeUpdate();
 

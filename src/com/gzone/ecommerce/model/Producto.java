@@ -21,6 +21,7 @@ public class Producto {
 	
 	private List<Categoria> categorias = null;
 	private List<NJugadores> njugadores = null;
+	private List<Idioma> idioma = null;
 
 	public Producto () {
 		categorias = new ArrayList<Categoria>();
@@ -89,6 +90,13 @@ public class Producto {
 	public void setNjugadores(List<NJugadores> njugadores) {
 		this.njugadores = njugadores;
 	}
-	
-	
+
+	public List<Idioma> getIdioma() {
+		return idioma;
+	}
+
+	public void setIdioma(List<Idioma> idioma) {
+		this.idioma = idioma;
+	}
+		
 }

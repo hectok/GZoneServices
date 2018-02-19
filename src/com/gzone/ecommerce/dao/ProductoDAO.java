@@ -26,6 +26,9 @@ public interface ProductoDAO {
      
 	public Boolean exists(Connection connection, Long id) 
     		throws DataException;
+	
+	public Producto findById(Connection connection, Long id) 
+			throws InstanceNotFoundException, DataException;
 
 	public long countAll(Connection connection) 
      		throws DataException;   

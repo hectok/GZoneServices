@@ -83,6 +83,26 @@ public class ProductoServiceImpl implements ProductoService{
 		
 	}
 	
+	public Producto findById(Long id) 
+			throws InstanceNotFoundException, DataException {
+		
+		Connection connection = null;
+		
+		try {
+			
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(true);
+			
+			return dao.findById(connection, id);	
+			
+		} catch (SQLException e){
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeConnection(connection);
+		}
+		
+	}
+	
      public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count)
 			throws DataException {
 			
