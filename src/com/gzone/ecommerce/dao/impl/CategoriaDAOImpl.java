@@ -7,13 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.gzone.ecommerce.dao.CategoriaDAO;
 import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
-import com.gzone.ecommerce.model.Categoria;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
+import com.gzone.ecommerce.model.Categoria;
+import com.gzone.ecommerce.model.Producto;
 
 public class CategoriaDAOImpl implements CategoriaDAO {
+	
 
 		public CategoriaDAOImpl() {
 		}
@@ -143,43 +146,55 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			}
 		}
 
-		public List<Categoria> findByProducto(Connection connection, Long idProducto) 
+		public List<Producto> findByProducto(Connection connection, List<Categoria> categorias, int startIndex, int count) 
 				throws DataException {
 			PreparedStatement preparedStatement = null;
 			ResultSet resultSet = null;
 
 			try {
 
-				String queryString = 
-									"SELECT ci.id_categoria " +
-									"FROM categoria_idioma ci " +
-										"INNER JOIN categoria c ON c.id_categoria=ci.id_categoria " +
-									    "INNER JOIN producto_categoria cp ON c.id_categoria=cp.id_categoria " +
-									    "INNER JOIN producto p ON cp.id_producto=p.id_producto " +
-									"WHERE ci.id_categoria = ?";
+				StringBuilder queryString = new StringBuilder (
+									"SELECT p.id_producto,p.nombre,p.precio,p.anio,p.requisitos,p.id_oferta " +
+									"FROM producto_categoria pc " +
+										"INNER JOIN categoria c ON c.id_categoria=pc.id_categoria  " +
+									    "INNER JOIN producto p ON pc.id_producto=p.id_producto "  +
+									"WHERE pc.id_categoria ");
 
-				preparedStatement = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
+
+				boolean first = true;
+				//Creamos la query en base al número de categorias que haya marcado el usuario
+				for (Categoria c : categorias) {
+					addClause(queryString, first, c.getIdCategoria().toString());				
+					first = false;				
+				}
+				
+				preparedStatement = connection.prepareStatement(queryString.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
-
-				int i = 1;
-				preparedStatement.setLong(i++, idProducto);
-
+				
+//				int i = 1;
+//				preparedStatement.setLong(i++, idProducto);
+							
 				resultSet = preparedStatement.executeQuery();
+				List<Producto> results = new ArrayList<Producto>();                        
+				Producto e = null;
+				int currentCount = 0;
 
-				List<Categoria> results = new ArrayList<Categoria>();
+				if ((startIndex >=1) && resultSet.absolute(startIndex)) {
+					do {
+						e = loadNext(connection, resultSet);
+						results.add(e);               	
+						currentCount++;                	
+					} while ((currentCount < count) && resultSet.next()) ;
+				}
 
-				Categoria e = null;
-				while (resultSet.next()) {
-					results.add(e);               	
-			}				
 			return results;
 
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}		 
+			} catch (SQLException e) {
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(resultSet);
+				JDBCUtils.closeStatement(preparedStatement);
+			}		 
 		}
 
 		@Override
@@ -213,6 +228,10 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			}
 		}
 
+		private void addClause(StringBuilder queryString, boolean first, String clause) {
+			queryString.append(first? "LIKE ": " OR ").append(clause);
+		}
+		
 		private Categoria loadNext(ResultSet resultSet) throws SQLException {
 
 			int i = 1;
@@ -224,6 +243,28 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 
 			return c;
+		}
+		
+		private Producto loadNext(Connection connection, ResultSet resultSet)
+			throws SQLException, DataException {
+				int i = 1;
+
+				Long idProducto = resultSet.getLong(i++);
+				String nombre = resultSet.getString(i++);	                
+				Double precio = resultSet.getDouble(i++);
+				Integer anio = resultSet.getInt(i++);
+				String requisitos = resultSet.getString(i++);
+				Long oferta = resultSet.getLong(i++);
+		
+				Producto p = new Producto();
+				p.setIdProducto(idProducto);
+				p.setNombre(nombre);
+				p.setPrecio(precio);
+				p.setAnio(anio);
+				p.setRequisitos(requisitos);
+				p.setOferta(oferta);
+				
+				return p;
 		}
 }
 

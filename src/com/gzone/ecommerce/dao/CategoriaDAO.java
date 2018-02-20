@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.model.Categoria;
+import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 
 /**
@@ -29,7 +30,7 @@ public interface CategoriaDAO {
     public long countAll(Connection connection) 
      		throws DataException;   
      
-    public List<Categoria> findByProducto(Connection connection, Long idProducto) 
+    public List<Producto> findByProducto(Connection connection, List<Categoria> categorias, int startIndex, int count) 
         	throws DataException;
 
 }

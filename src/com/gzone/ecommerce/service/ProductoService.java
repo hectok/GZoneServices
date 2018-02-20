@@ -9,7 +9,7 @@ import com.gzone.ecommerce.model.Producto;
 
 public interface ProductoService {
 	
-	    public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count)
+	    public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count, String idioma)
 	   	    throws DataException;
 	    
 	    public List<Producto> findAll(int startIndex, int count) 

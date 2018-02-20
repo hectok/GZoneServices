@@ -8,6 +8,7 @@ import java.util.List;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Categoria;
+import com.gzone.ecommerce.model.Producto;
 
 /**
  * @author Hector
@@ -27,7 +28,7 @@ public interface CategoriaService {
 	public long countAll() 
 			throws DataException;
 
-	public List<Categoria> findByProducto(Long idProducto) 
+	public List<Producto> findByProducto(List<Categoria> categorias, int startIndex, int count) 
 			throws DataException;
 
 }

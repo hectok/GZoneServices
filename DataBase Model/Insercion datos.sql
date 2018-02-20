@@ -290,3 +290,23 @@ INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_co
 INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (40, 'EN', 'RUN THE NEIGHBORHOOD\nThe future of sports career modes has arrived, allowing you to play the game the way you like. Build your career in NBA games, hit the courts in The Playground Park, join the Pro-Am circuit, or explore the shops and venues in an all-new open neighborhood setting. Featuring new MyPLAYER upgrade and endorsement systems, our biggest cast of characters to date including NBA players, and so much more.\nThe Road to 99\nThe overarching meta-game that rewards users for improving their MyPLAYER’s overall rating, regardless of which modes they choose to play. Featuring a unified badge system across Pro-Am, Park and your NBA journey in MyCAREER, your attributes, animations and badges all combine to define your play style on your road to a 99 overall rating. \nUpdated Create A Player\nCreate the MyPLAYER you want, whether scanning your face with the MyNBA2K18 mobile app or building something custom using our preset options. Hairstyles have been updated with numerous new options to choose from, and body weight and height are more accurately represented to ensure the unique look you want for your MyPLAYER. \nMyTEAM\nCollect player cards featuring NBA legends from yesterday and today, and compete in a variety of online and offline modes. \nSuper Max\nConstruct a salary-capped team and compete against other users of similar ability in a new season mode. With a limited salary cap to distribute among 13 players, you’ll have to be strategic in selecting your lineup for each round. Prizes are awarded based on your performance each round, ensuring that every game matters.\nPack & Playoffs\nAn all-new draft mode that challenges you to build the best possible 5-man team from packs you’ll open before each round. Compete against other users’ drafted teams and advance to earn better prizes. With Pack & Playoffs, it’s a new lineup and a new experience every round. \nSchedule Challenges\nPlay through a 30 game schedule for each of the 30 NBA teams. Earn MyTEAM points and prizes as you work your way through 900 unique challenges based on the 2017-18 NBA schedule.', 'The highest rated* annual sports title returns with NBA 2K18, featuring unparalleled authenticity and improvements on the court.*According to 2008 - 2016 Metacritic. ');
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `gzone`.`Producto_Idioma_Disponible`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `gzone`;
+INSERT INTO `gzone`.`Producto_Idioma_Disponible` (`id_producto`, `id_idioma`) VALUES (5, 'ES');
+INSERT INTO `gzone`.`Producto_Idioma_Disponible` (`id_producto`, `id_idioma`) VALUES (5, 'EN');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `gzone`.`Producto_NJugadores`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `gzone`;
+INSERT INTO `gzone`.`Producto_NJugadores` (`id_producto`, `id_njugador`) VALUES (5, 1);
+INSERT INTO `gzone`.`Producto_NJugadores` (`id_producto`, `id_njugador`) VALUES (5, 3);
+
+COMMIT;

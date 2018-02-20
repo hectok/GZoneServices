@@ -18,7 +18,7 @@ import com.gzone.ecommerce.service.ProductoCriteria;
  */
 public interface ProductoDAO {
 	
-    public List<Producto> findByCriteria(Connection connection, ProductoCriteria producto, int startIndex, int count)
+    public List<Producto> findByCriteria(Connection connection, ProductoCriteria producto, int startIndex, int count,String idioma)
         	throws DataException;
 
     public List<Producto> findAll(Connection connection,int startIndex, int count) 

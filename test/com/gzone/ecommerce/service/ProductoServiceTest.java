@@ -1,11 +1,13 @@
 package com.gzone.ecommerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
+import com.gzone.ecommerce.model.Categoria;
+import com.gzone.ecommerce.model.Idioma;
+import com.gzone.ecommerce.model.NJugadores;
 import com.gzone.ecommerce.model.Producto;
-import com.gzone.ecommerce.service.ProductoCriteria;
-import com.gzone.ecommerce.service.ProductoService;
 import com.gzone.ecommerce.service.impl.ProductoServiceImpl;
 import com.gzone.ecommerce.util.ToStringUtil;
 
@@ -71,9 +73,36 @@ public class ProductoServiceTest {
 		System.out.println("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
+		List<Categoria> categorias = new ArrayList<Categoria>();
+		Categoria e = new Categoria();
+		e.setIdCategoria(22L);
+		categorias.add(e);
+		Categoria i = new Categoria();
+		i.setIdCategoria(6L);
+		categorias.add(i);
+		
+		List<Idioma> idiomas = new ArrayList<Idioma>();
+		Idioma a = new Idioma();
+		a.setIdIdioma("'ES'");
+		idiomas.add(a);
+		Idioma o = new Idioma();
+		o.setIdIdioma("'EN'");
+		idiomas.add(o);
+		
+		List<NJugadores> njugadores = new ArrayList<NJugadores>();
+		NJugadores nj = new NJugadores();
+		nj.setIdNJugadores(1L);
+		njugadores.add(nj);
+		NJugadores nj2 = new NJugadores();
+		nj2.setIdNJugadores(3L);
+		njugadores.add(nj2);
+		
+		
 		ProductoCriteria p = new ProductoCriteria();
-		p.setNombre("isaac");
-
+		p.setNombre("res");
+		p.setCategorias(categorias);
+		p.setIdioma(idiomas);
+		p.setNjugadores(njugadores);
 		
 		try {
 
@@ -82,7 +111,7 @@ public class ProductoServiceTest {
 			int total = 0;
 			
 			do {
-				results = productoService.findByCriteria(p, startIndex, pageSize);
+				results = productoService.findByCriteria(p, startIndex, pageSize,"ES");
 				if (results.size()>0) {
 					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Producto t: results) {
@@ -138,7 +167,7 @@ public class ProductoServiceTest {
 			ProductoCriteria producto = new ProductoCriteria();
 			producto.setNombre("Grand Theft Auto 5");
 			List<Producto> results = 
-					productoService.findByCriteria(producto, 1, 10);
+					productoService.findByCriteria(producto, 1, 10,"ES");
 			if (results.size()<1) {
 				throw new RuntimeException("Unexpected results count from previous tests: "+results.size());
 			}
@@ -150,7 +179,7 @@ public class ProductoServiceTest {
 			producto = new ProductoCriteria();
 			producto.setIdProducto(pro.getIdProducto());
 			
-			pro = productoService.findByCriteria(producto, 1, 10).get(0);
+			pro = productoService.findByCriteria(producto, 1, 10,"ES").get(0);
 			
 			System.out.println("Updated to: "+pro.getNombre());
 								
@@ -171,7 +200,7 @@ public class ProductoServiceTest {
 			productoCriteria.setNombre("Grand Theft Auto V");
 
 			List<Producto> results = 
-					productoService.findByCriteria(productoCriteria, 1, 10);
+					productoService.findByCriteria(productoCriteria, 1, 10,"ES");
 			if (results.size()!=1) {
 				throw new RuntimeException("Unexpected results from previous test");
 			}
@@ -184,7 +213,7 @@ public class ProductoServiceTest {
 			productoCriteria.setIdProducto(producto.getIdProducto());
 			
 			try {
-				producto = productoService.findByCriteria(productoCriteria,1,10).get(0);
+				producto = productoService.findByCriteria(productoCriteria,1,10,"ES").get(0);
 				System.out.println("Delete NOK!");
 			} catch (InstanceNotFoundException |IndexOutOfBoundsException ine) {
 				System.out.println("Delete OK");
@@ -198,12 +227,12 @@ public class ProductoServiceTest {
 	
 	public static void main(String args[]) {
 		ProductoServiceTest test = new ProductoServiceTest();
-		test.testExists();
-		test.testFindAll();
+//		test.testExists();
+//		test.testFindAll();
 		test.testFindByCriteria();
-		test.testCreate();
-		test.testUpdate();
-		test.testDelete();
+//		test.testCreate();
+//		test.testUpdate();
+//		test.testDelete();
 		
 	}
 }

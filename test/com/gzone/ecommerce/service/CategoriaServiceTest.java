@@ -3,11 +3,11 @@
  */
 package com.gzone.ecommerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gzone.ecommerce.model.Categoria;
-import com.gzone.ecommerce.service.CategoriaService;
-import com.gzone.ecommerce.service.CategoriaServiceTest;
+import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.service.impl.CategoriaServiceImpl;
 import com.gzone.ecommerce.util.ToStringUtil;
 
@@ -87,25 +87,31 @@ public class CategoriaServiceTest {
 		System.out.println("Test testFindAll finished.\n");
 	}
 	
-	protected void testFindByCategoria() {
+	protected void testFindByProducto() {
 		System.out.println("Testing findByCategoria ...");
 		
-		Long categoria = 22L;
+		List<Categoria> categorias = new ArrayList<Categoria>();
+		Categoria e = new Categoria();
+		e.setIdCategoria(22L);
+		categorias.add(e);
+		Categoria i = new Categoria();
+		i.setIdCategoria(6L);
+		categorias.add(i);
 		int pageSize = 2;
 		
 		try {
 
-			List<Categoria> results = null;
+			List<Producto> results = null;
 			int startIndex = 1; 
 			int total = 0;
 			
 			do {
-				results = categoriaService.findByProducto(categoria);
+				results = categoriaService.findByProducto(categorias, startIndex, pageSize);
 				if (results.size()>0) {
 					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
-					for (Categoria cat: results) {
+					for (Producto t: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(cat));
+						System.out.println("Result "+total+": "+ToStringUtil.toString(t));
 					}
 					startIndex = startIndex + pageSize;
 				}
@@ -117,15 +123,15 @@ public class CategoriaServiceTest {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-		System.out.println("Test testFindByCategoria finished.\n");
+		System.out.println("Test FindByCriteria finished.\n");
 	}
 	
 	public static void main(String args[]) {
 		CategoriaServiceTest test = new CategoriaServiceTest();
-		test.testFindById();
-		test.testExists();
-		test.testFindAll();
-		test.testFindByCategoria();	
+//		test.testFindById();
+//		test.testExists();
+//		test.testFindAll();
+		test.testFindByProducto();	
 	}
 }
 

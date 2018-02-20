@@ -25,6 +25,9 @@ public class Producto {
 
 	public Producto () {
 		categorias = new ArrayList<Categoria>();
+		idioma = new ArrayList<Idioma>();
+		njugadores = new ArrayList<NJugadores>();
+
 	}
 
 	public Long getIdProducto() {

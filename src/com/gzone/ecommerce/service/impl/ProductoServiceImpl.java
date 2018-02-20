@@ -103,7 +103,7 @@ public class ProductoServiceImpl implements ProductoService{
 		
 	}
 	
-     public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count)
+     public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count, String idioma)
 			throws DataException {
 			
 		Connection connection = null;
@@ -113,7 +113,7 @@ public class ProductoServiceImpl implements ProductoService{
 			connection = ConnectionManager.getConnection();
 			connection.setAutoCommit(true);
 			
-			return dao.findByCriteria(connection, Producto, startIndex, count);
+			return dao.findByCriteria(connection, Producto, startIndex, count, idioma);
 			
 		} catch (SQLException e){
 			throw new DataException(e);
