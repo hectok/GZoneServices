@@ -83,7 +83,7 @@ public class ProductoServiceImpl implements ProductoService{
 		
 	}
 	
-	public Producto findById(Long id) 
+	public Producto findById(Long id, String idioma) 
 			throws InstanceNotFoundException, DataException {
 		
 		Connection connection = null;
@@ -93,7 +93,7 @@ public class ProductoServiceImpl implements ProductoService{
 			connection = ConnectionManager.getConnection();
 			connection.setAutoCommit(true);
 			
-			return dao.findById(connection, id);	
+			return dao.findById(connection, id, idioma);	
 			
 		} catch (SQLException e){
 			throw new DataException(e);

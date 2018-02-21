@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.LineaTicket;
 import com.gzone.ecommerce.model.Ticket;
@@ -13,6 +16,8 @@ import com.gzone.ecommerce.util.ToStringUtil;
 
 public class TicketServiceTest {
 	
+	private static Logger logger = LogManager.getLogger(TicketServiceTest.class.getName());
+	
 	private TicketService ticketService = null;
 	
 	public TicketServiceTest() {
@@ -20,37 +25,37 @@ public class TicketServiceTest {
 	}
 	
 	protected void testFindById() {
-		System.out.println("Testing findById ...");
-				Long id = 26L;
+		logger.info("Testing findById ...");
+				Long id = 2L;
 		
 		try {			
 			Ticket p = ticketService.findById(id);			
-			System.out.println("Found: "+ToStringUtil.toString(p));
+			logger.info("Found: "+ToStringUtil.toString(p));
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test testFindById finished.\n");		
+		logger.info("Test testFindById finished.\n");		
 	}
 	
 	protected void testExists() {
-		System.out.println("Testing exists ...");
-				Long id = 26L;
+		logger.info("Testing exists ...");
+				Long id = 2L;
 		
 		try {			
 			Boolean exists = ticketService.exists(id);			
-			System.out.println("Exists: "+id+" -> "+exists);
+			logger.info("Exists: "+id+" -> "+exists);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test exists finished.\n");		
+		logger.info("Test exists finished.\n");		
 	}
 	
 	protected void testFindAll() {
-		System.out.println("Testing findAll ...");
+		logger.info("Testing findAll ...");
 		int pageSize = 10; 	
 		
 		try {
@@ -62,31 +67,31 @@ public class TicketServiceTest {
 			do {
 				results = ticketService.findAll(startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Ticket p: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(p));
+						logger.info("Result "+total+": "+ToStringUtil.toString(p));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable c) {
 			c.printStackTrace();
 		}
-		System.out.println("Test testFindAll finished.\n");
+		logger.info("Test testFindAll finished.\n");
 	}
 	
 	
 	protected void testFindByCriteria() {
-		System.out.println("Testing FindByCriteria ...");
+		logger.info("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
 		TicketCriteria tc = new TicketCriteria();
-		tc.setCodCompra(26L);
+		tc.setCodCompra(2L);
 		
 		try {
 
@@ -97,26 +102,26 @@ public class TicketServiceTest {
 			do {
 				results = ticketService.findByCriteria(tc, startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Ticket p: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(p));
+						logger.info("Result "+total+": "+ToStringUtil.toString(p));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+tc.getCodCompra(), t);
 		}
-		System.out.println("Test FindByCriteria finished.\n");
+		logger.info("Test FindByCriteria finished.\n");
 	}
 	
 	protected void testCreate() {		
-		System.out.println("Testing create ...");
+		logger.info("Testing create ...");
 		Date localDate = new Date();
 
 		try {
@@ -142,21 +147,21 @@ public class TicketServiceTest {
 			
 			t = ticketService.create(t);
 			
-			System.out.println("Created: "+ToStringUtil.toString(t));
+			logger.info("Created: "+ToStringUtil.toString(t));
 					
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test created finished.\n");		
+		logger.info("Test created finished.\n");		
 	}
 	
 	protected void testUpdate() {		
-		System.out.println("Testing update ...");	
+		logger.info("Testing update ...");	
 				
 		try {
 			
 			TicketCriteria ticketCriteria = new TicketCriteria();
-			ticketCriteria.setCodCompra(26L);
+			ticketCriteria.setCodCompra(2L);
 
 			List<Ticket> results = 
 					ticketService.findByCriteria(ticketCriteria, 1, 10);
@@ -174,16 +179,16 @@ public class TicketServiceTest {
 			
 			p = ticketService.findById(p.getCodCompra());
 			
-			System.out.println("Updated to: "+p.getFechaTicket());
+			logger.info("Updated to: "+p.getFechaTicket());
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test update finished.\n");		
+		logger.info("Test update finished.\n");		
 	}	
 	
 	protected void testDelete() {		
-		System.out.println("Testing delete ...");	
+		logger.info("Testing delete ...");	
 		
 		try {
 
@@ -197,30 +202,30 @@ public class TicketServiceTest {
 			}
 			
 			Ticket p = results.get(0);
-			System.out.println("Deleting by id "+ p.getCodCompra());
+			logger.info("Deleting by id "+ p.getCodCompra());
 			ticketService.delete(p.getCodCompra());	
 			try {
 				p = ticketService.findById(p.getCodCompra());
-				System.out.println("Delete NOK!");
+				logger.info("Delete NOK!");
 			} catch (InstanceNotFoundException ine) {
-				System.out.println("Delete OK");
+				logger.info("Delete OK");
 			}						
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test delete finished.\n");		
+		logger.info("Test delete finished.\n");		
 	}		
 	
 	public static void main(String args[]) {
 		TicketServiceTest test = new TicketServiceTest();
-		test.testCreate();
+		//test.testCreate();
 		test.testFindById();	
 		test.testExists();
 		test.testFindAll();	
 		test.testFindByCriteria();
 		test.testUpdate();
-		test.testDelete();
+		//test.testDelete();
 	}
 
 }

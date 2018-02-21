@@ -26,7 +26,7 @@ import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.service.ProductoCriteria;
 
 /**
- * @author Hector
+ * @author hector.ledo.doval
  *
  */
 public class ProductoDAOImpl implements ProductoDAO{
@@ -113,7 +113,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 	}
 	
 	@Override
-	public Producto findById(Connection connection, Long id) 
+	public Producto findById(Connection connection, Long id, String idioma) 
 			throws InstanceNotFoundException, DataException {
 
 		PreparedStatement preparedStatement = null;
@@ -122,8 +122,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {          
 
 			String queryString = 
-					" SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta " + 
+					" SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta" + 
 					" FROM Producto p " +
+					" INNER JOIN Producto_Idioma pi ON p.id_producto = pi.id_producto "+
 					" WHERE p.id_producto = ? ";
 
 			preparedStatement = connection.prepareStatement(queryString,
@@ -131,6 +132,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			int i = 1;                
 			preparedStatement.setLong(i++, id);
+
 
 			// Execute query            
 			resultSet = preparedStatement.executeQuery();
@@ -143,7 +145,6 @@ public class ProductoDAOImpl implements ProductoDAO{
 				throw new InstanceNotFoundException("Products with id " + id + 
 						"not found", Producto.class.getName());
 			}
-
 			return e;
 
 		} catch (SQLException e) {
@@ -287,7 +288,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			// Create "preparedStatement"       
 			String queryString = 
-					"SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos,p.id_oferta " + 
+					"SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta " + 
 					"FROM Producto p  " +
 					"ORDER BY p.nombre asc ";
 

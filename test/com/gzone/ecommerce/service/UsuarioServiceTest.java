@@ -2,6 +2,9 @@ package com.gzone.ecommerce.service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Usuario;
 import com.gzone.ecommerce.service.UsuarioCriteria;
@@ -12,6 +15,8 @@ import com.gzone.ecommerce.util.ToStringUtil;
 
 public class UsuarioServiceTest {
 	
+	private static Logger logger = LogManager.getLogger(UsuarioServiceTest.class.getName());
+
 	private UsuarioService usuarioService = null;
 	
 	public UsuarioServiceTest() {
@@ -20,27 +25,43 @@ public class UsuarioServiceTest {
 	
 	
 	protected void testExists() {
-		System.out.println("Test de existencia de usuarios ...");
+		logger.info("Test de existencia de usuarios ...");
 
 		Long id = (long) 1;
 		
 		try {			
 			Boolean exists = usuarioService.exists(id);			
-			System.out.println("Exists: "+id+" -> "+exists);
+			logger.info("Exists: "+id+" -> "+exists);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test exists finished.\n");		
+		logger.info("Test exists finished.\n");		
 	}
-
+	
+	protected void testFindById() {
+		logger.info("Testing findById ...");
+		
+		Long id = (long) 9;
+		
+		try {			
+			Usuario usuario = usuarioService.findById(id);			
+			logger.info("Found: "+ToStringUtil.toString(usuario));
+			
+		} catch (Throwable t) {
+			logger.error("id = "+id, t);
+		}
+		
+		logger.info("Test testFindById finished.\n");		
+	}
+	
 	protected void testFindByCriteria() {
-		System.out.println("Testing FindByCriteria ...");
+		logger.info("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
 		UsuarioCriteria p = new UsuarioCriteria();
-		p.setUsuario("jalp");
+		p.setUsuario("joseantoniolp");
 	
 		try {
 
@@ -51,61 +72,61 @@ public class UsuarioServiceTest {
 			do {
 				results = usuarioService.findByCriteria(p, startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Usuario t: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(t));
+						logger.info("Result "+total+": "+ToStringUtil.toString(t));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test FindByCriteria finished.\n");
+		logger.info("Test FindByCriteria finished.\n");
 	}
 
 	
 	protected void testCreate() {		
-		System.out.println("Testing create ...");	
+		logger.info("Testing create ...");	
 		
 		Usuario usuario = new Usuario();
-		usuario.setUsuario("laRubiade2");
-		usuario.setCorreo("lalocadesegundo@gmail.com");
-		usuario.setContrasena("yasabeisquiendigo");
+		usuario.setUsuario("joseantoniolp");
+		usuario.setCorreo("joseantoniokp@gmail.com");
+		usuario.setContrasena("abc.,123");
 
 		try {
 			
 			usuario = usuarioService.create(usuario);
 			
-			System.out.println("Created: "+ToStringUtil.toString(usuario));
+			logger.info("Created: "+ToStringUtil.toString(usuario));
 					
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+usuario.getIdUsuario(), t);
 		}
-		System.out.println("Test created finished.\n");		
+		logger.info("Test created finished.\n");		
 	}
 	
 	
 	protected void testUpdate() {		
-		System.out.println("Testing update ...");	
+		logger.info("Testing update ...");	
 		
 		try {
 			UsuarioCriteria usuario = new UsuarioCriteria();
-			usuario.setUsuario("hectok");
+			usuario.setUsuario("joseantoniolp");
 			List<Usuario> results = 
 					usuarioService.findByCriteria(usuario, 1, 10);
 			if (results.size()<1) {
 				throw new RuntimeException("Unexpected results count from previous tests: "+results.size());
 			}
 			Usuario usuarioUpdate = results.get(0);
-			usuarioUpdate.setNombre("Hector");
-			usuarioUpdate.setApellido("Ledo Doval");
-			usuarioUpdate.setDescripcion("Orgulloso creador de GZone");
+			usuarioUpdate.setNombre("Jose Antonio");
+			usuarioUpdate.setApellido("Lopez Perez");
+			usuarioUpdate.setDescripcion("Descripcion");
 			usuarioUpdate.setLocalizacion(null);
 
 			usuarioService.update(usuarioUpdate);
@@ -115,23 +136,23 @@ public class UsuarioServiceTest {
 			
 			usuarioUpdate = usuarioService.findByCriteria(usuario, 1, 10).get(0);
 			
-			System.out.println("Updated to: "+usuarioUpdate.getUsuario());
+			logger.info("Updated to: "+usuarioUpdate.getUsuario());
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test update finished.\n");		
+		logger.info("Test update finished.\n");		
 	}	
 	
 	/**
 	 * 
 	 */
 	protected void testDelete() {		
-		System.out.println("Testing delete ...");	
+		logger.info("Testing delete ...");	
 			
 		try {
 			UsuarioCriteria usuarioCriteria = new UsuarioCriteria();
-			usuarioCriteria.setUsuario("laRubiade2");
+			usuarioCriteria.setUsuario("joseantoniolp");
 
 			List<Usuario> results = 
 					usuarioService.findByCriteria(usuarioCriteria, 1, 10);
@@ -140,7 +161,7 @@ public class UsuarioServiceTest {
 			}
 			
 			Usuario usuario = results.get(0);
-			System.out.println("Deleting by id "+usuario.getIdUsuario());
+			logger.info("Deleting by id "+usuario.getIdUsuario());
 			usuarioService.delete(usuario.getIdUsuario());
 			
 			usuarioCriteria = new UsuarioCriteria();
@@ -148,21 +169,22 @@ public class UsuarioServiceTest {
 			
 			try {
 				usuario = usuarioService.findByCriteria(usuarioCriteria,1,10).get(0);
-				System.out.println("Delete NOK!");
+				logger.info("Delete NOK!");
 			} catch (InstanceNotFoundException |IndexOutOfBoundsException ine) {
-				System.out.println("Delete OK");
+				logger.info("Delete OK");
 			}						
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test delete finished.\n");		
+		logger.info("Test delete finished.\n");		
 	}		
 	
 	public static void main(String args[]) {
 		UsuarioServiceTest test = new UsuarioServiceTest();
 		test.testCreate();
 		test.testExists();
+		test.testFindById();
 		test.testFindByCriteria();
 		test.testUpdate();
 		test.testDelete();

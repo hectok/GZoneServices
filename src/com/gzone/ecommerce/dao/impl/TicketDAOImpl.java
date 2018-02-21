@@ -319,7 +319,6 @@ public class TicketDAOImpl implements TicketDAO {
 			preparedStatement.setString(i++,t.getDirFacturacion());
 			preparedStatement.setLong(i++, t.getId_usuario());
 
-			System.out.println(preparedStatement.toString());
 			int insertedRows = preparedStatement.executeUpdate();
 
 			if (insertedRows == 0) {

@@ -5,6 +5,9 @@ package com.gzone.ecommerce.service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.model.NJugadores;
 import com.gzone.ecommerce.service.impl.NJugadoresServiceImpl;
 import com.gzone.ecommerce.util.ToStringUtil;
@@ -15,46 +18,48 @@ import com.gzone.ecommerce.util.ToStringUtil;
  */
 public class NJugadoresServiceTest {
 	
-private NJugadoresService njugadoresService = null;
+	private static Logger logger = LogManager.getLogger(NJugadoresServiceTest.class.getName());
+
+	private NJugadoresService njugadoresService = null;
 	
 	public NJugadoresServiceTest() {
 		njugadoresService = new NJugadoresServiceImpl();
 	}
 	
 	protected void testFindById() {
-		System.out.println("Testing findById ...");
+		logger.info("Testing findById ...");
 		
 		Long id = 1L;
 		
 		try {			
 			NJugadores cat = njugadoresService.findById(id);			
-			System.out.println("Found: "+ToStringUtil.toString(cat));
+			logger.info("Found: "+ToStringUtil.toString(cat));
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test testFindById finished.\n");		
+		logger.info("Test testFindById finished.\n");		
 	}
 	
 	protected void testExists() {
-		System.out.println("Testing exists ...");
+		logger.info("Testing exists ...");
 
 		Long id = 2L;
 		
 		try {			
 			Boolean exists = njugadoresService.exists(id);			
-			System.out.println("Exists: "+id+" -> "+exists);
+			logger.info("Exists: "+id+" -> "+exists);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test exists finished.\n");		
+		logger.info("Test exists finished.\n");		
 	}
 	
 	protected void testFindAll() {
-		System.out.println("Testing findAll ...");
+		logger.info("Testing findAll ...");
 		
 		int pageSize = 2; 	
 		
@@ -67,22 +72,22 @@ private NJugadoresService njugadoresService = null;
 			do {
 				results = njugadoresService.findAll(startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (NJugadores cat: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(cat));
+						logger.info("Result "+total+": "+ToStringUtil.toString(cat));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test testFindAll finished.\n");
+		logger.info("Test testFindAll finished.\n");
 	}
 	
 	public static void main(String args[]) {

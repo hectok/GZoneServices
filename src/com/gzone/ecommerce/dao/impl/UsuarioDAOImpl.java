@@ -36,7 +36,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 		try {          
 			String queryString = 
-					"SELECT u.usuario, u.correo, u.nombre, u.apellido, u.descripcion" + 
+					"SELECT u.id_usuario, u.usuario, u.correo, u.contrasena, u.nombre, u.apellido, u.descripcion, u.localizacion " + 
 							"FROM Usuario u  " +
 							"WHERE u.id_usuario = ? ";
 			
@@ -82,7 +82,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		try {
 
 			String queryString = 
-					"SELECT u.usuario, u.correo, u.nombre, u.apellido, u.descripcion " + 
+					"SELECT u.id_usuario, u.usuario, u.correo, u.nombre, u.apellido, u.descripcion " + 
 							"FROM Usuario u  " +
 							"WHERE u.id_usuario = ? ";
 

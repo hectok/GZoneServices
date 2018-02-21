@@ -3,6 +3,9 @@ package com.gzone.ecommerce.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Categoria;
 import com.gzone.ecommerce.model.Idioma;
@@ -14,6 +17,8 @@ import com.gzone.ecommerce.util.ToStringUtil;
 
 public class ProductoServiceTest {
 	
+	private static Logger logger = LogManager.getLogger(ProductoServiceTest.class.getName());
+
 	private ProductoService productoService = null;
 	
 	public ProductoServiceTest() {
@@ -22,23 +27,40 @@ public class ProductoServiceTest {
 	
 	
 	protected void testExists() {
-		System.out.println("Test de existencia de productos ...");
+		logger.info("Test de existencia de productos ...");
 
 		Long id = (long) 1;
 		
 		try {			
 			Boolean exists = productoService.exists(id);			
-			System.out.println("Exists: "+id+" -> "+exists);
+			logger.info("Exists: "+id+" -> "+exists);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test exists finished.\n");		
+		logger.info("Test exists finished.\n");		
+	}
+	
+	protected void testFindById() {
+		logger.info("Testing findById ...");
+		
+		Long id = (long) 1;
+		String idioma = "'ES'";
+		
+		try {			
+			Producto pro = productoService.findById(id,idioma);			
+			logger.info("Found: "+ToStringUtil.toString(pro));
+			
+		} catch (Throwable t) {
+			logger.error("id = "+id, t);
+		}
+		
+		logger.info("Test testFindById finished.\n");		
 	}
 	
 	protected void testFindAll() {
-		System.out.println("Testing findAll ...");
+		logger.info("Testing findAll ...");
 		
 		int pageSize = 2; 	
 		
@@ -51,26 +73,26 @@ public class ProductoServiceTest {
 			do {
 				results = productoService.findAll(startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Producto pro: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(pro));
+						logger.info("Result "+total+": "+ToStringUtil.toString(pro));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test testFindAll finished.\n");
+		logger.info("Test testFindAll finished.\n");
 	}
 	
 	protected void testFindByCriteria() {
-		System.out.println("Testing FindByCriteria ...");
+		logger.info("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
 		List<Categoria> categorias = new ArrayList<Categoria>();
@@ -113,27 +135,27 @@ public class ProductoServiceTest {
 			do {
 				results = productoService.findByCriteria(p, startIndex, pageSize,"ES");
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Producto t: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(t));
+						logger.info("Result "+total+": "+ToStringUtil.toString(t));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+p.getIdProducto(), t);
 		}
-		System.out.println("Test FindByCriteria finished.\n");
+		logger.info("Test FindByCriteria finished.\n");
 	}
 
 	
 	protected void testCreate() {		
-		System.out.println("Testing create ...");	
+		logger.info("Testing create ...");	
 		
 		Producto producto = new Producto();
 		producto.setNombre("Grand Theft Auto 5");
@@ -151,17 +173,17 @@ public class ProductoServiceTest {
 			
 			producto = productoService.create(producto);
 			
-			System.out.println("Created: "+ToStringUtil.toString(producto));
+			logger.info("Created: "+ToStringUtil.toString(producto));
 					
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+producto.getIdProducto(), t);
 		}
-		System.out.println("Test created finished.\n");		
+		logger.info("Test created finished.\n");		
 	}
 	
 	
 	protected void testUpdate() {		
-		System.out.println("Testing update ...");	
+		logger.info("Testing update ...");	
 		
 		try {
 			ProductoCriteria producto = new ProductoCriteria();
@@ -181,19 +203,19 @@ public class ProductoServiceTest {
 			
 			pro = productoService.findByCriteria(producto, 1, 10,"ES").get(0);
 			
-			System.out.println("Updated to: "+pro.getNombre());
+			logger.info("Updated to: "+pro.getNombre());
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test update finished.\n");		
+		logger.info("Test update finished.\n");		
 	}	
 	
 	/**
 	 * 
 	 */
 	protected void testDelete() {		
-		System.out.println("Testing delete ...");	
+		logger.info("Testing delete ...");	
 			
 		try {
 			ProductoCriteria productoCriteria = new ProductoCriteria();
@@ -206,7 +228,7 @@ public class ProductoServiceTest {
 			}
 			
 			Producto producto = results.get(0);
-			System.out.println("Deleting by id "+producto.getIdProducto());
+			logger.info("Deleting by id "+producto.getIdProducto());
 			productoService.delete(producto.getIdProducto());
 			
 			productoCriteria = new ProductoCriteria();
@@ -214,21 +236,22 @@ public class ProductoServiceTest {
 			
 			try {
 				producto = productoService.findByCriteria(productoCriteria,1,10,"ES").get(0);
-				System.out.println("Delete NOK!");
+				logger.info("Delete NOK!");
 			} catch (InstanceNotFoundException |IndexOutOfBoundsException ine) {
-				System.out.println("Delete OK");
+				logger.info("Delete OK");
 			}						
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test delete finished.\n");		
+		logger.info("Test delete finished.\n");		
 	}		
 	
 	public static void main(String args[]) {
 		ProductoServiceTest test = new ProductoServiceTest();
-//		test.testExists();
-//		test.testFindAll();
+		test.testExists();
+		test.testFindById();
+		test.testFindAll();
 		test.testFindByCriteria();
 //		test.testCreate();
 //		test.testUpdate();

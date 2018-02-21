@@ -3,6 +3,9 @@ package com.gzone.ecommerce.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Oferta;
 import com.gzone.ecommerce.service.impl.OfertaServiceImpl;
@@ -11,6 +14,8 @@ import com.gzone.ecommerce.util.ToStringUtil;
 
 public class OfertaServiceTest {
 	
+	private static Logger logger = LogManager.getLogger(OfertaServiceTest.class.getName());
+
 	private OfertaService ofertaService = null;
 	
 	public OfertaServiceTest() {
@@ -19,23 +24,23 @@ public class OfertaServiceTest {
 	
 	
 	protected void testExists() {
-		System.out.println("Test de existencia de oferta ...");
+		logger.info("Test de existencia de oferta ...");
 
 		Long id = (long) 1;
 		
 		try {			
 			Boolean exists = ofertaService.exists(id);			
-			System.out.println("Exists: "+id+" -> "+exists);
+			logger.info("Exists: "+id+" -> "+exists);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test exists finished.\n");		
+		logger.info("Test exists finished.\n");		
 	}
 	
 	protected void testFindAll() {
-		System.out.println("Testing findAll ...");
+		logger.info("Testing findAll ...");
 		
 		int pageSize = 2; 	
 		
@@ -48,26 +53,26 @@ public class OfertaServiceTest {
 			do {
 				results = ofertaService.findAll(startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Oferta o: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(o));
+						logger.info("Result "+total+": "+ToStringUtil.toString(o));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test testFindAll finished.\n");
+		logger.info("Test testFindAll finished.\n");
 	}
 	
 	protected void testFindByCriteria() {
-		System.out.println("Testing FindByCriteria ...");
+		logger.info("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
 		OfertaCriteria o = new OfertaCriteria();
@@ -82,27 +87,27 @@ public class OfertaServiceTest {
 			do {
 				results = ofertaService.findByCriteria(o, startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Oferta t: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(t));
+						logger.info("Result "+total+": "+ToStringUtil.toString(t));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+o.getIdOferta(), t);
 		}
-		System.out.println("Test FindByCriteria finished.\n");
+		logger.info("Test FindByCriteria finished.\n");
 	}
 
 	
 	protected void testCreate() {		
-		System.out.println("Testing create ...");	
+		logger.info("Testing create ...");	
 		Date localDate = new Date();
 		
 		Oferta oferta = new Oferta();
@@ -113,17 +118,17 @@ public class OfertaServiceTest {
 			
 			oferta = ofertaService.create(oferta);
 			
-			System.out.println("Created: "+ToStringUtil.toString(oferta));
+			logger.info("Created: "+ToStringUtil.toString(oferta));
 					
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+oferta.getIdOferta(), t);
 		}
-		System.out.println("Test created finished.\n");		
+		logger.info("Test created finished.\n");		
 	}
 	
 	
 	protected void testUpdate() {		
-		System.out.println("Testing update ...");	
+		logger.info("Testing update ...");	
 		
 		try {
 			OfertaCriteria oferta = new OfertaCriteria();
@@ -143,19 +148,19 @@ public class OfertaServiceTest {
 			
 			o = ofertaService.findByCriteria(oferta, 1, 10).get(0);
 			
-			System.out.println("Updated to: "+o.getPrecio());
+			logger.info("Updated to: "+o.getPrecio());
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test update finished.\n");		
+		logger.info("Test update finished.\n");		
 	}	
 	
 	/**
 	 * 
 	 */
 	protected void testDelete() {		
-		System.out.println("Testing delete ...");	
+		logger.info("Testing delete ...");	
 			
 		try {
 			OfertaCriteria ofertaCriteria = new OfertaCriteria();
@@ -169,7 +174,7 @@ public class OfertaServiceTest {
 			
 			Oferta oferta = results.get(0);
 			
-			System.out.println("Deleting by id "+oferta.getIdOferta());
+			logger.info("Deleting by id "+oferta.getIdOferta());
 			ofertaService.delete(oferta.getIdOferta());
 			
 			ofertaCriteria = new OfertaCriteria();
@@ -177,15 +182,15 @@ public class OfertaServiceTest {
 			
 			try {
 				oferta = ofertaService.findByCriteria(ofertaCriteria,0,0).get(0);
-				System.out.println("Delete NOK!");
+				logger.info("Delete NOK!");
 			} catch (InstanceNotFoundException |IndexOutOfBoundsException ine) {
-				System.out.println("Delete OK");
+				logger.info("Delete OK");
 			}						
 								
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t);
 		}
-		System.out.println("Test delete finished.\n");		
+		logger.info("Test delete finished.\n");		
 	}		
 	
 	public static void main(String args[]) {
@@ -193,9 +198,9 @@ public class OfertaServiceTest {
 		test.testExists();
 		test.testFindAll();
 		test.testFindByCriteria();
-		test.testCreate();
-		test.testUpdate();
-		test.testDelete();
+//		test.testCreate();
+//		test.testUpdate();
+//		test.testDelete();
 		
 	}
 }

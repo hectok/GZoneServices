@@ -6,6 +6,9 @@ package com.gzone.ecommerce.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.model.Categoria;
 import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.service.impl.CategoriaServiceImpl;
@@ -17,6 +20,8 @@ import com.gzone.ecommerce.util.ToStringUtil;
  */
 public class CategoriaServiceTest {
 
+	private static Logger logger = LogManager.getLogger(CategoriaServiceTest.class.getName());
+
 	private CategoriaService categoriaService = null;
 	
 	public CategoriaServiceTest() {
@@ -24,39 +29,39 @@ public class CategoriaServiceTest {
 	}
 	
 	protected void testFindById() {
-		System.out.println("Testing findById ...");
+		logger.info("Testing findById ...");
 		
 		Long id = (long) 1;
 		
 		try {			
 			Categoria cat = categoriaService.findById(id);			
-			System.out.println("Found: "+ToStringUtil.toString(cat));
+			logger.info("Found: "+ToStringUtil.toString(cat));
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test testFindById finished.\n");		
+		logger.info("Test testFindById finished.\n");		
 	}
 	
 	protected void testExists() {
-		System.out.println("Testing exists ...");
+		logger.info("Testing exists ...");
 
 		Long id = (long) 1;
 		
 		try {			
 			Boolean exists = categoriaService.exists(id);			
-			System.out.println("Exists: "+id+" -> "+exists);
+			logger.info("Exists: "+id+" -> "+exists);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+id, t);
 		}
 		
-		System.out.println("Test exists finished.\n");		
+		logger.info("Test exists finished.\n");		
 	}
 	
 	protected void testFindAll() {
-		System.out.println("Testing findAll ...");
+		logger.info("Testing findAll ...");
 		
 		int pageSize = 2; 	
 		
@@ -69,26 +74,26 @@ public class CategoriaServiceTest {
 			do {
 				results = categoriaService.findAll(startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Categoria cat: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(cat));
+						logger.info("Result "+total+": "+ToStringUtil.toString(cat));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error( t);
 		}
-		System.out.println("Test testFindAll finished.\n");
+		logger.info("Test testFindAll finished.\n");
 	}
 	
 	protected void testFindByProducto() {
-		System.out.println("Testing findByCategoria ...");
+		logger.info("Testing findByCategoria ...");
 		
 		List<Categoria> categorias = new ArrayList<Categoria>();
 		Categoria e = new Categoria();
@@ -108,22 +113,22 @@ public class CategoriaServiceTest {
 			do {
 				results = categoriaService.findByProducto(categorias, startIndex, pageSize);
 				if (results.size()>0) {
-					System.out.println("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Producto t: results) {
 						total++;
-						System.out.println("Result "+total+": "+ToStringUtil.toString(t));
+						logger.info("Result "+total+": "+ToStringUtil.toString(t));
 					}
 					startIndex = startIndex + pageSize;
 				}
 				
 			} while (results.size()==pageSize);
 			
-			System.out.println("Found "+total+" results.");
+			logger.info("Found "+total+" results.");
 						
 		} catch (Throwable t) {
-			t.printStackTrace();
+			logger.error("id = "+e.getIdCategoria(), t);
 		}
-		System.out.println("Test FindByCriteria finished.\n");
+		logger.info("Test FindByCriteria finished.\n");
 	}
 	
 	public static void main(String args[]) {

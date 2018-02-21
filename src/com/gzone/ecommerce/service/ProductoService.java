@@ -15,7 +15,7 @@ public interface ProductoService {
 	    public List<Producto> findAll(int startIndex, int count) 
 	    	throws DataException;  
 	    
-	    public Producto findById(Long id) 
+	    public Producto findById(Long id, String idioma) 
 	    	throws InstanceNotFoundException, DataException;
 
 		public Boolean exists(Long id) 

@@ -5,7 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 public class ConnectionManager	 {
+
+	private static Logger logger = LogManager.getLogger(ConnectionManager.class.getName());
 
 	private static ResourceBundle dbConfiguration = ResourceBundle.getBundle("DBConfiguration");
 
@@ -18,6 +25,8 @@ public class ConnectionManager	 {
 	private static String user;
 	private static String password;
 
+	private static ComboPooledDataSource dataSource = null;
+
 	static {
 
 		try {
@@ -28,11 +37,17 @@ public class ConnectionManager	 {
 			password = dbConfiguration.getString(PASSWORD_PARAMETER);
 
 			/* Load driver. */
-			Class.forName(driverClassName);
+			//Class.forName(driverClassName);
 
+			dataSource = new ComboPooledDataSource();
+			dataSource.setDriverClass(driverClassName); //loads the jdbc driver            
+			dataSource.setJdbcUrl(url);
+			dataSource.setUser(user);                                  
+			dataSource.setPassword(password);
+			
 		} catch (Exception e) {
 			// JAL: TODO Logger
-			e.printStackTrace(); 
+			logger.fatal(e.getMessage(), e); 
 		}
 
 	}
@@ -40,7 +55,8 @@ public class ConnectionManager	 {
 	private ConnectionManager() {}
 
 	public final static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(url, user, password);
+		//return DriverManager.getConnection(url, user, password);
+		return dataSource.getConnection();
 	}
 	
 }
