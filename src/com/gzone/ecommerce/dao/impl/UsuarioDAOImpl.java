@@ -8,17 +8,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.dao.UsuarioDAO;
 import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Usuario;
+import com.gzone.ecommerce.service.NJugadoresServiceTest;
 import com.gzone.ecommerce.service.UsuarioCriteria;
 import com.gzone.ecommerce.util.PasswordEncryptionUtil;
 
 
 public class UsuarioDAOImpl implements UsuarioDAO{
+	
+	private static Logger logger = LogManager.getLogger(NJugadoresServiceTest.class.getName());
 	
 	public UsuarioDAOImpl() {
 	}
@@ -66,7 +72,56 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			JDBCUtils.closeStatement(preparedStatement);
 		}  
 	}
+	
+	@Override
+	public List<Usuario> findByNombre(Connection connection, String nombre, int startIndex, int count)
+					throws DataException {
 
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			// Create "preparedStatement"       
+			String queryString = 
+					"SELECT u.id_usuario, u.usuario, u.correo, u.contrasena, u.nombre, u.apellido, u.descripcion, u.localizacion " + 
+							"FROM Usuario u  " +
+							"WHERE u.id_usuario = ? ";
+
+			preparedStatement = connection.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			// Fill parameters
+			int i = 1;                
+			preparedStatement.setString(i++,nombre.toUpperCase());
+
+			// Execute query.
+			resultSet = preparedStatement.executeQuery();
+
+			// Recupera la pagina de resultados
+			List<Usuario> results = new ArrayList<Usuario>();                        
+			Usuario e = null;
+			int currentCount = 0;
+
+			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
+				do {
+					e = loadNext(connection, resultSet);
+					results.add(e);               	
+					currentCount++;                	
+				} while ((currentCount < count) && resultSet.next()) ;
+			}
+
+			return results;
+
+		} catch (SQLException e) {
+			logger.error("name: "+nombre + ", startIndex: "+startIndex + ", count: "+count, e);
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
 	/*
 	 * Método para comprobar si un usuario existe
 	 * 
