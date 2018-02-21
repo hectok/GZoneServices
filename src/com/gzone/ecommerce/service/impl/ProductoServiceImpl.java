@@ -23,7 +23,7 @@ public class ProductoServiceImpl implements ProductoService{
 		dao = new ProductoDAOImpl();
 	}
 
-	public List<Producto> findAll(int startIndex, int count) 
+	public List<Producto> findAll(int startIndex, int count, String idioma) 
 			throws DataException {
 			
 		Connection connection = null;
@@ -33,7 +33,7 @@ public class ProductoServiceImpl implements ProductoService{
 			connection = ConnectionManager.getConnection();
 			connection.setAutoCommit(true);
 			
-			return dao.findAll(connection, startIndex, count);	
+			return dao.findAll(connection, startIndex, count, idioma);	
 			
 		} catch (SQLException e){
 			throw new DataException(e);

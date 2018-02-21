@@ -46,7 +46,7 @@ public class ProductoServiceTest {
 		logger.info("Testing findById ...");
 		
 		Long id = (long) 1;
-		String idioma = "'ES'";
+		String idioma = "ES";
 		
 		try {			
 			Producto pro = productoService.findById(id,idioma);			
@@ -63,7 +63,7 @@ public class ProductoServiceTest {
 		logger.info("Testing findAll ...");
 		
 		int pageSize = 2; 	
-		
+		String idioma = "ES";
 		try {
 
 			List<Producto> results = null;
@@ -71,7 +71,7 @@ public class ProductoServiceTest {
 			int total = 0;
 			
 			do {
-				results = productoService.findAll(startIndex, pageSize);
+				results = productoService.findAll(startIndex, pageSize,idioma);
 				if (results.size()>0) {
 					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Producto pro: results) {

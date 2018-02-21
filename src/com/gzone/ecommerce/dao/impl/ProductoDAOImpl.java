@@ -122,19 +122,21 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {          
 
 			String queryString = 
-					" SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta" + 
+					" SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta, pi.detalles_largo, pi.detalles_corto " + 
 					" FROM Producto p " +
 					" INNER JOIN Producto_Idioma pi ON p.id_producto = pi.id_producto "+
-					" WHERE p.id_producto = ? ";
+					" WHERE p.id_producto = ? AND pi.id_idioma = ? ";
 
 			preparedStatement = connection.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 			int i = 1;                
 			preparedStatement.setLong(i++, id);
+			preparedStatement.setString(i++, idioma);
 
 
-			// Execute query            
+			// Execute query      
+			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 
 			Producto e = null;
@@ -169,8 +171,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 		try {
 			queryString = new StringBuilder(
-					" SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta " + 
-					" FROM Producto p ");
+					" SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta, pi.detalles_largo, pi.detalles_corto " + 
+					" FROM Producto p " +
+					" INNER JOIN Producto_Idioma pi ON p.id_producto = pi.id_producto " );
 			
 			// Marca (flag) de primera clausula, que se desactiva en la primera
 			boolean first = true;
@@ -216,6 +219,11 @@ public class ProductoDAOImpl implements ProductoDAO{
 				addClause(queryString, first, " p.id_oferta LIKE ? ");
 				first = false;
 			}
+			
+			if (idioma!=null) {
+				addClause(queryString, first, " pi.id_idioma LIKE ? ");
+				first = false;
+			}
 
 			if (!producto.getCategorias().isEmpty()) {
 				addClause(queryString, first,addCategoria(producto.getCategorias()).toString());	
@@ -249,7 +257,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 				preparedStatement.setString(i++, "%" + producto.getRequisitos() + "%");
 			if (producto.getOferta()!=null) 
 				preparedStatement.setString(i++, "%" + producto.getOferta() + "%");
-			if (producto.getOferta()!=null) 
+			if (idioma!=null) 
 				preparedStatement.setString(i++,idioma);
 			
 			resultSet = preparedStatement.executeQuery();
@@ -278,7 +286,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 	}
 	
 	@Override
-	public List<Producto> findAll(Connection connection, int startIndex, int count) 
+	public List<Producto> findAll(Connection connection, int startIndex, int count, String idioma) 
 					throws DataException {
 
 		PreparedStatement preparedStatement = null;
@@ -288,13 +296,18 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			// Create "preparedStatement"       
 			String queryString = 
-					"SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta " + 
+					"SELECT p.id_producto, p.nombre, p.precio, p.anio, p.requisitos, p.id_oferta, pi.detalles_largo, pi.detalles_corto " + 
 					"FROM Producto p  " +
+					"INNER JOIN Producto_Idioma pi ON p.id_producto = pi.id_producto " +
+					"WHERE pi.id_idioma = ? " +
 					"ORDER BY p.nombre asc ";
 
 			preparedStatement = connection.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
+			int i = 1;
+			preparedStatement.setString(i++, idioma);
+			
 			// Execute query.
 			resultSet = preparedStatement.executeQuery();
 
@@ -330,7 +343,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		try {          
 
 			// Creamos el preparedstatement
-			String queryString = "INSERT INTO Producto(nombre,precio,anio,requisitos,id_oferta) "
+			String queryString = "INSERT INTO Producto(nombre,precio,anio,requisitos,id_oferta ) "
 					+ "VALUES (?, ?, ?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(queryString,
@@ -539,7 +552,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 			Integer anio = resultSet.getInt(i++);
 			String requisitos = resultSet.getString(i++);
 			Long oferta = resultSet.getLong(i++);
-	
+			String detalles_largo = resultSet.getString(i++);
+			String detalles_corto = resultSet.getString(i++);
+			
 			Producto p = new Producto();
 			p.setIdProducto(idProducto);
 			p.setNombre(nombre);
@@ -547,6 +562,8 @@ public class ProductoDAOImpl implements ProductoDAO{
 			p.setAnio(anio);
 			p.setRequisitos(requisitos);
 			p.setOferta(oferta);
+			p.setDetalles_largo(detalles_largo);
+			p.setDetalles_corto(detalles_corto);
 			
 			return p;
 	}

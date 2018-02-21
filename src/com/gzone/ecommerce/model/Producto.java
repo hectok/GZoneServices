@@ -18,6 +18,8 @@ public class Producto {
 	private Integer anio = null;
 	private String requisitos = null;
 	private Long oferta = null;
+	private String detalles_corto = null;
+	private String detalles_largo = null;
 	
 	private List<Categoria> categorias = null;
 	private List<NJugadores> njugadores = null;
@@ -101,5 +103,22 @@ public class Producto {
 	public void setIdioma(List<Idioma> idioma) {
 		this.idioma = idioma;
 	}
+
+	public String getDetalles_corto() {
+		return detalles_corto;
+	}
+
+	public void setDetalles_corto(String detalles_corto) {
+		this.detalles_corto = detalles_corto;
+	}
+
+	public String getDetalles_largo() {
+		return detalles_largo;
+	}
+
+	public void setDetalles_largo(String detalles_largo) {
+		this.detalles_largo = detalles_largo;
+	}
 		
+	
 }
