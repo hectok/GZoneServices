@@ -292,21 +292,114 @@ INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_co
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `gzone`.`Producto_Idioma_Disponible`
+-- Data for table Producto_Idioma_Disponible
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `gzone`;
-INSERT INTO `gzone`.`Producto_Idioma_Disponible` (`id_producto`, `id_idioma`) VALUES (5, 'ES');
-INSERT INTO `gzone`.`Producto_Idioma_Disponible` (`id_producto`, `id_idioma`) VALUES (5, 'EN');
+USE gzone;
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'EN');
 
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `gzone`.`Producto_NJugadores`
+-- Data for table Producto_NJugadores
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `gzone`;
-INSERT INTO `gzone`.`Producto_NJugadores` (`id_producto`, `id_njugador`) VALUES (5, 1);
-INSERT INTO `gzone`.`Producto_NJugadores` (`id_producto`, `id_njugador`) VALUES (5, 3);
+USE gzone;
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (5, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (5, 3);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table Producto_Categoria
+-- -----------------------------------------------------
+START TRANSACTION;
+USE gzone;
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (3, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (4, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (6, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (7, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (8, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (9, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (10, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (11, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (12, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (13, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (14, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (15, 17);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (16, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (17, 17);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (18, 17);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (19, 17);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (20, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (21, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (22, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (23, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (24, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (25, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (26, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (27, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (28, 17);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (29, 17);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (30, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (31, 24);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (32, 6);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (33, 17);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (34, 6);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (35, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (36, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (37, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (38, 1);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (39, 18);
+INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (40, 18);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table Producto_NJugadores
+-- -----------------------------------------------------
+START TRANSACTION;
+USE gzone;
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (1, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (2, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (3, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (4, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (5, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (6, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (7, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (8, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (9, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (10, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (11, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (12, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (13, 6);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (14, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (15, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (16, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (17, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (18, 2);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (19, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (20, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (21, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (22, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (23, 6);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (24, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (25, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (26, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (27, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (28, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (29, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (30, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (31, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (32, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (33, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (34, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (35, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (36, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (37, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (38, 3);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (39, 1);
+INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (40, 1);
 
 COMMIT;
