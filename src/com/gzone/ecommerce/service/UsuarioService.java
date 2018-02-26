@@ -17,6 +17,9 @@ public interface UsuarioService {
     public List<Usuario> findByCriteria(UsuarioCriteria Usuario, int startIndex, int count)
    	    throws DataException;
     
+    public Usuario findByNombre(String Usuario)
+       	    throws DataException;
+    
 	public Boolean exists(Long id) 
 	    throws DataException;
 

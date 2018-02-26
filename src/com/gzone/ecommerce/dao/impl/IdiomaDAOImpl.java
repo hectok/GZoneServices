@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.dao.IdiomaDAO;
 import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
@@ -22,6 +25,8 @@ import com.gzone.ecommerce.model.Idioma;
  *
  */
 public class IdiomaDAOImpl implements IdiomaDAO{
+	
+	private static Logger logger = LogManager.getLogger(ProductoDAOImpl.class.getName());
 	
 	public IdiomaDAOImpl() {
 	}
@@ -54,7 +59,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			Idioma e = null;
 
 			if (resultSet.next()) {
-				e = loadNext(connection, resultSet);				
+				e = loadNext(resultSet);				
 			} else {
 				throw new InstanceNotFoundException("Language with id " + id + 
 						"not found", Idioma.class.getName());
@@ -70,102 +75,27 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		}  
 	}
 
-	/*
-	 * Método para comprobar si un Idioma existe
-	 * 
-	 */
-	@Override
-	public Boolean exists(Connection connection, String id) 
+	public List<Idioma> findByProducto(Connection connection, Long idProducto,int startIndex, int count) 
 			throws DataException {
-		boolean exist = false;
-
+		
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
 		try {
 
-			String queryString = 
-					"SELECT i.idioma " + 
-							"FROM Idioma i " +
-							"WHERE i.id_idioma = ? ";
+			String queryString = (
+								"select pid.id_idioma, i.idioma " + 
+										"from Producto_Idioma_Disponible pid " + 
+											"inner join Idioma i ON pid.id_idioma=i.id_idioma " +
+										"where pid.id_producto = ? ");
 
-			preparedStatement = connection.prepareStatement(queryString);
-
-			int i = 1;
-			preparedStatement.setString(i++, id);
-
-			resultSet = preparedStatement.executeQuery();
-
-			if (resultSet.next()) {
-				exist = true;
-			}
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}
-
-		return exist;
-	}
-
-	/*
-	 * Método para contar el número total de idiomas
-	 * 
-	 */
-	@Override
-	public long countAll(Connection connection) 
-			throws DataException {
-
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-
-		try {
-
-			String queryString = 
-					" SELECT count(*) "
-							+ " FROM Idioma";
-
-			preparedStatement = connection.prepareStatement(queryString);
-
-						resultSet = preparedStatement.executeQuery();
-
-			int i=1;
-			if (resultSet.next()) {
-				return resultSet.getLong(i++);
-			} else {
-				throw new DataException("Unexpected condition trying to retrieve count value");
-			}
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}	    	 
-	}
-	
-	@Override
-	public List<Idioma> findAll(Connection connection, 
-			int startIndex, int count) 
-					throws DataException {
-
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-
-		try {
-
-			// Create "preparedStatement"       
-			String queryString = 
-					"SELECT i.id_idioma, i.idioma " + 
-					"FROM Idioma i " +	
-					"ORDER BY i.idioma asc ";
 
 			preparedStatement = connection.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-			// Execute query.
+			int i = 1;
+			preparedStatement.setLong(i++, idProducto);
+
 			resultSet = preparedStatement.executeQuery();
 
 			// Recupera la pagina de resultados
@@ -175,24 +105,24 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 
 			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
 				do {
-					e = loadNext(connection,resultSet);
+					e = loadNext(resultSet);
 					results.add(e);               	
 					currentCount++;                	
 				} while ((currentCount < count) && resultSet.next()) ;
 			}
 
 			return results;
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
+	
+			} catch (SQLException e) {
+				logger.error("startIndex: "+startIndex + ", count: "+count, e);
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(resultSet);
+				JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
-
 		
-	private Idioma loadNext(Connection connection, ResultSet resultSet)
+	private Idioma loadNext(ResultSet resultSet)
 		throws SQLException, DataException {
 
 			int i = 1;

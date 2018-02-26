@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gzone.ecommerce.dao.NJugadoresDAO;
 import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
@@ -21,6 +24,8 @@ import com.gzone.ecommerce.model.NJugadores;
  *
  */
 public class NJugadoresDAOImpl implements NJugadoresDAO {
+	
+	private static Logger logger = LogManager.getLogger(NJugadoresDAOImpl.class.getName());
 	
 	public NJugadoresDAOImpl() {
 	}
@@ -53,7 +58,7 @@ public class NJugadoresDAOImpl implements NJugadoresDAO {
 			NJugadores e = null;
 
 			if (resultSet.next()) {
-				e = loadNext(connection, resultSet);				
+				e = loadNext(resultSet);				
 			} else {
 				throw new InstanceNotFoundException("Language with id " + id + 
 						"not found", NJugadores.class.getName());
@@ -68,103 +73,28 @@ public class NJugadoresDAOImpl implements NJugadoresDAO {
 			JDBCUtils.closeStatement(preparedStatement);
 		}  
 	}
-
-	/*
-	 * Método para comprobar si un NJugadores existe
-	 * 
-	 */
-	@Override
-	public Boolean exists(Connection connection, Long id) 
-			throws DataException {
-		boolean exist = false;
-
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-
-		try {
-
-			String queryString = 
-					"SELECT i.njugadores " + 
-							"FROM NJugadores i " +
-							"WHERE i.id_njugadores = ? ";
-
-			preparedStatement = connection.prepareStatement(queryString);
-
-			int i = 1;
-			preparedStatement.setLong(i++, id);
-
-			resultSet = preparedStatement.executeQuery();
-
-			if (resultSet.next()) {
-				exist = true;
-			}
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}
-
-		return exist;
-	}
-
-	/*
-	 * Método para contar el número total de njugadoress
-	 * 
-	 */
-	@Override
-	public long countAll(Connection connection) 
-			throws DataException {
-
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-
-		try {
-
-			String queryString = 
-					" SELECT count(*) "
-							+ " FROM NJugadores";
-
-			preparedStatement = connection.prepareStatement(queryString);
-
-						resultSet = preparedStatement.executeQuery();
-
-			int i=1;
-			if (resultSet.next()) {
-				return resultSet.getLong(i++);
-			} else {
-				throw new DataException("Unexpected condition trying to retrieve count value");
-			}
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}	    	 
-	}
 	
-	@Override
-	public List<NJugadores> findAll(Connection connection, 
-			int startIndex, int count) 
-					throws DataException {
-
+	public List<NJugadores> findByProducto(Connection connection, Long idProducto,int startIndex, int count) 
+			throws DataException {
+		
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
 		try {
 
-			// Create "preparedStatement"       
-			String queryString = 
-					"SELECT i.id_njugadores, i.njugadores " + 
-					"FROM NJugadores i " +	
-					"ORDER BY i.njugadores asc ";
+			String queryString = (
+								"select pn.id_njugador, n.njugadores " + 
+										"from producto_njugadores pn " + 
+											"inner join njugadores n on pn.id_njugador=n.id_nJugadores " +
+										"where pn.id_producto = ? ");
+
 
 			preparedStatement = connection.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-			// Execute query.
+			int i = 1;
+			preparedStatement.setLong(i++, idProducto);
+
 			resultSet = preparedStatement.executeQuery();
 
 			// Recupera la pagina de resultados
@@ -174,62 +104,24 @@ public class NJugadoresDAOImpl implements NJugadoresDAO {
 
 			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
 				do {
-					e = loadNext(connection,resultSet);
+					e = loadNext(resultSet);
 					results.add(e);               	
 					currentCount++;                	
 				} while ((currentCount < count) && resultSet.next()) ;
 			}
 
 			return results;
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
+	
+			} catch (SQLException e) {
+				logger.error("startIndex: "+startIndex + ", count: "+count, e);
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(resultSet);
+				JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
-
-	public List<NJugadores> findByProducto(Connection connection, Long idProducto) 
-        	throws DataException {
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-
-		try {
-
-			String queryString = 
-					"SELECT n.id_nJugadores, n.njugadores " + 
-					"FROM NJugadores n " 
-						+ " INNER JOIN Producto_NJugadores pn ON n.id_nJugadores = pn.id_nJugadores " 
-						+ " INNER JOIN Producto p " 
-						+ " 	ON p.id_producto = pn.id_producto AND p.id_producto = ? ";
-									
-			preparedStatement = connection.prepareStatement(queryString,
-					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
-			int i = 1;
-			preparedStatement.setLong(i++, idProducto);
-			
-			resultSet = preparedStatement.executeQuery();
-
-			List<NJugadores> results = new ArrayList<NJugadores>();
-			
-			NJugadores p = null;
-			
-			while (resultSet.next()) {
-					results.add(p);               	
-			}				
-			return results;
-
-		} catch (SQLException p) {
-			throw new DataException(p);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}		 
-	}	
 	
-	private NJugadores loadNext(Connection connection, ResultSet resultSet)
+	private NJugadores loadNext(ResultSet resultSet)
 		throws SQLException, DataException {
 
 			int i = 1;

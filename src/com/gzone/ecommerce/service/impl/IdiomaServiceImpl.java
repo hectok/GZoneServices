@@ -48,10 +48,9 @@ public class IdiomaServiceImpl implements IdiomaService{
 		}
 		
 	}
-
-	public Boolean exists(String id) 
+	public List<Idioma> findByProducto(Long idProducto,int startIndex, int count) 
 			throws DataException {
-				
+		
 		Connection connection = null;
 		
 		try {
@@ -59,7 +58,7 @@ public class IdiomaServiceImpl implements IdiomaService{
 			connection = ConnectionManager.getConnection();
 			connection.setAutoCommit(true);
 			
-			return dao.exists(connection, id);
+			return dao.findByProducto(connection,idProducto,startIndex,count);	
 			
 		} catch (SQLException e){
 			throw new DataException(e);
@@ -68,45 +67,6 @@ public class IdiomaServiceImpl implements IdiomaService{
 		}
 		
 	}
-
-	public List<Idioma> findAll(int startIndex, int count) 
-			throws DataException {
-			
-		Connection connection = null;
-		
-		try {
-			
-			connection = ConnectionManager.getConnection();
-			connection.setAutoCommit(true);
-			
-			return dao.findAll(connection, startIndex, count);	
-			
-		} catch (SQLException e){
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeConnection(connection);
-		}
-		
-	}
-
-	public long countAll() 
-			throws DataException {
-				
-		Connection connection = null;
-		
-		try {
-			
-			connection = ConnectionManager.getConnection();
-			connection.setAutoCommit(true);
-			
-			return dao.countAll(connection);		
-			
-		} catch (SQLException e){
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeConnection(connection);
-		}
-		
-	}
+	
 }
 

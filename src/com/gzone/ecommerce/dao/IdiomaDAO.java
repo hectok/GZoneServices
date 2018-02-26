@@ -19,13 +19,7 @@ public interface IdiomaDAO {
 	public Idioma findById(Connection connection, String id) 
     		throws InstanceNotFoundException, DataException;
 	
-    public List<Idioma> findAll(Connection connection,int startIndex, int count) 
-    	throws DataException;
-     
-	public Boolean exists(Connection connection, String id) 
-    		throws DataException;
-
-	public long countAll(Connection connection) 
-     		throws DataException;   
+	public List<Idioma> findByProducto(Connection connection, Long idProducto,int startIndex, int count) 
+			throws DataException;
 
 }

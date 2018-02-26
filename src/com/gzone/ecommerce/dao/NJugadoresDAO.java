@@ -19,15 +19,6 @@ public interface NJugadoresDAO {
 	public NJugadores findById(Connection connection, Long id) 
     		throws InstanceNotFoundException, DataException;
 	
-    public List<NJugadores> findAll(Connection connection,int startIndex, int count) 
-    	throws DataException;
-     
-	public Boolean exists(Connection connection, Long id) 
-    		throws DataException;
-
-	public long countAll(Connection connection) 
-     		throws DataException;  
-	
-	public List<NJugadores> findByProducto(Connection connection, Long idProducto) 
-        	throws DataException;
+	public List<NJugadores> findByProducto(Connection connection, Long idProducto,int startIndex, int count) 
+			throws DataException;
 }

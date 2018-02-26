@@ -42,7 +42,26 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		
 	}
-
+	
+	public Usuario findByNombre(String usuario)
+       	    throws DataException{
+		
+		Connection connection = null;
+		
+		try {
+			
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(true);
+			
+			return dao.findByNombre(connection, usuario);	
+			
+		} catch (SQLException e){
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeConnection(connection);
+		}
+	}
+	
 	public Boolean exists(Long id) 
 			throws DataException {
 				

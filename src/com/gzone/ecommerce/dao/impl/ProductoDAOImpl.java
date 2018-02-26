@@ -23,7 +23,13 @@ import com.gzone.ecommerce.model.Categoria;
 import com.gzone.ecommerce.model.Idioma;
 import com.gzone.ecommerce.model.NJugadores;
 import com.gzone.ecommerce.model.Producto;
+import com.gzone.ecommerce.service.CategoriaService;
+import com.gzone.ecommerce.service.IdiomaService;
+import com.gzone.ecommerce.service.NJugadoresService;
 import com.gzone.ecommerce.service.ProductoCriteria;
+import com.gzone.ecommerce.service.impl.CategoriaServiceImpl;
+import com.gzone.ecommerce.service.impl.IdiomaServiceImpl;
+import com.gzone.ecommerce.service.impl.NJugadoresServiceImpl;
 
 /**
  * @author hector.ledo.doval
@@ -118,7 +124,11 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-
+		
+		CategoriaService categoriaService = new CategoriaServiceImpl();
+		NJugadoresService njugadorService = new NJugadoresServiceImpl();
+		IdiomaService idiomaService = new IdiomaServiceImpl();
+		
 		try {          
 
 			String queryString = 
@@ -136,17 +146,29 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 
 			// Execute query      
-			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
-
+			
 			Producto e = null;
 
 			if (resultSet.next()) {
-				e = loadNext(connection, resultSet);				
+				e = loadNext(resultSet);				
 			} else {
 				throw new InstanceNotFoundException("Products with id " + id + 
 						"not found", Producto.class.getName());
 			}
+			//Buscamos las categorias del producto
+			List<Categoria> categoria = categoriaService.findByProducto(id, 1, 1, idioma);
+			if (!categoria.isEmpty())
+				e.setCategorias(categoria);
+			
+			List<NJugadores> njugador = njugadorService.findByProducto(id, 1,1);
+			if (!njugador.isEmpty())
+				e.setNjugadores(njugador);
+			
+			List<Idioma> idiomas = idiomaService.findByProducto(id, 1,2);
+			if (!idiomas.isEmpty())
+				e.setIdioma(idiomas);
+			
 			return e;
 
 		} catch (SQLException e) {
@@ -268,7 +290,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
 				do {
-					e = loadNext(connection, resultSet);
+					e = loadNext(resultSet);
 					results.add(e);               	
 					currentCount++;                	
 				} while ((currentCount < count) && resultSet.next()) ;
@@ -318,7 +340,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
 				do {
-					e = loadNext(connection,resultSet);
+					e = loadNext(resultSet);
 					results.add(e);               	
 					currentCount++;                	
 				} while ((currentCount < count) && resultSet.next()) ;
@@ -542,7 +564,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 		return lista;
 	}
 	
-	private Producto loadNext(Connection connection, ResultSet resultSet)
+	private Producto loadNext(ResultSet resultSet)
 		throws SQLException, DataException {
 			int i = 1;
 

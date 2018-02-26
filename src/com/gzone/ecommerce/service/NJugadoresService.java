@@ -18,13 +18,7 @@ public interface NJugadoresService {
 	public NJugadores findById(Long id) 
 			throws InstanceNotFoundException, DataException;
 
-	public Boolean exists(Long id) 
-			throws DataException;
-
-	public List<NJugadores> findAll(int startIndex, int count) 
-			throws DataException;
-
-	public long countAll() 
+	public List<NJugadores> findByProducto(Long idProducto,int startIndex, int count) 
 			throws DataException;
 	
 }

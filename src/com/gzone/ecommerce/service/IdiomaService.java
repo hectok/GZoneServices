@@ -15,13 +15,7 @@ public interface IdiomaService {
 		public Idioma findById(String id) 
 				throws InstanceNotFoundException, DataException;
 
-		public Boolean exists(String id) 
-				throws DataException;
-
-		public List<Idioma> findAll(int startIndex, int count) 
-				throws DataException;
-
-		public long countAll() 
+		public List<Idioma> findByProducto(Long idProducto,int startIndex, int count) 
 				throws DataException;
 
 }

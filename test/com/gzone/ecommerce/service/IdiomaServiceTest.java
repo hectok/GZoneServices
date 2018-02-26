@@ -43,59 +43,30 @@ public class IdiomaServiceTest {
 		logger.info("Test testFindById finished.\n");		
 	}
 	
-	protected void testExists() {
-		logger.info("Testing exists ...");
-
-		String id = "ES";
+	protected void testFindByProducto() {
+		logger.info("Testing testFindByProducto ...");
+		
+		Long id = (long) 5;
 		
 		try {			
-			Boolean exists = idiomaService.exists(id);			
-			logger.info("Exists: "+id+" -> "+exists);
+			List<Idioma> nj = idiomaService.findByProducto(id,1,2);		
+			logger.info("Found: "+ToStringUtil.toString(nj));
+			
+			for (Idioma bucle: nj) {
+				System.out.println(bucle.getNombreIdioma());
+			}
 			
 		} catch (Throwable t) {
 			logger.error("id = "+id, t);
 		}
 		
-		logger.info("Test exists finished.\n");		
-	}
-	
-	protected void testFindAll() {
-		logger.info("Testing findAll ...");
-		
-		int pageSize = 2; 	
-		
-		try {
-
-			List<Idioma> results = null;
-			int startIndex = 1; 
-			int total = 0;
-			
-			do {
-				results = idiomaService.findAll(startIndex, pageSize);
-				if (results.size()>0) {
-					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
-					for (Idioma cat: results) {
-						total++;
-						logger.info("Result "+total+": "+ToStringUtil.toString(cat));
-					}
-					startIndex = startIndex + pageSize;
-				}
-				
-			} while (results.size()==pageSize);
-			
-			logger.info("Found "+total+" results.");
-						
-		} catch (Throwable t) {
-			logger.error(t);
-		}
-		logger.info("Test testFindAll finished.\n");
+		logger.info("Test testFindById finished.\n");		
 	}
 	
 	public static void main(String args[]) {
 		IdiomaServiceTest test = new IdiomaServiceTest();
-		test.testFindById();
-		test.testExists();
-		test.testFindAll();
+//		test.testFindById();
+		test.testFindByProducto();
 	}
 }
 

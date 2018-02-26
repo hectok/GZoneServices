@@ -25,7 +25,7 @@ public interface UsuarioDAO {
     public List<Usuario> findByCriteria(Connection connection, UsuarioCriteria c, int startIndex, int count)
         	throws DataException;
     
-    public List<Usuario> findByNombre(Connection connection, String nombre, int startIndex, int count)
+    public Usuario findByNombre(Connection connection, String nombre)
     		throws DataException;
     
 	public Boolean exists(Connection connection, Long id) 

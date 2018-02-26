@@ -10,6 +10,7 @@ package com.gzone.ecommerce.model;
 public class Categoria {
 
 	private Long idCategoria = null;
+	private String categoria = null;
 	
 	public Categoria () {}
 
@@ -20,4 +21,13 @@ public class Categoria {
 	public void setIdCategoria(Long idCategoria) {
 		this.idCategoria = idCategoria;
 	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+	
 }

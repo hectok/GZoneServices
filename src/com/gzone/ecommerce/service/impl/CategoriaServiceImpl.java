@@ -11,7 +11,6 @@ import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Categoria;
-import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.service.CategoriaService;
 
 public class CategoriaServiceImpl implements CategoriaService {
@@ -62,27 +61,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		
 	}
 
-	public List<Categoria> findAll(int startIndex, int count) 
-			throws DataException {
-			
-		Connection connection = null;
-		
-		try {
-			
-			connection = ConnectionManager.getConnection();
-			connection.setAutoCommit(true);
-			
-			return dao.findAll(connection, startIndex, count);	
-			
-		} catch (SQLException e){
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeConnection(connection);
-		}
-		
-	}
-
-	public long countAll() 
+	public List<Categoria> findByProducto(Long id,int startIndex, int count, String idioma) 
 			throws DataException {
 				
 		Connection connection = null;
@@ -92,7 +71,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			connection = ConnectionManager.getConnection();
 			connection.setAutoCommit(true);
 			
-			return dao.countAll(connection);		
+			return dao.findByProducto(connection, id,startIndex, count,idioma);	
 			
 		} catch (SQLException e){
 			throw new DataException(e);
@@ -100,25 +79,6 @@ public class CategoriaServiceImpl implements CategoriaService {
 			JDBCUtils.closeConnection(connection);
 		}
 		
-	}
-
-	public List<Producto> findByProducto(List<Categoria> categorias, int startIndex, int count)
-			throws DataException {
-			
-		Connection connection = null;
-		
-		try {
-			
-			connection = ConnectionManager.getConnection();
-			connection.setAutoCommit(true);
-			
-			return dao.findByProducto(connection, categorias,startIndex,count);
-			
-		} catch (SQLException e){
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeConnection(connection);
-		}
 	}
 
 }

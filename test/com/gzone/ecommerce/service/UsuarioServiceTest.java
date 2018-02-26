@@ -56,12 +56,27 @@ public class UsuarioServiceTest {
 		logger.info("Test testFindById finished.\n");		
 	}
 	
+	protected void testFindByNombre() {
+		logger.info("Testing findByNombre ...");
+		
+		String nombre = "hectok";
+		
+		try {			
+			Usuario usuario = usuarioService.findByNombre(nombre);			
+			logger.info("Found: "+ToStringUtil.toString(usuario));
+		} catch (Throwable t) {
+			logger.error("id = "+nombre, t);
+		}
+		
+		logger.info("Test testFindById finished.\n");		
+	}
+	
 	protected void testFindByCriteria() {
 		logger.info("Testing FindByCriteria ...");
 		int pageSize = 2;
 		
 		UsuarioCriteria p = new UsuarioCriteria();
-		p.setUsuario("joseantoniolp");
+		p.setUsuario("hectok");
 	
 		try {
 
@@ -182,12 +197,13 @@ public class UsuarioServiceTest {
 	
 	public static void main(String args[]) {
 		UsuarioServiceTest test = new UsuarioServiceTest();
-		test.testCreate();
-		test.testExists();
-		test.testFindById();
-		test.testFindByCriteria();
-		test.testUpdate();
-		test.testDelete();
+//		test.testCreate();
+//		test.testExists();
+//		test.testFindById();
+		test.testFindByNombre();
+//		test.testFindByCriteria();
+//		test.testUpdate();
+//		test.testDelete();
 		
 	}
 }

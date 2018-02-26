@@ -8,24 +8,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.gzone.ecommerce.dao.UsuarioDAO;
 import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Usuario;
-import com.gzone.ecommerce.service.NJugadoresServiceTest;
 import com.gzone.ecommerce.service.UsuarioCriteria;
 import com.gzone.ecommerce.util.PasswordEncryptionUtil;
 
 
 public class UsuarioDAOImpl implements UsuarioDAO{
-	
-	private static Logger logger = LogManager.getLogger(NJugadoresServiceTest.class.getName());
-	
+		
 	public UsuarioDAOImpl() {
 	}
 	
@@ -74,7 +68,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	}
 	
 	@Override
-	public List<Usuario> findByNombre(Connection connection, String nombre, int startIndex, int count)
+	public Usuario findByNombre(Connection connection, String nombre)
 					throws DataException {
 
 		PreparedStatement preparedStatement = null;
@@ -86,40 +80,31 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			String queryString = 
 					"SELECT u.id_usuario, u.usuario, u.correo, u.contrasena, u.nombre, u.apellido, u.descripcion, u.localizacion " + 
 							"FROM Usuario u  " +
-							"WHERE u.id_usuario = ? ";
+							"WHERE u.usuario = ? ";
 
 			preparedStatement = connection.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 			// Fill parameters
 			int i = 1;                
-			preparedStatement.setString(i++,nombre.toUpperCase());
+			preparedStatement.setString(i++,nombre);
 
 			// Execute query.
 			resultSet = preparedStatement.executeQuery();
-
-			// Recupera la pagina de resultados
-			List<Usuario> results = new ArrayList<Usuario>();                        
+                        
 			Usuario e = null;
-			int currentCount = 0;
-
-			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
-				do {
-					e = loadNext(connection, resultSet);
-					results.add(e);               	
-					currentCount++;                	
-				} while ((currentCount < count) && resultSet.next()) ;
-			}
-
-			return results;
+			if (resultSet.next()) {
+				e = loadNext(connection, resultSet);				
+			} 
+			
+			return e;
 
 		} catch (SQLException e) {
-			logger.error("name: "+nombre + ", startIndex: "+startIndex + ", count: "+count, e);
 			throw new DataException(e);
-		} finally {
+		} finally {            
 			JDBCUtils.closeResultSet(resultSet);
 			JDBCUtils.closeStatement(preparedStatement);
-		}
+		}  
 	}
 	
 	/*
@@ -225,37 +210,37 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			}	
 			
 			if (usuario.getUsuario()!=null) {
-				addClause(queryString, first, " UPPER(u.usuario) LIKE ? ");
+				addClause(queryString, first, " u.usuario LIKE ? ");
 				first = false;
 			}
 
 			if (usuario.getCorreo()!=null) {
-				addClause(queryString, first, " UPPER(u.correo) LIKE ? ");
+				addClause(queryString, first, " u.correo LIKE ? ");
 				first = false;
 			}	
 			
 			if (usuario.getContrasena()!=null) {
-				addClause(queryString, first, " UPPER(u.contrasena) LIKE ? ");
+				addClause(queryString, first, " u.contrasena LIKE ? ");
 				first = false;
 			}
 			
 			if (usuario.getNombre()!=null) {
-				addClause(queryString, first, " UPPER(u.nombre) LIKE ? ");
+				addClause(queryString, first, " u.nombre LIKE ? ");
 				first = false;
 			}
 			
 			if (usuario.getApellido()!=null) {
-				addClause(queryString, first, " UPPER(u.apellido) LIKE ? ");
+				addClause(queryString, first, " u.apellido LIKE ? ");
 				first = false;
 			}
 
 			if (usuario.getDescripcion()!=null) {
-				addClause(queryString, first, " UPPER(u.descripcion) LIKE ? ");
+				addClause(queryString, first, " (u.descripcion LIKE ? ");
 				first = false;
 			}	
 			
 			if (usuario.getLocalizacion()!=null) {
-				addClause(queryString, first, " UPPER(u.localizacion) LIKE ? ");
+				addClause(queryString, first, " u.localizacion LIKE ? ");
 				first = false;
 			}
 			
@@ -266,21 +251,21 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			int i = 1;  
 			
 			if (usuario.getIdUsuario()!=null)
-				preparedStatement.setString(i++, "%" + usuario.getIdUsuario() + "%");
+				preparedStatement.setLong(i++, usuario.getIdUsuario());
 			if (usuario.getUsuario()!=null) 
-				preparedStatement.setString(i++, "%" + usuario.getUsuario() + "%");
+				preparedStatement.setString(i++,usuario.getUsuario());
 			if (usuario.getCorreo()!=null) 
-				preparedStatement.setString(i++, "%" + usuario.getCorreo() + "%");
+				preparedStatement.setString(i++,usuario.getCorreo() );
 			if (usuario.getContrasena()!=null) 
-				preparedStatement.setString(i++, "%" + usuario.getContrasena() + "%");
+				preparedStatement.setString(i++, usuario.getContrasena());
 			if (usuario.getNombre()!=null)
-				preparedStatement.setString(i++, "%" + usuario.getNombre() + "%");
+				preparedStatement.setString(i++,usuario.getNombre());
 			if (usuario.getApellido()!=null) 
-				preparedStatement.setString(i++, "%" + usuario.getApellido() + "%");
+				preparedStatement.setString(i++,usuario.getApellido());
 			if (usuario.getDescripcion()!=null) 
-				preparedStatement.setString(i++, "%" + usuario.getDescripcion() + "%");
+				preparedStatement.setString(i++,usuario.getDescripcion());
 			if (usuario.getLocalizacion()!=null) 
-				preparedStatement.setString(i++, "%" + usuario.getLocalizacion() + "%");
+				preparedStatement.setLong(i++,usuario.getLocalizacion());
 
 
 

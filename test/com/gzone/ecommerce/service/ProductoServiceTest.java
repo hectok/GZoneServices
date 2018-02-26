@@ -45,13 +45,24 @@ public class ProductoServiceTest {
 	protected void testFindById() {
 		logger.info("Testing findById ...");
 		
-		Long id = (long) 1;
+		Long id = (long) 5;
 		String idioma = "ES";
 		
 		try {			
-			Producto pro = productoService.findById(id,idioma);			
+			Producto pro = productoService.findById(id,idioma);	
+			for (Idioma idim : pro.getIdioma())
+			{
+				System.out.println(idim.getNombreIdioma());
+			}
+			for (NJugadores nj : pro.getNjugadores())
+			{
+				System.out.println(nj.getnJugadores());
+			}
+			for (Categoria cat : pro.getCategorias())
+			{
+				System.out.println(cat.getCategoria());
+			}
 			logger.info("Found: "+ToStringUtil.toString(pro));
-			
 		} catch (Throwable t) {
 			logger.error("id = "+id, t);
 		}
@@ -138,6 +149,10 @@ public class ProductoServiceTest {
 					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Producto t: results) {
 						total++;
+						for(Idioma idioma: t.getIdioma())
+						{
+							idioma.getIdIdioma();
+						}
 						logger.info("Result "+total+": "+ToStringUtil.toString(t));
 					}
 					startIndex = startIndex + pageSize;
@@ -249,10 +264,10 @@ public class ProductoServiceTest {
 	
 	public static void main(String args[]) {
 		ProductoServiceTest test = new ProductoServiceTest();
-		test.testExists();
+//		test.testExists();
 		test.testFindById();
-		test.testFindAll();
-		test.testFindByCriteria();
+//		test.testFindAll();
+//		test.testFindByCriteria();
 //		test.testCreate();
 //		test.testUpdate();
 //		test.testDelete();

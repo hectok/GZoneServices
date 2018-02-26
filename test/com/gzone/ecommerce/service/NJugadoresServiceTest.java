@@ -42,59 +42,30 @@ public class NJugadoresServiceTest {
 		logger.info("Test testFindById finished.\n");		
 	}
 	
-	protected void testExists() {
-		logger.info("Testing exists ...");
-
-		Long id = 2L;
+	protected void testFindByProducto() {
+		logger.info("Testing testFindByProducto ...");
+		
+		Long id = (long) 6;
 		
 		try {			
-			Boolean exists = njugadoresService.exists(id);			
-			logger.info("Exists: "+id+" -> "+exists);
+			List<NJugadores> nj = njugadoresService.findByProducto(id,1,1);		
+			logger.info("Found: "+ToStringUtil.toString(nj));
+			
+			for (NJugadores bucle: nj) {
+				System.out.println(bucle.getnJugadores());
+			}
 			
 		} catch (Throwable t) {
 			logger.error("id = "+id, t);
 		}
 		
-		logger.info("Test exists finished.\n");		
-	}
-	
-	protected void testFindAll() {
-		logger.info("Testing findAll ...");
-		
-		int pageSize = 2; 	
-		
-		try {
-
-			List<NJugadores> results = null;
-			int startIndex = 1; 
-			int total = 0;
-			
-			do {
-				results = njugadoresService.findAll(startIndex, pageSize);
-				if (results.size()>0) {
-					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
-					for (NJugadores cat: results) {
-						total++;
-						logger.info("Result "+total+": "+ToStringUtil.toString(cat));
-					}
-					startIndex = startIndex + pageSize;
-				}
-				
-			} while (results.size()==pageSize);
-			
-			logger.info("Found "+total+" results.");
-						
-		} catch (Throwable t) {
-			logger.error(t);
-		}
-		logger.info("Test testFindAll finished.\n");
+		logger.info("Test testFindById finished.\n");		
 	}
 	
 	public static void main(String args[]) {
 		NJugadoresServiceTest test = new NJugadoresServiceTest();
 		test.testFindById();
-		test.testExists();
-		test.testFindAll();
+		test.testFindByProducto();
 	}
 }
 
