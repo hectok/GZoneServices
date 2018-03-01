@@ -236,9 +236,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 				addClause(queryString, first, " p.requisitos LIKE ? ");
 				first = false;
 			}	
-			
+
 			if (producto.getOferta()!=null) {
-				addClause(queryString, first, " p.id_oferta LIKE ? ");
+				addClause(queryString, first, " p.id_oferta IS NOT NULL ");
 				first = false;
 			}
 			
@@ -264,7 +264,6 @@ public class ProductoDAOImpl implements ProductoDAO{
 		
 			preparedStatement = connection.prepareStatement(queryString.toString(),
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
 			int i = 1;       
 			
 			if (producto.getIdProducto()!=null) 
@@ -277,10 +276,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 				preparedStatement.setString(i++, "%" + producto.getAnio() + "%");
 			if (producto.getRequisitos()!=null) 
 				preparedStatement.setString(i++, "%" + producto.getRequisitos() + "%");
-			if (producto.getOferta()!=null) 
-				preparedStatement.setString(i++, "%" + producto.getOferta() + "%");
 			if (idioma!=null) 
 				preparedStatement.setString(i++,idioma);
+
 			
 			resultSet = preparedStatement.executeQuery();
 			
@@ -313,6 +311,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
+		CategoriaService categoriaService = new CategoriaServiceImpl();
+		NJugadoresService njugadorService = new NJugadoresServiceImpl();
+		IdiomaService idiomaService = new IdiomaServiceImpl();
 
 		try {
 
@@ -337,15 +338,27 @@ public class ProductoDAOImpl implements ProductoDAO{
 			List<Producto> results = new ArrayList<Producto>();                        
 			Producto e = null;
 			int currentCount = 0;
-
+						
 			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
 				do {
 					e = loadNext(resultSet);
-					results.add(e);               	
+					results.add(e);  
+					//Buscamos las categorias del producto
+					List<Categoria> categoria = categoriaService.findByProducto(e.getIdProducto(), 1, 2, idioma);
+					if (!categoria.isEmpty())
+						e.setCategorias(categoria);
+					
+					List<NJugadores> njugador = njugadorService.findByProducto(e.getIdProducto(), 1,2);
+					if (!njugador.isEmpty())
+						e.setNjugadores(njugador);
+					
+					List<Idioma> idiomas = idiomaService.findByProducto(e.getIdProducto(), 1,2);
+					if (!idiomas.isEmpty())
+						e.setIdioma(idiomas);
 					currentCount++;                	
 				} while ((currentCount < count) && resultSet.next()) ;
 			}
-
+			
 			return results;
 
 		} catch (SQLException e) {
@@ -379,7 +392,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 			preparedStatement.setString(i++, p.getRequisitos());
 			
 			if (p.getOferta()!=null)
-					preparedStatement.setLong(i++, p.getOferta());
+					preparedStatement.setBoolean(i++, p.getOferta());
 			else
 				preparedStatement.setNull(i++,java.sql.Types.NULL);
 
@@ -444,7 +457,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 				first = false;
 			}
 			
-			if (producto.getOferta()!=0) {
+			if (producto.getOferta()==true) {
 				addUpdate(queryString, first, " id_oferta = ? ");
 				first = false;
 			}
@@ -467,8 +480,8 @@ public class ProductoDAOImpl implements ProductoDAO{
 			if (producto.getRequisitos()!=null) 
 				preparedStatement.setString(i++,producto.getRequisitos());
 			
-			if (producto.getOferta()!=0) 
-				preparedStatement.setLong(i++,producto.getOferta());
+			if (producto.getOferta()==true) 
+				preparedStatement.setBoolean(i++,producto.getOferta());
 			
 
 			preparedStatement.setLong(i++, producto.getIdProducto());
@@ -573,7 +586,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 			Double precio = resultSet.getDouble(i++);
 			Integer anio = resultSet.getInt(i++);
 			String requisitos = resultSet.getString(i++);
-			Long oferta = resultSet.getLong(i++);
+			Boolean oferta = resultSet.getBoolean(i++);
 			String detalles_largo = resultSet.getString(i++);
 			String detalles_corto = resultSet.getString(i++);
 			

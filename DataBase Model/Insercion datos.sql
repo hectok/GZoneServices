@@ -157,7 +157,7 @@ INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (26, 'E
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (27, 'ES', 'Puzzle');
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (28, 'ES', 'Party games');
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (29, 'ES', 'Educación');
-INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (30, 'ES', 'Otros');
+INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (30, 'ES', 'Indie');
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (1, 'EN', 'Action');
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (2, 'EN', 'Fighting games');
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (3, 'EN', 'Beat \'em up');
@@ -187,7 +187,7 @@ INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (26, 'E
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (27, 'EN', 'Puzzle');
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (28, 'EN', 'Party games');
 INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (29, 'EN', 'Education');
-INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (30, 'EN', 'Other');
+INSERT INTO Categoria_Idioma (id_categoria, id_idioma, categoria) VALUES (30, 'EN', 'Indie');
 
 COMMIT;
 
@@ -316,43 +316,46 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE gzone;
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (3, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (4, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (6, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (7, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (8, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (9, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (10, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (11, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (12, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (13, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (14, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (15, 17);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (16, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (17, 17);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (18, 17);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (19, 17);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (20, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (21, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (22, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (23, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (24, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (25, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (26, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (27, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (28, 17);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (29, 17);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (30, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (31, 24);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (32, 6);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (33, 17);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (34, 6);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (35, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (36, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (37, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (38, 1);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (39, 18);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (40, 18);
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('1', '30');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('2', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('3', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('4', '30');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('5', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('6', '18');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('7', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('8', '18');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('9', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('10', '18');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('11', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('12', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('13', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('14', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('15', '30');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('16', '18');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('17', '30');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('18', '18');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('19', '30');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('20', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('21', '18');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('22', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('23', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('24', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('25', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('26', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('27', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('28', '11');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('29', '30');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('30', '18');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('31', '24');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('32', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('33', '11');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('34', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('35', '11');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('36', '11');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('37', '11');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('38', '11');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('39', '1');
+INSERT INTO `gzone`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('40', '11');
 
 COMMIT;
 
@@ -403,3 +406,21 @@ INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (39, 1);
 INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (40, 1);
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- Añadidas ofertas
+-- -----------------------------------------------------
+UPDATE `gzone`.`producto` SET `id_oferta`='4' WHERE `id_producto`='3';
+UPDATE `gzone`.`producto` SET `id_oferta`='2' WHERE `id_producto`='25';
+UPDATE `gzone`.`producto` SET `id_oferta`='3' WHERE `id_producto`='2';
+UPDATE `gzone`.`producto` SET `id_oferta`='1' WHERE `id_producto`='4';
+UPDATE `gzone`.`producto` SET `id_oferta`='1' WHERE `id_producto`='5';
+UPDATE `gzone`.`producto` SET `id_oferta`='2' WHERE `id_producto`='12';
+UPDATE `gzone`.`producto` SET `id_oferta`='1' WHERE `id_producto`='19';
+UPDATE `gzone`.`producto` SET `id_oferta`='3' WHERE `id_producto`='11';
+UPDATE `gzone`.`producto` SET `id_oferta`='1' WHERE `id_producto`='7';
+UPDATE `gzone`.`producto` SET `id_oferta`='1' WHERE `id_producto`='8';
+UPDATE `gzone`.`producto` SET `id_oferta`='4' WHERE `id_producto`='9';
+UPDATE `gzone`.`producto` SET `id_oferta`='1' WHERE `id_producto`='37';
+UPDATE `gzone`.`producto` SET `id_oferta`='2' WHERE `id_producto`='39';
+UPDATE `gzone`.`producto` SET `id_oferta`='1' WHERE `id_producto`='27';

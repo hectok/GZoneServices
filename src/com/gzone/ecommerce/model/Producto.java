@@ -17,7 +17,7 @@ public class Producto {
 	private Double precio = null;
 	private Integer anio = null;
 	private String requisitos = null;
-	private Long oferta = null;
+	private Boolean oferta = null;
 	private String detalles_corto = null;
 	private String detalles_largo = null;
 	
@@ -72,11 +72,11 @@ public class Producto {
 		this.requisitos = requisitos;
 	}
 
-	public Long getOferta() {
+	public Boolean getOferta() {
 		return oferta;
 	}
 
-	public void setOferta(Long oferta) {
+	public void setOferta(Boolean oferta) {
 		this.oferta = oferta;
 	}
 

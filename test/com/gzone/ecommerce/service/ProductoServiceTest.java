@@ -45,7 +45,7 @@ public class ProductoServiceTest {
 	protected void testFindById() {
 		logger.info("Testing findById ...");
 		
-		Long id = (long) 5;
+		Long id = (long) 19;
 		String idioma = "ES";
 		
 		try {			
@@ -87,6 +87,18 @@ public class ProductoServiceTest {
 					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
 					for (Producto pro: results) {
 						total++;
+						for (Idioma idim : pro.getIdioma())
+						{
+							System.out.println(idim.getNombreIdioma());
+						}
+						for (NJugadores nj : pro.getNjugadores())
+						{
+							System.out.println(nj.getnJugadores());
+						}
+						for (Categoria cat : pro.getCategorias())
+						{
+							System.out.println(cat.getCategoria());
+						}
 						logger.info("Result "+total+": "+ToStringUtil.toString(pro));
 					}
 					startIndex = startIndex + pageSize;
@@ -104,11 +116,11 @@ public class ProductoServiceTest {
 	
 	protected void testFindByCriteria() {
 		logger.info("Testing FindByCriteria ...");
-		int pageSize = 2;
+		int pageSize = 12;
 		
 		List<Categoria> categorias = new ArrayList<Categoria>();
 		Categoria e = new Categoria();
-		e.setIdCategoria(22L);
+		e.setIdCategoria(1L);
 		categorias.add(e);
 		Categoria i = new Categoria();
 		i.setIdCategoria(6L);
@@ -132,11 +144,11 @@ public class ProductoServiceTest {
 		
 		
 		ProductoCriteria p = new ProductoCriteria();
-		p.setNombre("res");
-		p.setCategorias(categorias);
-		p.setIdioma(idiomas);
-		p.setNjugadores(njugadores);
-		
+//		p.setNombre("res");
+//		p.setCategorias(categorias);
+//		p.setIdioma(idiomas);
+//		p.setNjugadores(njugadores);
+		p.setOferta(true);
 		try {
 
 			List<Producto> results = null;
@@ -265,8 +277,8 @@ public class ProductoServiceTest {
 	public static void main(String args[]) {
 		ProductoServiceTest test = new ProductoServiceTest();
 //		test.testExists();
-		test.testFindById();
-//		test.testFindAll();
+//		test.testFindById();
+		test.testFindAll();
 //		test.testFindByCriteria();
 //		test.testCreate();
 //		test.testUpdate();
