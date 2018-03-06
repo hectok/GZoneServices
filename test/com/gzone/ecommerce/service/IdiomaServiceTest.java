@@ -43,6 +43,36 @@ public class IdiomaServiceTest {
 		logger.info("Test testFindById finished.\n");		
 	}
 	
+	protected void testFindAll() {
+		logger.info("Testing findAll ...");
+		int pageSize = 10; 	
+		
+		try {
+			List<Idioma> results = null;
+			int startIndex = 1; 
+			int total = 0;
+			
+			do {
+				results = idiomaService.findAll(startIndex, pageSize);
+				if (results.size()>0) {
+					logger.info("Page ["+startIndex+" - "+(startIndex+results.size()-1)+"] : ");				
+					for (Idioma p: results) {
+						total++;
+						logger.info("Result "+total+": "+ToStringUtil.toString(p));
+					}
+					startIndex = startIndex + pageSize;
+				}
+				
+			} while (results.size()==pageSize);
+			
+			logger.info("Found "+total+" results.");
+						
+		} catch (Throwable c) {
+			c.printStackTrace();
+		}
+		logger.info("Test testFindAll finished.\n");
+	}
+	
 	protected void testFindByProducto() {
 		logger.info("Testing testFindByProducto ...");
 		
@@ -66,7 +96,8 @@ public class IdiomaServiceTest {
 	public static void main(String args[]) {
 		IdiomaServiceTest test = new IdiomaServiceTest();
 //		test.testFindById();
-		test.testFindByProducto();
+//		test.testFindByProducto();
+		test.testFindAll();
 	}
 }
 
