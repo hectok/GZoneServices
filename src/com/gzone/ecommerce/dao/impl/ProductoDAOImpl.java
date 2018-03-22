@@ -157,15 +157,15 @@ public class ProductoDAOImpl implements ProductoDAO{
 						"not found", Producto.class.getName());
 			}
 			//Buscamos las categorias del producto
-			List<Categoria> categoria = categoriaService.findByProducto(id, 1, 1, idioma);
+			List<Categoria> categoria = categoriaService.findByProducto(id, 1, 10, idioma);
 			if (!categoria.isEmpty())
 				e.setCategorias(categoria);
 			
-			List<NJugadores> njugador = njugadorService.findByProducto(id, 1,1);
+			List<NJugadores> njugador = njugadorService.findByProducto(id, 1,10);
 			if (!njugador.isEmpty())
 				e.setNjugadores(njugador);
 			
-			List<Idioma> idiomas = idiomaService.findByProducto(id, 1,2);
+			List<Idioma> idiomas = idiomaService.findByProducto(id, 1,10);
 			if (!idiomas.isEmpty())
 				e.setIdioma(idiomas);
 			

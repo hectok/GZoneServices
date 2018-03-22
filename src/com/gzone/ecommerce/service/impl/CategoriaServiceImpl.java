@@ -41,6 +41,26 @@ public class CategoriaServiceImpl implements CategoriaService {
 		
 	}
 
+	public List<Categoria> findAll(int startIndex, int count, String idioma) 
+			throws DataException {
+			
+		Connection connection = null;
+		
+		try {
+			
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(true);
+			
+			return dao.findAll(connection, startIndex, count, idioma);	
+			
+		} catch (SQLException e){
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeConnection(connection);
+		}
+		
+	}
+	
 	public Boolean exists(Long id) 
 			throws DataException {
 				

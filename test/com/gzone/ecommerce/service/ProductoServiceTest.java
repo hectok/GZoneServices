@@ -131,7 +131,7 @@ public class ProductoServiceTest {
 		a.setIdIdioma("'ES'");
 		idiomas.add(a);
 		Idioma o = new Idioma();
-		o.setIdIdioma("'EN'");
+		o.setIdIdioma("'KR'");
 		idiomas.add(o);
 		
 		List<NJugadores> njugadores = new ArrayList<NJugadores>();
@@ -146,7 +146,7 @@ public class ProductoServiceTest {
 		ProductoCriteria p = new ProductoCriteria();
 //		p.setNombre("res");
 //		p.setCategorias(categorias);
-//		p.setIdioma(idiomas);
+		p.setIdioma(idiomas);
 //		p.setNjugadores(njugadores);
 		p.setOferta(true);
 		try {
@@ -278,8 +278,8 @@ public class ProductoServiceTest {
 		ProductoServiceTest test = new ProductoServiceTest();
 //		test.testExists();
 //		test.testFindById();
-		test.testFindAll();
-//		test.testFindByCriteria();
+//		test.testFindAll();
+		test.testFindByCriteria();
 //		test.testCreate();
 //		test.testUpdate();
 //		test.testDelete();

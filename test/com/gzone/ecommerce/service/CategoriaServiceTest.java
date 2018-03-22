@@ -47,7 +47,7 @@ public class CategoriaServiceTest {
 		int pageSize = 10; 	
 		
 		try {
-			String idioma = "ES";
+			String idioma = "EN";
 			List<Categoria> results = null;
 			int startIndex = 1; 
 			int total = 0;

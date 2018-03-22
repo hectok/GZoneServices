@@ -75,6 +75,47 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		}  
 	}
 
+	@Override
+	public List<Idioma> findAll(Connection connection,int startIndex, int count) 
+			throws DataException {
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+		String queryString = 
+				"SELECT id_idioma, idioma " +
+						"FROM Idioma " +
+						"ORDER BY idioma DESC";
+
+			preparedStatement = connection.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			resultSet = preparedStatement.executeQuery();
+
+			List<Idioma> results = new ArrayList<Idioma>();                        
+			Idioma t = null;
+			int currentCount = 0;
+
+			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
+				do {
+					t = loadNext(resultSet);
+					results.add(t);               	
+					currentCount++;                	
+				} while ((currentCount < count) && resultSet.next()) ;
+			}
+
+			return results;
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
 	public List<Idioma> findByProducto(Connection connection, Long idProducto,int startIndex, int count) 
 			throws DataException {
 		

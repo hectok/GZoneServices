@@ -21,5 +21,7 @@ public interface IdiomaDAO {
 	
 	public List<Idioma> findByProducto(Connection connection, Long idProducto,int startIndex, int count) 
 			throws DataException;
-
+	
+	public List<Idioma> findAll(Connection connection,int startIndex, int count) 
+        	throws DataException;
 }

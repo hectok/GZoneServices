@@ -17,5 +17,7 @@ public interface IdiomaService {
 
 		public List<Idioma> findByProducto(Long idProducto,int startIndex, int count) 
 				throws DataException;
-
+		
+	    public List<Idioma> findAll(int startIndex, int count) 
+		    	throws DataException; 
 }

@@ -23,5 +23,8 @@ public interface CategoriaService {
 
 	public List<Categoria> findByProducto(Long id,int startIndex, int count, String idioma) 
 			throws DataException;
+	
+    public List<Categoria> findAll(int startIndex, int count, String idioma) 
+	    	throws DataException; 
 
 }

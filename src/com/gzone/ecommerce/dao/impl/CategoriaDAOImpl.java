@@ -68,6 +68,51 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		}
 		
 		@Override
+		public List<Categoria> findAll(Connection connection,int startIndex, int count, String idioma) 
+				throws DataException {
+
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+
+			try {
+
+			String queryString = 
+					"SELECT c.id_categoria, ci.categoria " + 
+							"FROM Categoria c  " +
+							"INNER JOIN Categoria_Idioma ci ON c.id_categoria = ci.id_categoria " +
+							"WHERE ci.id_idioma LIKE ? ";
+
+				preparedStatement = connection.prepareStatement(queryString,
+						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				
+				int i = 1;                
+				preparedStatement.setString(i++, idioma);
+				
+				resultSet = preparedStatement.executeQuery();
+
+				List<Categoria> results = new ArrayList<Categoria>();                        
+				Categoria t = null;
+				int currentCount = 0;
+
+				if ((startIndex >=1) && resultSet.absolute(startIndex)) {
+					do {
+						t = loadNext(resultSet);
+						results.add(t);               	
+						currentCount++;                	
+					} while ((currentCount < count) && resultSet.next()) ;
+				}
+
+				return results;
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(resultSet);
+				JDBCUtils.closeStatement(preparedStatement);
+			}
+		}
+		
+		@Override
 		public Boolean exists(Connection connection, Long id) 
 				throws DataException {
 			

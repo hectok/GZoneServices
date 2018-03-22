@@ -21,4 +21,6 @@ public interface NJugadoresService {
 	public List<NJugadores> findByProducto(Long idProducto,int startIndex, int count) 
 			throws DataException;
 	
+    public List<NJugadores> findAll(int startIndex, int count) 
+	    	throws DataException; 
 }
