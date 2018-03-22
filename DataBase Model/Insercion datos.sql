@@ -69,6 +69,11 @@ START TRANSACTION;
 USE gzone;
 INSERT INTO Idioma (id_idioma, idioma) VALUES ('ES', 'Español');
 INSERT INTO Idioma (id_idioma, idioma) VALUES ('EN', 'English');
+INSERT INTO Idioma (id_idioma, idioma) VALUES ('FR', 'Frances');
+INSERT INTO Idioma (id_idioma, idioma) VALUES ('GE', 'Aleman');
+INSERT INTO Idioma (id_idioma, idioma) VALUES ('IT', 'Italiano');
+INSERT INTO Idioma (id_idioma, idioma) VALUES ('JP', 'Japones');
+INSERT INTO Idioma (id_idioma, idioma) VALUES ('KR', 'Coreano');
 
 COMMIT;
 
@@ -193,17 +198,6 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table Producto_Categoria
--- -----------------------------------------------------
-START TRANSACTION;
-USE gzone;
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (2, 6);
-INSERT INTO Producto_Categoria (id_producto, id_categoria) VALUES (5, 22);
-
-COMMIT;
-
-
--- -----------------------------------------------------
 -- Data for table Producto_Idioma
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -222,8 +216,8 @@ INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_co
 INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (6, 'EN', 'Rise of the Tomb Raider: 20 Year Celebration includes the base game and Season Pass featuring all-new content. Explore Croft Manor in the new “Blood Ties” story, then defend it against a zombie invasion in “Lara’s Nightmare”. Survive extreme conditions with a friend in the new online Co-Op Endurance mode, and brave the new “Extreme Survivor” difficulty. Also features an outfit and weapon inspired by Tomb Raider III, and 5 classic Lara skins. Existing DLC will challenge you to explore a new tomb that houses an ancient terror in Baba Yaga: The Temple of the Witch, and combat waves of infected predators in Cold Darkness Awakened.', 'Rise of the Tomb Raider: 20 Year Celebration includes the base game and Season Pass featuring all-new content. Explore Croft Manor in the new “Blood Ties” story, then defend it against a zombie invasion in “Lara’s Nightmare”. ');
 INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (7, 'ES', 'Surgido de la mente maestra de Shinji Mikami, The Evil Within 2 es la última evolución del survival horror. El detective Sebastián Castellanos lo ha perdido todo, pero podrá salvar a su hija si desciende una vez más al mundo de pesadilla de STEM. Amenazas terribles surgen de cada esquina mientras todo se retuerce y se distorsiona a su alrededor. ¿Se enfrentará a la adversidad cara a cara, con armas y trampas, o se moverá entre las sombras para sobrevivir?', 'El detective Sebastián Castellanos lo ha perdido todo, incluida su hija Lily. Para salvarla, debe descender al mundo de pesadilla de STEM. Amenazas terribles surgen de cada esquina y debe confiar en su ingenio para sobrevivir. Para redimirse, su única forma de salir es entrar. ');
 INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (7, 'EN', 'From mastermind Shinji Mikami, The Evil Within 2 is the latest evolution of survival horror. Detective Sebastian Castellanos has lost it all. But when given a chance to save his daughter, he must descend once more into the nightmarish world of STEM. Horrifying threats emerge from every corner as the world twists and warps around him. Will Sebastian face adversity head on with weapons and traps, or sneak through the shadows to survive.', 'Detective Sebastian Castellanos has lost everything, including his daughter, Lily. To save her, he must descend into the nightmarish world of STEM. Horrifying threats emerge from every corner, and he must rely on his wits to survive. For his one chance at redemption, the only way out is in. ');
-INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (8, 'ES', 'ASSASSIN’S CREED® ORIGINS ES UN NUEVO COMIENZO', 'ASSASSIN’S CREED® ORIGINS ES UN NUEVO COMIENZO El esplendor y el misterio del antiguo Egipto se desdibujan en una cruenta lucha por el poder. ');
-INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (8, 'EN', 'ASSASSIN’S CREED® ORIGINS IS A NEW BEGINNING', 'ASSASSIN’S CREED® ORIGINS IS A NEW BEGINNING Ancient Egypt, a land of majesty and intrigue, is disappearing in a ruthless fight for power. ');
+INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (8, 'ES', 'ASSASSIN’S CREED® ORIGINS ES UN NUEVO COMIENZO. El esplendor y el misterio del antiguo Egipto se desdibujan en una cruenta lucha por el poder. ', 'ASSASSIN’S CREED® ORIGINS ES UN NUEVO COMIENZO El esplendor y el misterio del antiguo Egipto se desdibujan en una cruenta lucha por el poder. ');
+INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (8, 'EN', 'ASSASSIN’S CREED® ORIGINS IS A NEW BEGINNING. Ancient Egypt, a land of majesty and intrigue, is disappearing in a ruthless fight for power. ', 'ASSASSIN’S CREED® ORIGINS IS A NEW BEGINNING Ancient Egypt, a land of majesty and intrigue, is disappearing in a ruthless fight for power. ');
 INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (9, 'ES', 'Actúa en territorio enemigo para forjar tu ejército, conquistar fortalezas y dominar Mordor desde dentro. Comprueba cómo el galardonado sistema Némesis crea historias personales únicas con cada enemigo y seguidor, y enfréntate al increíble poder del Señor Oscuro, Sauron, y sus Espectros del Anillo en esta nueva y épica historia de la Tierra Media.', 'Disfruta de un mundo abierto épico, recreado por el galardonado sistema Némesis. Forja un nuevo Anillo de Poder, conquista fortalezas en grandes batallas y domina Mordor con tu propio ejército de orcos en La Tierra Media™: Sombras de Guerra™');
 INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (9, 'EN', 'Go behind enemy lines to forge your army, conquer Fortresses and dominate Mordor from within. Experience how the award winning Nemesis System creates unique personal stories with every enemy and follower, and confront the full power of the Dark Lord Sauron and his Ringwraiths in this epic new story of Middle-earth. ', 'Experience an epic open-world brought to life by the award-winning Nemesis System. Forge a new Ring of Power, conquer Fortresses in massive battles and dominate Mordor with your personal orc army in Middle-earth™: Shadow of War™. ');
 INSERT INTO Producto_Idioma (id_producto, id_idioma, detalles_largo, detalles_corto) VALUES (10, 'ES', 'Descubre el verdadero significado del terror en Alien: Isolation, un juego de horror y supervivencia que transcurre en un ambiente de constante tensión y peligro. Han pasado quince años desde los sucesos de Alien™. La hija de Ellen Ripley, Amanda, se ve involucrada en una desesperada batalla por sobrevivir cuando se embarca en una misión que le permitirá averiguar qué sucedió realmente a su madre.', 'Descubre el verdadero significado del terror en Alien: Isolation, un juego de horror y supervivencia que transcurre en un ambiente de constante tensión y peligro. ');
@@ -298,16 +292,6 @@ START TRANSACTION;
 USE gzone;
 INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'ES');
 INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'EN');
-
-COMMIT;
-
--- -----------------------------------------------------
--- Data for table Producto_NJugadores
--- -----------------------------------------------------
-START TRANSACTION;
-USE gzone;
-INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (5, 1);
-INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (5, 3);
 
 COMMIT;
 
@@ -406,7 +390,7 @@ INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (39, 1);
 INSERT INTO Producto_NJugadores (id_producto, id_njugador) VALUES (40, 1);
 
 COMMIT;
-
+ 
 -- -----------------------------------------------------
 -- Añadidas ofertas
 -- -----------------------------------------------------
@@ -426,15 +410,208 @@ UPDATE producto SET id_oferta='2' WHERE id_producto='39';
 UPDATE producto SET id_oferta='1' WHERE id_producto='27';
 
 -- -----------------------------------------------------
--- Añadidos tickets
+-- Data for table Producto_Idioma_Disponible
 -- -----------------------------------------------------
-INSERT INTO ticket (cod_compra, cantidad, fecha_compra, dir_facturacion, id_usuario) VALUES ('1', '1', '2018-03-02', 'Costa da palloza nº8 3ºA', '1');
-INSERT INTO ticket (cod_compra, cantidad, fecha_compra, dir_facturacion, id_usuario) VALUES ('2', '1', '2018-03-02', 'O peto, San xurxo de Asma', '1');
+START TRANSACTION;
+USE gzone;
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (1, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (1, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (1, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (1, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (2, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (2, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (2, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (2, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (2, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (2, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (3, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (3, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (3, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (3, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (3, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (4, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (4, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (5, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (6, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (6, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (6, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (6, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (6, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (6, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (6, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (7, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (7, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (7, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (7, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (7, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (7, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (8, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (8, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (8, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (8, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (8, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (8, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (8, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (9, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (9, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (9, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (9, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (9, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (9, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (9, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (10, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (10, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (10, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (10, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (11, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (11, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (11, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (11, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (12, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (12, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (12, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (12, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (12, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (13, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (13, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (13, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (13, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (13, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (13, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (13, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (14, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (14, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (14, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (14, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (15, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (15, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (15, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (15, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (15, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (16, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (16, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (16, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (16, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (16, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (17, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (17, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (17, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (18, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (18, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (18, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (18, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (18, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (18, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (19, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (19, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (19, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (20, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (20, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (20, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (20, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (20, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (20, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (20, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (21, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (21, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (21, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (22, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (22, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (22, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (22, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (22, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (23, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (23, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (23, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (23, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (23, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (23, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (23, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (24, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (24, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (24, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (24, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (25, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (25, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (25, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (25, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (25, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (26, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (27, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (28, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (28, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (28, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (28, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (29, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (29, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (29, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (30, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (30, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (30, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (30, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (30, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (30, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (30, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (31, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (31, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (31, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (31, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (31, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (31, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (31, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (32, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (32, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (32, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (32, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (32, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (33, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (33, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (33, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (34, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (34, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (34, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (34, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (35, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (35, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (35, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (35, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (35, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (35, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (35, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (36, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (36, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (36, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (36, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (36, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (37, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (37, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (37, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (37, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (37, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (37, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (37, 'KR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (38, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (38, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (38, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (38, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (38, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (39, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (39, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (39, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (39, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (40, 'EN');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (40, 'ES');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (40, 'FR');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (40, 'GE');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (40, 'IT');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (40, 'JP');
+INSERT INTO Producto_Idioma_Disponible (id_producto, id_idioma) VALUES (40, 'KR');
 
--- -----------------------------------------------------
--- Añadidas lineas ticket
--- -----------------------------------------------------
-INSERT INTO linea_ticket (cod_compra, producto_id, precio) VALUES ('1', '5', '59.99');
-INSERT INTO linea_ticket (cod_compra, producto_id, precio) VALUES ('1', '10', '36.99');
-INSERT INTO linea_ticket (cod_compra, producto_id, precio) VALUES ('1', '19', '19.99');
-INSERT INTO linea_ticket (cod_compra, producto_id, precio) VALUES ('2', '37', '59.99');
+COMMIT;
+
