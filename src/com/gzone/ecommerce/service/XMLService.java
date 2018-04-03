@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
+import com.gzone.ecommerce.model.Hotel;
 
 /**
  * @author hector.ledo.doval
@@ -15,7 +16,7 @@ import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
  */
 public interface XMLService {
 	
-	public List<String> XMLRequest() 
+	public List<Hotel> XMLRequest() 
     		throws InstanceNotFoundException, DataException, IOException;
 
 }

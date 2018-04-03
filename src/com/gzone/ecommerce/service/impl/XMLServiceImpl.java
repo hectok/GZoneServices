@@ -4,7 +4,6 @@
 package com.gzone.ecommerce.service.impl;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -19,12 +18,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.gzone.ecommerce.dao.util.XMLRequestManager;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
+import com.gzone.ecommerce.model.Hotel;
 import com.gzone.ecommerce.service.XMLService;
 
 /**
@@ -33,18 +32,15 @@ import com.gzone.ecommerce.service.XMLService;
  */
 public class XMLServiceImpl implements XMLService{
 
-		public List<String> XMLRequest()  
+		public List<Hotel> XMLRequest()  
 				throws InstanceNotFoundException, DataException, IOException{
-
+			
 			StringBuffer result = new StringBuffer();
-			StringBuffer xml = new StringBuffer();
-			List<String> elementosXml = new ArrayList<String>();
+			String xml = new String();
+			List<Hotel> hoteles = new ArrayList<Hotel>();
 
-			FileReader fitxer = new FileReader(XMLRequestManager.getRuta_archivo());
-			int i = 0;
-			while ((i = fitxer.read()) != -1)
-				xml.append((char) i);
-			String xmlEncoded = URLEncoder.encode(xml.toString());
+			xml = XMLRequestManager.getRuta_archivo();
+			String xmlEncoded = URLEncoder.encode(xml);
 
 
 			URL url = new URL(XMLRequestManager.getUrl());
@@ -83,25 +79,25 @@ public class XMLServiceImpl implements XMLService{
 			Document document = null;
 
 			try {
+				Hotel hotel = new Hotel();
+				
 				builder = factory.newDocumentBuilder();
 				document = builder.parse(new InputSource(new StringReader(result.toString())));
 				
 				//Accedemos a los resultados en base a su tag (Ver especificacion de requisitos de Hotusa)
-				NodeList nombre_hotel = document.getElementsByTagName("nombre_h");
-				NodeList descripcion_hotel = document.getElementsByTagName("desc_hotel");
-				NodeList fotos = document.getElementsByTagName("foto");
-				NodeList website = document.getElementsByTagName("web");
                 
-                elementosXml.add(nombre_hotel.item(0).getFirstChild().getNodeValue());
-                elementosXml.add(descripcion_hotel.item(0).getFirstChild().getNodeValue());
-                elementosXml.add(fotos.item(0).getFirstChild().getNodeValue());
-                elementosXml.add(website.item(0).getFirstChild().getNodeValue());
-
+				hotel.setDescripcion_hotel(document.getElementsByTagName("desc_hotel").item(0).getFirstChild().getNodeValue());
+				hotel.setNombre_hotel(document.getElementsByTagName("nombre_h").item(0).getFirstChild().getNodeValue());
+				hotel.setFotos(document.getElementsByTagName("foto").item(0).getFirstChild().getNodeValue());
+				hotel.setWebsite(document.getElementsByTagName("web").item(0).getFirstChild().getNodeValue());
+				
+				hoteles.add(hotel);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-			return elementosXml;
+			return hoteles;
 		}
 
 	}
