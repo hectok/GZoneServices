@@ -392,7 +392,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 			preparedStatement.setString(i++, p.getRequisitos());
 			
 			if (p.getOferta()!=null)
-					preparedStatement.setBoolean(i++, p.getOferta());
+					preparedStatement.setLong(i++, p.getOferta());
 			else
 				preparedStatement.setNull(i++,java.sql.Types.NULL);
 
@@ -457,7 +457,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 				first = false;
 			}
 			
-			if (producto.getOferta()==true) {
+			if (producto.getOferta()!=null) {
 				addUpdate(queryString, first, " id_oferta = ? ");
 				first = false;
 			}
@@ -480,8 +480,8 @@ public class ProductoDAOImpl implements ProductoDAO{
 			if (producto.getRequisitos()!=null) 
 				preparedStatement.setString(i++,producto.getRequisitos());
 			
-			if (producto.getOferta()==true) 
-				preparedStatement.setBoolean(i++,producto.getOferta());
+			if (producto.getOferta()!=null) 
+				preparedStatement.setLong(i++,producto.getOferta());
 			
 
 			preparedStatement.setLong(i++, producto.getIdProducto());
@@ -586,7 +586,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 			Double precio = resultSet.getDouble(i++);
 			Integer anio = resultSet.getInt(i++);
 			String requisitos = resultSet.getString(i++);
-			Boolean oferta = resultSet.getBoolean(i++);
+			Long oferta = resultSet.getLong(i++);
 			String detalles_largo = resultSet.getString(i++);
 			String detalles_corto = resultSet.getString(i++);
 			

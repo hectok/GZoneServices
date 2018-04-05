@@ -146,9 +146,9 @@ public class ProductoServiceTest {
 		ProductoCriteria p = new ProductoCriteria();
 //		p.setNombre("res");
 //		p.setCategorias(categorias);
-		p.setIdioma(idiomas);
+//		p.setIdioma(idiomas);
 //		p.setNjugadores(njugadores);
-		p.setOferta(true);
+		p.setOferta(2L);
 		try {
 
 			List<Producto> results = null;
