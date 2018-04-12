@@ -2,34 +2,21 @@ package com.gzone.ecommerce.service;
 
 import java.util.List;
 
-import com.gzone.ecommerce.exceptions.DataException;
-import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
-import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Producto;
+import com.gzone.exceptions.MyCompanyException;
 
 public interface ProductoService {
 	
 	    public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count, String idioma)
-	   	    throws DataException;
+	    	throws MyCompanyException ;
 	    
 	    public List<Producto> findAll(int startIndex, int count, String idioma) 
-	    	throws DataException;  
+	    	throws MyCompanyException ; 
 	    
 	    public Producto findById(Long id, String idioma) 
-	    	throws InstanceNotFoundException, DataException;
-
-		public Boolean exists(Long id) 
-		    throws DataException;
+	    	throws MyCompanyException ;
 
 		public long countAll() 
-	     	throws DataException;  
+			throws MyCompanyException ;
 
-	    public Producto create(Producto p) 
-	    	throws DuplicateInstanceException, DataException;
-
-	    public void update(Producto p) 
-	    	throws InstanceNotFoundException, DataException;
-	        
-	    public long delete(Long integer) 
-	    	throws InstanceNotFoundException, DataException;
 }

@@ -30,6 +30,8 @@ import com.gzone.ecommerce.service.ProductoCriteria;
 import com.gzone.ecommerce.service.impl.CategoriaServiceImpl;
 import com.gzone.ecommerce.service.impl.IdiomaServiceImpl;
 import com.gzone.ecommerce.service.impl.NJugadoresServiceImpl;
+import com.gzone.exceptions.ErrorExcepctions;
+import com.gzone.exceptions.MyCompanyException;
 
 /**
  * @author hector.ledo.doval
@@ -41,46 +43,6 @@ public class ProductoDAOImpl implements ProductoDAO{
 
 	public ProductoDAOImpl() {
 	}
-	
-
-	/*
-	 * Método para comprobar si un Producto existe
-	 * 
-	 */
-	@Override
-	public Boolean exists(Connection connection, Long id) 
-			throws DataException {
-		boolean exist = false;
-
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-
-		try {
-
-			String queryString = 
-					"SELECT p.nombre, p.precio , p.anio , p.requisitos , p.id_oferta " + 
-							"FROM Producto p " +
-							"WHERE p.id_producto = ? ";
-
-			preparedStatement = connection.prepareStatement(queryString);
-
-			int i = 1;
-			preparedStatement.setLong(i++, id);
-			resultSet = preparedStatement.executeQuery();
-
-			if (resultSet.next()) {
-				exist = true;
-			}
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}
-
-		return exist;
-	}
 
 	/*
 	 * Método para contar el número total de Productos.
@@ -88,7 +50,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 	 */
 	@Override
 	public long countAll(Connection connection) 
-			throws DataException {
+			throws MyCompanyException {
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -111,7 +73,8 @@ public class ProductoDAOImpl implements ProductoDAO{
 			}
 
 		} catch (SQLException e) {
-			throw new DataException(e);
+			logger.error(ErrorExcepctions.ERROR_DB,e);
+			throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);
 		} finally {
 			JDBCUtils.closeResultSet(resultSet);
 			JDBCUtils.closeStatement(preparedStatement);
@@ -120,7 +83,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 	
 	@Override
 	public Producto findById(Connection connection, Long id, String idioma) 
-			throws InstanceNotFoundException, DataException {
+			throws MyCompanyException {
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -171,8 +134,9 @@ public class ProductoDAOImpl implements ProductoDAO{
 			
 			return e;
 
-		} catch (SQLException e) {
-			throw new DataException(e);
+		} catch (SQLException e) {			
+			logger.error(ErrorExcepctions.ERROR_DB,e);
+			throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);			
 		} finally {            
 			JDBCUtils.closeResultSet(resultSet);
 			JDBCUtils.closeStatement(preparedStatement);
@@ -185,7 +149,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 	 */
 	@Override
 	public List<Producto> findByCriteria(Connection connection, ProductoCriteria producto, int startIndex, int count, String idioma)
-			throws DataException {
+			throws MyCompanyException {
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -297,8 +261,8 @@ public class ProductoDAOImpl implements ProductoDAO{
 			return results;
 	
 			} catch (SQLException e) {
-				logger.error("Error",e);
-				throw new DataException(e);
+				logger.error(ErrorExcepctions.ERROR_DB,e);
+				throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);
 			} finally {
 				JDBCUtils.closeResultSet(resultSet);
 				JDBCUtils.closeStatement(preparedStatement);
@@ -307,7 +271,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 	
 	@Override
 	public List<Producto> findAll(Connection connection, int startIndex, int count, String idioma) 
-					throws DataException {
+			throws MyCompanyException {
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -362,175 +326,10 @@ public class ProductoDAOImpl implements ProductoDAO{
 			return results;
 
 		} catch (SQLException e) {
-			throw new DataException(e);
+			logger.error(ErrorExcepctions.ERROR_DB,e);
+			throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);
 		} finally {
 			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}
-	}
-
-	@Override
-	public Producto create(Connection connection, Producto p) 
-			throws DuplicateInstanceException, DataException {
-		
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		try {          
-
-			// Creamos el preparedstatement
-			String queryString = "INSERT INTO Producto(nombre,precio,anio,requisitos,id_oferta ) "
-					+ "VALUES (?, ?, ?, ?, ?)";
-
-			preparedStatement = connection.prepareStatement(queryString,
-									Statement.RETURN_GENERATED_KEYS);
-
-			// Fill the "preparedStatement"
-			int i = 1;             
-			preparedStatement.setString(i++, p.getNombre());
-			preparedStatement.setDouble(i++, p.getPrecio());
-			preparedStatement.setLong(i++, p.getAnio());
-			preparedStatement.setString(i++, p.getRequisitos());
-			
-			if (p.getOferta()!=null)
-					preparedStatement.setLong(i++, p.getOferta());
-			else
-				preparedStatement.setNull(i++,java.sql.Types.NULL);
-
-			// Execute query
-			int insertedRows = preparedStatement.executeUpdate();
-
-			if (insertedRows == 0) {
-				throw new SQLException("Can not add row to table 'Producto'");
-			}
-						
-			// Recuperamos la PK generada
-			resultSet = preparedStatement.getGeneratedKeys();
-			if (resultSet.next()) {
-				Long id = resultSet.getLong(1); 
-				p.setIdProducto(id);
-			} else {
-				throw new DataException("Unable to fetch autogenerated primary key");
-			}
-
-			// Return the DTO
-			return p;
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
-			JDBCUtils.closeResultSet(resultSet);
-			JDBCUtils.closeStatement(preparedStatement);
-		}
-	}
-
-	@Override
-	public void update(Connection connection, Producto producto) 
-			throws InstanceNotFoundException, DataException {
-		
-		PreparedStatement preparedStatement = null;
-		StringBuilder queryString = null;
-		try {	
-			
-			queryString = new StringBuilder(
-					" UPDATE Producto" 
-					);
-			
-			boolean first = true;
-			
-			if (producto.getNombre()!=null) {
-				addUpdate(queryString, first, " nombre = ? ");
-				first = false;
-			}
-			
-			if (producto.getPrecio()!=null) {
-				addUpdate(queryString, first, " precio = ? ");
-				first = false;
-			}
-			
-			if (producto.getAnio()!=null) {
-				addUpdate(queryString, first, " anio = ? ");
-				first = false;
-			}
-			
-			if (producto.getRequisitos()!=null) {
-				addUpdate(queryString, first, " requisitos = ? ");
-				first = false;
-			}
-			
-			if (producto.getOferta()!=null) {
-				addUpdate(queryString, first, " id_oferta = ? ");
-				first = false;
-			}
-			
-			queryString.append("WHERE id_producto = ?");
-			
-			preparedStatement = connection.prepareStatement(queryString.toString());
-			
-
-			int i = 1;
-			if (producto.getNombre()!=null) 
-				preparedStatement.setString(i++,producto.getNombre());
-			
-			if (producto.getPrecio()!=null) 
-				preparedStatement.setDouble(i++,producto.getPrecio());
-			
-			if (producto.getAnio()!=null) 
-				preparedStatement.setInt(i++,producto.getAnio());
-			
-			if (producto.getRequisitos()!=null) 
-				preparedStatement.setString(i++,producto.getRequisitos());
-			
-			if (producto.getOferta()!=null) 
-				preparedStatement.setLong(i++,producto.getOferta());
-			
-
-			preparedStatement.setLong(i++, producto.getIdProducto());
-
-			int updatedRows = preparedStatement.executeUpdate();
-
-			if (updatedRows == 0) {
-				throw new InstanceNotFoundException(producto.getIdProducto(), Producto.class.getName());
-			}
-
-			if (updatedRows > 1) {
-				throw new SQLException("Duplicate row for id = '" + 
-						producto.getIdProducto() + "' in table 'Producto'");
-			}     
-			
-		} catch (SQLException e) {
-			throw new DataException(e);    
-		} finally {
-			JDBCUtils.closeStatement(preparedStatement);
-		}              		
-	}
-
-	@Override
-	public long delete(Connection connection, Long id) 
-			throws InstanceNotFoundException, DataException {
-		PreparedStatement preparedStatement = null;
-
-		try {
-			String queryString =	
-					  "DELETE FROM Producto " 
-					+ "WHERE id_producto = ? ";
-			
-			preparedStatement = connection.prepareStatement(queryString);
-
-			int i = 1;
-			preparedStatement.setLong(i++, id);
-
-			int removedRows = preparedStatement.executeUpdate();
-
-			if (removedRows == 0) {
-				throw new InstanceNotFoundException(id,Producto.class.getName());
-			} 
-			
-
-			return removedRows;
-
-		} catch (SQLException e) {
-			throw new DataException(e);
-		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
@@ -538,11 +337,7 @@ public class ProductoDAOImpl implements ProductoDAO{
 	private void addClause(StringBuilder queryString, boolean first, String clause) {
 		queryString.append(first? "WHERE ": " AND ").append(clause);
 	}
-	
-	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-		queryString.append(first? " SET ": " , ").append(clause);
-	}
-	
+		
 	private StringBuilder addCategoria(List<Categoria> categorias) {
 		//Creamos la query en base al número de categorias que haya marcado el usuario
 		boolean inner = true;

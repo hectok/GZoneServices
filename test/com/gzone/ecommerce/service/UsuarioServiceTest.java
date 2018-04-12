@@ -132,16 +132,16 @@ public class UsuarioServiceTest {
 		
 		try {
 			UsuarioCriteria usuario = new UsuarioCriteria();
-			usuario.setUsuario("joseantoniolp");
+			usuario.setUsuario("hectok");
 			List<Usuario> results = 
 					usuarioService.findByCriteria(usuario, 1, 10);
 			if (results.size()<1) {
 				throw new RuntimeException("Unexpected results count from previous tests: "+results.size());
 			}
 			Usuario usuarioUpdate = results.get(0);
-			usuarioUpdate.setNombre("Jose Antonio");
-			usuarioUpdate.setApellido("Lopez Perez");
-			usuarioUpdate.setDescripcion("Descripcion");
+			usuarioUpdate.setNombre("Hector");
+//			usuarioUpdate.setApellido("Ledo Doval");
+//			usuarioUpdate.setDescripcion("Soy el administrador de GZone");
 			usuarioUpdate.setLocalizacion(null);
 
 			usuarioService.update(usuarioUpdate);
@@ -200,9 +200,9 @@ public class UsuarioServiceTest {
 //		test.testCreate();
 //		test.testExists();
 //		test.testFindById();
-		test.testFindByNombre();
+//		test.testFindByNombre();
 //		test.testFindByCriteria();
-//		test.testUpdate();
+		test.testUpdate();
 //		test.testDelete();
 		
 	}

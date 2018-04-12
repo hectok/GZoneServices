@@ -1,0 +1,48 @@
+2018-04-03 17:02:05.292 INFO  UsuarioServiceTest:60 - Testing findByNombre ...
+2018-04-03 17:02:05.292 INFO  UsuarioServiceTest:60 - Testing findByNombre ...
+2018-04-03 17:02:05.785 INFO  UsuarioServiceTest:66 - Found: com.gzone.ecommerce.model.Usuario@4c15e7fd[idUsuario=1,usuario=hectok,correo=hectok@gmail.com,contrasena=4lf48hac2zwKYfEfWf9+v6O6enTWAMcV9GK2bq7lHgKOxbkHvEfHCmmP40WY4v1C,nombre=<null>,apellido=<null>,descripcion=<null>,localizacion=0]
+2018-04-03 17:02:05.785 INFO  UsuarioServiceTest:66 - Found: com.gzone.ecommerce.model.Usuario@4c15e7fd[idUsuario=1,usuario=hectok,correo=hectok@gmail.com,contrasena=4lf48hac2zwKYfEfWf9+v6O6enTWAMcV9GK2bq7lHgKOxbkHvEfHCmmP40WY4v1C,nombre=<null>,apellido=<null>,descripcion=<null>,localizacion=0]
+2018-04-03 17:02:05.798 INFO  UsuarioServiceTest:71 - Test testFindById finished.
+
+2018-04-03 17:02:05.798 INFO  UsuarioServiceTest:71 - Test testFindById finished.
+
+2018-04-03 17:02:38.472 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:02:38.472 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:02:38.879 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:02:38.879 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:02:38.880 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:02:38.880 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:06:29.840 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:06:29.840 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:06:30.222 ERROR UsuarioServiceTest:157 - com.gzone.ecommerce.exceptions.DataException
+2018-04-03 17:06:30.222 ERROR UsuarioServiceTest:157 - com.gzone.ecommerce.exceptions.DataException
+2018-04-03 17:06:30.223 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:06:30.223 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:06:36.955 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:06:36.955 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:06:37.341 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:06:37.341 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:06:37.342 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:06:37.342 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:09:11.703 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:09:11.703 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:09:12.100 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:09:12.100 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:09:12.100 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:09:12.100 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:26:15.703 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:26:15.703 INFO  UsuarioServiceTest:131 - Testing update ...
+2018-04-03 17:26:16.078 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:26:16.078 INFO  UsuarioServiceTest:154 - Updated to: hectok
+2018-04-03 17:26:16.078 INFO  UsuarioServiceTest:159 - Test update finished.
+
+2018-04-03 17:26:16.078 INFO  UsuarioServiceTest:159 - Test update finished.
+

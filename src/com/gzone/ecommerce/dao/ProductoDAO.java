@@ -11,6 +11,7 @@ import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.service.ProductoCriteria;
+import com.gzone.exceptions.MyCompanyException;
 
 /**
  * @author Hector
@@ -19,27 +20,15 @@ import com.gzone.ecommerce.service.ProductoCriteria;
 public interface ProductoDAO {
 	
     public List<Producto> findByCriteria(Connection connection, ProductoCriteria producto, int startIndex, int count,String idioma)
-        	throws DataException;
+    	throws MyCompanyException;
 
     public List<Producto> findAll(Connection connection,int startIndex, int count, String idioma) 
-    	throws DataException;
-     
-	public Boolean exists(Connection connection, Long id) 
-    		throws DataException;
+    	throws MyCompanyException;
 	
 	public Producto findById(Connection connection, Long id, String idioma) 
-			throws InstanceNotFoundException, DataException;
+		throws MyCompanyException; 
 
 	public long countAll(Connection connection) 
-     		throws DataException;   
-     
-    public Producto create(Connection connection, Producto producto) 
-    		throws DuplicateInstanceException, DataException;
-
-    public void update(Connection connection, Producto producto) 
-    		throws InstanceNotFoundException, DataException;
-        
-    public long delete(Connection connection, Long id) 
-    		throws InstanceNotFoundException, DataException;
+		throws MyCompanyException;	  
 
 }
