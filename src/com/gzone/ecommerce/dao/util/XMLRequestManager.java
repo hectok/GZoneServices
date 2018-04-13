@@ -8,34 +8,7 @@ import org.apache.logging.log4j.Logger;
 public class XMLRequestManager {
 
 	private static Logger logger = LogManager.getLogger(ConnectionManager.class.getName());
-	
-	public static String getCodigo_afiliacion() {
-		return codigo_afiliacion;
-	}
 
-	public static String getCodigo_seacc() {
-		return codigo_seacc;
-	}
-
-	public static String getUsuario() {
-		return usuario;
-	}
-
-	public static String getCodigo_usuario() {
-		return codigo_usuario;
-	}
-
-	public static String getCodigo_clausula() {
-		return codigo_clausula;
-	}
-
-	public static String getUrl() {
-		return url;
-	}
-
-	public static String getRuta_archivo() {
-		return ruta_archivo;
-	}
 	private static ResourceBundle dbConfiguration = ResourceBundle.getBundle("XMLRequestConfiguration");
 
 	private static final String CODIGO_AFILIACION = "codigo.afiliacion";
@@ -75,6 +48,32 @@ public class XMLRequestManager {
 
 	private XMLRequestManager() {}
 
-	
+	public static String getCodigo_afiliacion() {
+		return codigo_afiliacion;
+	}
+
+	public static String getCodigo_seacc() {
+		return codigo_seacc;
+	}
+
+	public static String getUsuario() {
+		return usuario;
+	}
+
+	public static String getCodigo_usuario() {
+		return codigo_usuario;
+	}
+
+	public static String getCodigo_clausula() {
+		return codigo_clausula;
+	}
+
+	public static String getUrl() {
+		return url;
+	}
+
+	public static String getRuta_archivo() {
+		return ruta_archivo;
+	}
 	
 }

@@ -4,23 +4,19 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.gzone.ecommerce.dao.ProductoDAO;
 import com.gzone.ecommerce.dao.impl.ProductoDAOImpl;
 import com.gzone.ecommerce.dao.util.ConnectionManager;
 import com.gzone.ecommerce.dao.util.JDBCUtils;
+import com.gzone.ecommerce.exceptions.DataException;
+import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
+import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
 import com.gzone.ecommerce.model.Producto;
 import com.gzone.ecommerce.service.ProductoCriteria;
 import com.gzone.ecommerce.service.ProductoService;
-import com.gzone.exceptions.ErrorExcepctions;
-import com.gzone.exceptions.MyCompanyException;
 
 public class ProductoServiceImpl implements ProductoService{
-	
-	private static Logger logger = LogManager.getLogger(ProductoServiceImpl.class.getName());
-	
+
 	private ProductoDAO dao = null;
 	
 	public ProductoServiceImpl() {
@@ -28,8 +24,8 @@ public class ProductoServiceImpl implements ProductoService{
 	}
 
 	public List<Producto> findAll(int startIndex, int count, String idioma) 
-			throws MyCompanyException {
-		
+			throws DataException {
+			
 		Connection connection = null;
 		
 		try {
@@ -40,17 +36,36 @@ public class ProductoServiceImpl implements ProductoService{
 			return dao.findAll(connection, startIndex, count, idioma);	
 			
 		} catch (SQLException e){
-			logger.error(ErrorExcepctions.ERROR_DB,e);
-			throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);
+			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeConnection(connection);
 		}
 		
 	}
 	
-	public long countAll() 
-			throws MyCompanyException {
+	public Boolean exists(Long id) 
+			throws DataException {
+				
+		Connection connection = null;
 		
+		try {
+			
+			connection = ConnectionManager.getConnection();
+			connection.setAutoCommit(true);
+			
+			return dao.exists(connection, id);
+			
+		} catch (SQLException e){
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeConnection(connection);
+		}
+		
+	}
+
+	public long countAll() 
+			throws DataException {
+				
 		Connection connection = null;
 		
 		try {
@@ -61,8 +76,7 @@ public class ProductoServiceImpl implements ProductoService{
 			return dao.countAll(connection);		
 			
 		} catch (SQLException e){
-			logger.error(ErrorExcepctions.ERROR_DB,e);
-			throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);
+			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeConnection(connection);
 		}
@@ -70,7 +84,7 @@ public class ProductoServiceImpl implements ProductoService{
 	}
 	
 	public Producto findById(Long id, String idioma) 
-			throws MyCompanyException {
+			throws InstanceNotFoundException, DataException {
 		
 		Connection connection = null;
 		
@@ -82,8 +96,7 @@ public class ProductoServiceImpl implements ProductoService{
 			return dao.findById(connection, id, idioma);	
 			
 		} catch (SQLException e){
-			logger.error(ErrorExcepctions.ERROR_DB,e);
-			throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);
+			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeConnection(connection);
 		}
@@ -91,8 +104,8 @@ public class ProductoServiceImpl implements ProductoService{
 	}
 	
      public List<Producto> findByCriteria(ProductoCriteria Producto, int startIndex, int count, String idioma)
-    		 throws MyCompanyException {
-    	 
+			throws DataException {
+			
 		Connection connection = null;
 		
 		try {
@@ -103,12 +116,92 @@ public class ProductoServiceImpl implements ProductoService{
 			return dao.findByCriteria(connection, Producto, startIndex, count, idioma);
 			
 		} catch (SQLException e){
-			logger.error(ErrorExcepctions.ERROR_DB,e);
-			throw new MyCompanyException(ErrorExcepctions.ERROR_DB, e);
+			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeConnection(connection);
 		}
 	}
 
+	public Producto create(Producto p) 
+			throws DuplicateInstanceException, DataException {
+		
+	    Connection connection = null;
+        boolean commit = false;
+
+        try {
+          
+            connection = ConnectionManager.getConnection();
+
+            connection.setTransactionIsolation(
+                    Connection.TRANSACTION_READ_COMMITTED);
+
+            connection.setAutoCommit(false);
+
+            // Execute action
+            Producto result = dao.create(connection, p);
+            commit = true;
+            
+            return result;
+
+        } catch (SQLException e) {
+            throw new DataException(e);
+
+        } finally {
+        	JDBCUtils.closeConnection(connection, commit);
+        }		
+	}
+
+	public void update(Producto p) 
+			throws InstanceNotFoundException, DataException {
+		
+	    Connection connection = null;
+        boolean commit = false;
+
+        try {
+          
+            connection = ConnectionManager.getConnection();
+
+            connection.setTransactionIsolation(
+                    Connection.TRANSACTION_READ_COMMITTED);
+
+            connection.setAutoCommit(false);
+
+            dao.update(connection,p);
+            commit = true;
+            
+        } catch (SQLException e) {
+            throw new DataException(e);
+
+        } finally {
+        	JDBCUtils.closeConnection(connection, commit);
+        }
+	}
+
+	public long delete(Long id) 
+			throws InstanceNotFoundException, DataException {
+		
+	    Connection connection = null;
+        boolean commit = false;
+
+        try {
+          
+            connection = ConnectionManager.getConnection();
+
+            connection.setTransactionIsolation(
+                    Connection.TRANSACTION_READ_COMMITTED);
+
+            connection.setAutoCommit(false);
+
+            long result = dao.delete(connection, id);            
+            commit = true;            
+            return result;
+            
+        } catch (SQLException e) {
+            throw new DataException(e);
+
+        } finally {
+        	JDBCUtils.closeConnection(connection, commit);
+        }		
+	}
 }
 

@@ -5,8 +5,7 @@ import java.io.PrintWriter;
 
 public class MyCompanyException extends Exception {
 	
-	private String errorException = null;
-	
+		
 	public MyCompanyException() {
 		super();
 	}
@@ -20,8 +19,7 @@ public class MyCompanyException extends Exception {
 	}
 	
 	public MyCompanyException(String message, Throwable cause) {
-		super(cause);
-		this.errorException=message;
+		super(message,cause);		
 	}			
 	
 	public void printStackTrace() {
@@ -47,14 +45,5 @@ public class MyCompanyException extends Exception {
 		} else {
 			super.printStackTrace(w);
 		}
-	}
-
-	public String getErrorException() {
-		return errorException;
-	}
-
-	public void setErrorException(String errorException) {
-		this.errorException = errorException;
 	}	
-
 }
