@@ -3,6 +3,7 @@ package com.gzone.ecommerce.service.impl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.gzone.ecommerce.dao.UsuarioDAO;
 import com.gzone.ecommerce.dao.impl.UsuarioDAOImpl;
@@ -11,14 +12,17 @@ import com.gzone.ecommerce.dao.util.JDBCUtils;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
+import com.gzone.ecommerce.exceptions.MailException;
 import com.gzone.ecommerce.model.Usuario;
+import com.gzone.ecommerce.service.MailService;
 import com.gzone.ecommerce.service.UsuarioCriteria;
 import com.gzone.ecommerce.service.UsuarioService;
 
 public class UsuarioServiceImpl implements UsuarioService {
 	
 	private UsuarioDAO dao = null;
-	
+	private static ResourceBundle dbConfiguration = ResourceBundle.getBundle("ServiceConfiguration");
+
 	public UsuarioServiceImpl() {
 		dao = new UsuarioDAOImpl();
 	}
@@ -122,7 +126,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	public Usuario create(Usuario u) 
-			throws DuplicateInstanceException, DataException {
+			throws DuplicateInstanceException, DataException, MailException {
 		
 	    Connection connection = null;
         boolean commit = false;
@@ -138,6 +142,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
             // Execute action
             Usuario result = dao.create(connection, u);
+            MailService mail = new MailServiceImpl();
+            mail.sendMail(dbConfiguration.getString("service.mail.subject"), dbConfiguration.getString("service.mail.body"), u.getCorreo());
             commit = true;
             
             return result;

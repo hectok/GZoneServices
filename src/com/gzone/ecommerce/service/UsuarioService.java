@@ -5,6 +5,7 @@ import java.util.List;
 import com.gzone.ecommerce.exceptions.DataException;
 import com.gzone.ecommerce.exceptions.DuplicateInstanceException;
 import com.gzone.ecommerce.exceptions.InstanceNotFoundException;
+import com.gzone.ecommerce.exceptions.MailException;
 import com.gzone.ecommerce.model.Usuario;
 
 
@@ -27,7 +28,7 @@ public interface UsuarioService {
      	throws DataException;  
 
     public Usuario create(Usuario u) 
-    	throws DuplicateInstanceException, DataException;
+    	throws DuplicateInstanceException, DataException, MailException;
 
     public void update(Usuario u) 
     	throws InstanceNotFoundException, DataException;
