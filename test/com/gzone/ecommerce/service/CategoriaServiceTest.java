@@ -114,7 +114,7 @@ public class CategoriaServiceTest {
 		return "Hector";
 	}
 	
-	public String holaAlejandroCorral() {
+	public String holaAlejandro() {
 		return "Hola Alejandro Corral";
 	}
 	
