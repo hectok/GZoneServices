@@ -114,6 +114,10 @@ public class CategoriaServiceTest {
 		return "Hector";
 	}
 	
+	public String holaAlejandroCorral() {
+		return "Hola Alejandro Corral";
+	}
+	
 	public static void main(String args[]) {
 		CategoriaServiceTest test = new CategoriaServiceTest();
 //		test.testFindById();
