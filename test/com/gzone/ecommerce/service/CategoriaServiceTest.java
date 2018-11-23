@@ -110,6 +110,9 @@ public class CategoriaServiceTest {
 		logger.info("Test exists finished.\n");		
 	}
 	
+	public String holaHector() {
+		return "Hector";
+	}
 	
 	public static void main(String args[]) {
 		CategoriaServiceTest test = new CategoriaServiceTest();
